@@ -1,0 +1,13 @@
+<form (ngSubmit)="login()">
+  <img class="mb-4" src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+  <h1 class="h3 mb-3 fw-normal">Please login</h1>
+  
+  <div class="form-floating">
+    <input [(ngModel)]="email" name="email" placeholder="Email" />
+  </div>
+  <div class="form-floating">
+    <input [(ngModel)]="password" name="password" type="password" placeholder="Password" />
+    
+  </div>
+  <button class="btn btn-primary w-100 py-2" type="submit">Login</button>
+</form>
