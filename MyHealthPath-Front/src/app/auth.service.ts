@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { tap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -10,9 +11,12 @@ export class AuthService {
 
   // Login method to send credentials to the backend
   login(email: string, password: string) {
-    this.isAuthenticatedStatus = true;
-    return this.http.post(`${this.apiUrl}/login`, { email, password }, { withCredentials: true });
-    
+    return this.http.post(`${this.apiUrl}/login`, { email, password }, { withCredentials: true }).pipe(
+      tap(() => {
+        this.isAuthenticatedStatus = true;
+        localStorage.setItem('isAuthenticated', 'true');
+      })
+    );
   }
 
   getProfile() {
@@ -22,12 +26,13 @@ export class AuthService {
   // Logout method to clear session storage
   logout() {
     this.isAuthenticatedStatus = false;
+    localStorage.removeItem('isAuthenticated');
     return this.http.post(`${this.apiUrl}/logout`, {}, { withCredentials: true });
-    
   }
+  
 
    // Check if the user is authenticated by checking user data in localStorage
-  isAuthenticated(): boolean {
-    return this.isAuthenticatedStatus;
+   isAuthenticated(): boolean {
+    return this.isAuthenticatedStatus || localStorage.getItem('isAuthenticated') === 'true';
   }
 }

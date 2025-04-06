@@ -20,4 +20,15 @@ export class DashboardComponent implements OnInit{
       this.router.navigate(['/login']);
     }
   }
+
+  logout(): void {
+    this.authService.logout().subscribe({
+      next: () => {
+        this.router.navigate(['/login']);
+      },
+      error: () => {
+        alert('Logout failed!');
+      }
+    });
+  }
 }
