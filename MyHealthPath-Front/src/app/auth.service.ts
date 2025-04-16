@@ -35,4 +35,12 @@ export class AuthService {
    isAuthenticated(): boolean {
     return this.isAuthenticatedStatus || localStorage.getItem('isAuthenticated') === 'true';
   }
+
+  register(email: string, password: string, fullName: string, specialite: string) {
+    return this.http.post(`${this.apiUrl}/register`, { email, password, fullName, specialite }, { withCredentials: true }).pipe(
+      tap(() => {
+        localStorage.setItem('isAuthenticated', 'true');
+      })
+    );
+  }
 }

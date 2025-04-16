@@ -1,16 +1,25 @@
 <div class="form-wrapper">
-  <div class="overlay"></div>
   <form (ngSubmit)="login()">
-    <img class="mb-4" src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
-    <h1 class="h3 mb-3 fw-normal">Please login</h1>
+    <h1 class="app-title">MyHealthPath</h1>
+    
+    <!-- Display Success Message -->
+    <div *ngIf="successMessage" class="success-message">
+      {{ successMessage }}
+    </div>
+
+    <!-- Display Error Message -->
+    <div *ngIf="validationError" class="alert alert-danger">
+      {{ validationError }}
+    </div>
 
     <div class="form-floating">
-      <input [(ngModel)]="email" name="email" placeholder="Email" />
+      <input [(ngModel)]="email" name="email" placeholder="Email" required />
     </div>
     <div class="form-floating">
-      <input [(ngModel)]="password" name="password" type="password" placeholder="Password" />
+      <input [(ngModel)]="password" name="password" type="password" placeholder="Password" required />
     </div>
 
     <button class="btn btn-primary w-100 py-2" type="submit">Login</button>
+    <p>New Doctor? <span (click)="navigateToRegister()" style="color: blue; cursor: pointer;">Register here</span></p>
   </form>
 </div>

@@ -1,0 +1,90 @@
+<div class="form-container">
+  <div class="form-wrapper">
+    <div *ngIf="statusMessage" class="alert fade show" [ngClass]="{'alert-success': isSuccess, 'alert-danger': !isSuccess}">
+      {{ statusMessage }}
+    </div>
+    <h2>Registration</h2>
+    <form (ngSubmit)="register()" class="row g-3">
+      <!-- Full Name -->
+      <div class="col-md-4">
+        <label for="fullName" class="form-label">Full Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="fullName"
+          [(ngModel)]="fullName"
+          name="fullName"
+          [ngClass]="{'is-invalid': validationErrors.fullName, 'is-valid': !validationErrors.fullName && fullName}"
+          placeholder="Enter your full name"
+          required
+        />
+        <div *ngIf="validationErrors.fullName" class="invalid-feedback">
+          {{ validationErrors.fullName }}
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="col-md-4">
+        <label for="email" class="form-label">Email</label>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          [(ngModel)]="email"
+          name="email"
+          [ngClass]="{'is-invalid': validationErrors.email, 'is-valid': !validationErrors.email && email}"
+          placeholder="Enter your email"
+          required
+        />
+        <div *ngIf="validationErrors.email" class="invalid-feedback">
+          {{ validationErrors.email }}
+        </div>
+      </div>
+
+      <!-- Password -->
+      <div class="col-md-4">
+        <label for="password" class="form-label">Password</label>
+        <input
+          type="password"
+          class="form-control"
+          id="password"
+          [(ngModel)]="password"
+          name="password"
+          [ngClass]="{'is-invalid': validationErrors.password, 'is-valid': !validationErrors.password && password}"
+          placeholder="Enter your password"
+          required
+        />
+        <div *ngIf="validationErrors.password" class="invalid-feedback">
+          {{ validationErrors.password }}
+        </div>
+      </div>
+
+      <!-- Speciality -->
+      <div class="col-md-4">
+        <label for="specialite" class="form-label">Speciality</label>
+        <input
+          type="text"
+          class="form-control"
+          id="specialite"
+          [(ngModel)]="specialite"
+          name="specialite"
+          [ngClass]="{'is-invalid': validationErrors.specialite, 'is-valid': !validationErrors.specialite && specialite}"
+          placeholder="Enter your speciality"
+          required
+        />
+        <div *ngIf="validationErrors.specialite" class="invalid-feedback">
+          {{ validationErrors.specialite }}
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="col-12">
+        <button class="btn btn-primary" type="submit">Register</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+
