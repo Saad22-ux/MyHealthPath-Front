@@ -1,4 +1,4 @@
-import { Component, Input, input } from '@angular/core';
+import { Component, Input, input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -6,19 +6,23 @@ import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
-  standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './login.component.html',
   styleUrls : ['./login.component.css']
   
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit{
   @Input() email = '';
   @Input() password = '';
   successMessage: string = '';   // For success messages
   validationError: string = ''; // One field to control both input errors
 
   constructor(private auth: AuthService, private router: Router) {}
+  ngOnInit(): void {
+    if (this.auth.isAuthenticated()) {
+      this.router.navigate(['/dashboard']); // Redirect if already logged in
+    }
+  }
 
   login() {
       this.auth.login(this.email, this.password).subscribe({
