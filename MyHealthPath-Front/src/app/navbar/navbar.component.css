@@ -1,3 +1,4 @@
+/* Navbar styles */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -5,6 +6,8 @@
   background-color: #2c3e50;
   padding: 10px 20px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  height: 60px;
+  position: relative;
 }
 
 /* Left: Logo and Title */
@@ -21,7 +24,7 @@
   height: 40px;
 }
 
-/* Centered links */
+/* Centered links (Home, About) */
 .navbar-center-links {
   display: flex;
   gap: 20px;
@@ -32,13 +35,15 @@
   justify-content: center;
 }
 
-/* Right-side links */
+/* Right-side links (Login, Register, etc.) */
 .navbar-links {
   list-style: none;
   display: flex;
   gap: 15px;
   margin: 0;
   padding: 0;
+  align-items: center;
+  justify-content: flex-end; /* Ensures right-alignment for Logout */
 }
 
 /* Link styling */
@@ -49,6 +54,7 @@
   padding: 8px 12px;
   border-radius: 4px;
   transition: background-color 0.3s ease;
+  cursor: pointer;
 }
 
 .nav-link:hover {
@@ -56,11 +62,43 @@
 }
 
 .logout-link {
-  cursor: pointer;
   color: #e74c3c;
 }
 
 .logout-link:hover {
   background-color: #c0392b;
   color: white;
+}
+
+/* Styling for "Demande" button */
+.nav-item.demande-item {
+  margin: 0;
+  padding: 0;
+}
+
+/* Center the "Demande" button if the class "centered" is added */
+.nav-item.centered {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+/* Styling for the "Demande" button */
+.nav-link.demande-link {
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  text-align: center;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+.nav-link.demande-link:hover {
+  background-color: #0056b3;
+}
+
+/* Custom styling for the logout link to remain on the right side */
+.navbar-links > .logout-link {
+  margin-left: auto; /* Ensures the logout button is aligned to the right */
 }

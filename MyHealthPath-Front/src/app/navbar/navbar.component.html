@@ -5,22 +5,35 @@
   </div>
 
   <ul class="navbar-center-links">
-    <li><a routerLink="/home" class="nav-link">Home</a></li>
-    <li><a routerLink="/about" class="nav-link">About</a></li>
+    <!-- Show Home and About only if NOT authenticated -->
+    <ng-container *ngIf="!isAdmin()">
+      <li><a routerLink="/home" class="nav-link">Home</a></li>
+      <li><a routerLink="/about" class="nav-link">About</a></li>
+    </ng-container>
   </ul>
 
   <ul class="navbar-links">
-    <!-- Show login/register if not authenticated -->
+    <!-- Show login/register if NOT authenticated -->
     <ng-container *ngIf="!isAuthenticated">
       <li><a routerLink="/login" class="nav-link">Login</a></li>
       <li><a routerLink="/register" class="nav-link">Register</a></li>
     </ng-container>
 
-    <!-- Show dashboard or admin menu if authenticated -->
-    <ng-container *ngIf="isAuthenticated">  
-      <li>
-        <a (click)="logout()" class="nav-link">Logout</a>
+    <!-- Show "Demande" button if authenticated AND admin -->
+    <ng-container *ngIf="isAuthenticated && isAdmin()">
+      <li class="nav-item demande-item centered">
+        <a routerLink="/demande" class="nav-link demande-link">Demande</a>
       </li>
+    </ng-container>
+
+    <!-- Show dashboard or logout if authenticated (not admin) -->
+    <ng-container *ngIf="isAuthenticated && !isAdmin()">
+      <li class="nav-item demande-item"><a routerLink="/dashboard" class="nav-link demande-link">Dashboard</a></li>
+    </ng-container>
+
+    <!-- Show logout for all authenticated users -->
+    <ng-container *ngIf="isAuthenticated">
+      <li><a (click)="logout()" class="nav-link logout-link">Logout</a></li>
     </ng-container>
   </ul>
 </nav>

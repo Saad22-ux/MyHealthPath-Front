@@ -22,7 +22,6 @@ export class RegisterComponent {
   validationErrors: any = {}; // Object to store errors for each field
 
   constructor(private authService: AuthService, private router: Router) {}
-
   register() {
     this.authService.register(this.email, this.password, this.fullName, this.specialite).subscribe({
       next: () => {
@@ -30,7 +29,7 @@ export class RegisterComponent {
         this.isSuccess = true;
         setTimeout(() => {
           this.router.navigate(['/login']);
-        }, 3000); // Redirect to login after successful registration
+        }, 1000); // Redirect to login after successful registration
       },
       error: (err) => {
         // Check if the error response contains validation errors

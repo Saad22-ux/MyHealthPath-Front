@@ -13,14 +13,18 @@ import { NgIf } from '@angular/common';
 })
 export class NavbarComponent implements OnInit {
   isAuthenticated: boolean = false;
-  
+  userRole: string = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(public authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-
     this.authService.isAuthenticated$.subscribe(status => {
       this.isAuthenticated = status;
+    });
+  
+    this.authService.userRole$.subscribe(role => {
+      this.userRole = role;
+      console.log('Updated user role:', role); // 🔍 For debugging
     });
 
   }
@@ -29,7 +33,12 @@ export class NavbarComponent implements OnInit {
   logout(): void {
     this.authService.logout().subscribe(() => {
       this.isAuthenticated = false;
+      this.authService.setRole('');  // ✅ Clear it from service
       this.router.navigate(['/login']);  // Redirect to login after logout
     });
+  }
+  
+  isAdmin(): boolean {
+    return this.userRole === 'admin';  // Check if the user is an admin
   }
 }
