@@ -1,0 +1,23 @@
+<div class="table-container">
+  <h2>🩺 Unapproved Medecins</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Specialty</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let medecin of medecins">
+        <td>{{ medecin.User?.fullName }}</td>
+        <td>{{ medecin.User?.email }}</td>
+        <td>{{ medecin.specialite }}</td>
+        <td>
+          <button (click)="approve(medecin.UserId)">✅ Approve</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
