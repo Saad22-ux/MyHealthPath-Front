@@ -41,4 +41,12 @@ export class NavbarComponent implements OnInit {
   isAdmin(): boolean {
     return this.userRole === 'admin';  // Check if the user is an admin
   }
+
+  isMedecin(): boolean {
+    return this.userRole === 'medecin';
+  }
+
+  isPatient(): boolean {
+    return this.userRole === 'patient';
+  }
 }

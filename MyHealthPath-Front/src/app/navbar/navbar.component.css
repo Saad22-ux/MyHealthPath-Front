@@ -7,7 +7,7 @@
   padding: 10px 20px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   height: 60px;
-  position: relative;
+  position: relative; /* Ensure relative positioning for centering */
 }
 
 /* Left: Logo and Title */
@@ -35,6 +35,21 @@
   justify-content: center;
 }
 
+/* Centered buttons container (Unapproved Medecins & Add Patient) */
+.navbar-center-buttons {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex-grow: 1;
+  justify-content: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
 /* Right-side links (Login, Register, etc.) */
 .navbar-links {
   list-style: none;
@@ -43,7 +58,7 @@
   margin: 0;
   padding: 0;
   align-items: center;
-  justify-content: flex-end; /* Ensures right-alignment for Logout */
+  justify-content: flex-end;
 }
 
 /* Link styling */
@@ -76,15 +91,7 @@
   padding: 0;
 }
 
-/* Center the "Demande" button if the class "centered" is added */
-.nav-item.centered {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1;
-}
-
-/* Styling for the "Demande" button */
+/* Styling for the "Unapproved Medecins" button */
 .nav-link.demande-link {
   padding: 10px 15px;
   background-color: #007bff;
@@ -101,4 +108,21 @@
 /* Custom styling for the logout link to remain on the right side */
 .navbar-links > .logout-link {
   margin-left: auto; /* Ensures the logout button is aligned to the right */
+}
+
+/* Styling for the "Add Patient" button */
+.nav-link.add-patient-link {
+  padding: 10px 15px;
+  background: linear-gradient(45deg, #f39c12, #e67e22); /* Yellow to Orange gradient */
+  color: white;
+  text-align: center;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.nav-link.add-patient-link:hover {
+  background: linear-gradient(45deg, #f39c12, #e74c3c); /* Slightly darker orange for hover */
+  transform: scale(1.05); /* Slight scale effect on hover */
 }

@@ -62,6 +62,13 @@ export class AuthService {
     );
   }
 
+  addPatient(email: string, fullName: string, genre: string, date_naissance: string) {
+    return this.http.post(`${this.apiUrl}/create-patient`, { email, fullName, genre, date_naissance}, { withCredentials: true }).pipe(
+      tap(()=> {
+      })
+    )
+  }
+
 
   setRole(role: string) {
     this.role = role;

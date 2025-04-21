@@ -17,6 +17,9 @@ export class LoginComponent implements OnInit{
   successMessage: string = '';   // For success messages
   validationError: string = ''; // One field to control both input errors
 
+  emailInvalid: boolean = false; // Flag for email validation
+  passwordInvalid: boolean = false; // Flag for password validation
+
   constructor(private auth: AuthService, private router: Router) {}
   ngOnInit(): void {
     if (this.auth.isAuthenticated()) {
@@ -25,6 +28,15 @@ export class LoginComponent implements OnInit{
   }
 
   login() {
+      // Reset validation flags
+      this.emailInvalid = !this.email;
+      this.passwordInvalid = !this.password;
+
+      // If any field is empty, prevent form submission
+      if (this.emailInvalid || this.passwordInvalid) {
+        return;
+      }
+
       this.auth.login(this.email, this.password).subscribe({
       next: (response: any) => {
         // Display success message from backend

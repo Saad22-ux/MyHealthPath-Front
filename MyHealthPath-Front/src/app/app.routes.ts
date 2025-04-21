@@ -5,6 +5,7 @@ import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { UnapprovedMedecinsComponent } from './pages/unapproved-medecins/unapproved-medecins.component';
+import { AddPatientComponent } from './pages/add-patient/add-patient.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent }, // Login page route
@@ -14,4 +15,5 @@ export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'register', component: RegisterComponent }, 
   { path: 'unapproved-medecins', component: UnapprovedMedecinsComponent },
+  { path: 'add-patient', component: AddPatientComponent },
 ];

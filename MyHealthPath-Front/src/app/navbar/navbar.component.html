@@ -6,9 +6,26 @@
 
   <ul class="navbar-center-links">
     <!-- Show Home and About only if NOT authenticated -->
-    <ng-container *ngIf="!isAdmin()">
+    <ng-container *ngIf="!isAuthenticated || isPatient()">
       <li><a routerLink="/home" class="nav-link">Home</a></li>
       <li><a routerLink="/about" class="nav-link">About</a></li>
+    </ng-container>
+  </ul>
+
+  <!-- Centered buttons (Unapproved Medecins & Add Patient) -->
+  <ul class="navbar-center-buttons">
+    <!-- Show "Unapproved Medecins" button if authenticated AND admin -->
+    <ng-container *ngIf="isAuthenticated && isAdmin()">
+      <li class="nav-item centred">
+        <a routerLink="/unapproved-medecins" class="nav-link demande-link">Unapproved Medecins</a>
+      </li>
+    </ng-container>
+
+    <!-- Show "Add Patient" button if authenticated AND medecin -->
+    <ng-container *ngIf="isAuthenticated && isMedecin()">
+      <li class="nav-item centred">
+        <a routerLink="/add-patient" class="nav-link add-patient-link">Add patient</a>
+      </li>
     </ng-container>
   </ul>
 
@@ -17,13 +34,6 @@
     <ng-container *ngIf="!isAuthenticated">
       <li><a routerLink="/login" class="nav-link">Login</a></li>
       <li><a routerLink="/register" class="nav-link">Register</a></li>
-    </ng-container>
-
-    <!-- Show "Demande" button if authenticated AND admin -->
-    <ng-container *ngIf="isAuthenticated && isAdmin()">
-      <li class="nav-item demande-item centered">
-        <a routerLink="/unapproved-medecins" class="nav-link demande-link">Unapproved Medecins</a>
-      </li>
     </ng-container>
 
     <!-- Show dashboard or logout if authenticated (not admin) -->
