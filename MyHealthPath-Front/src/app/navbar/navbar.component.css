@@ -35,7 +35,7 @@
   justify-content: center;
 }
 
-/* Centered buttons container (Unapproved Medecins & Add Patient) */
+/* Centered buttons container (Unapproved Medecins & Patient) */
 .navbar-center-buttons {
   display: flex;
   gap: 20px;
@@ -76,6 +76,14 @@
   background-color: #34495e;
 }
 
+/* Active state styling */
+.nav-link.active {
+  background-color: #007bff; /* Blue color for active state */
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
 .logout-link {
   color: #e74c3c;
 }
@@ -110,8 +118,8 @@
   margin-left: auto; /* Ensures the logout button is aligned to the right */
 }
 
-/* Styling for the "Add Patient" button */
-.nav-link.add-patient-link {
+/* Styling for the "Add Patient" and "My Patients" buttons */
+.nav-link.patient-button {
   padding: 10px 15px;
   background: linear-gradient(45deg, #f39c12, #e67e22); /* Yellow to Orange gradient */
   color: white;
@@ -122,7 +130,80 @@
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.nav-link.add-patient-link:hover {
-  background: linear-gradient(45deg, #f39c12, #e74c3c); /* Slightly darker orange for hover */
+.nav-link.patient-button:hover {
+  background: linear-gradient(45deg, #f39c12, #e74c3c); /* Darker orange for hover */
   transform: scale(1.05); /* Slight scale effect on hover */
+}
+
+/* Patient button with hover effect to show dropdown */
+.navbar-center-buttons .patient-btn {
+  position: relative;
+}
+
+/* Patient button styling */
+.navbar-center-buttons .patient-link {
+  padding: 10px 15px;
+  background-color: #f39c12;
+  color: white;
+  text-align: center;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.navbar-center-buttons .patient-link:hover {
+  background-color: #e67e22;
+  transform: scale(1.05);
+}
+
+/* Dropdown for Add Patient and My Patients */
+.navbar-center-buttons .patient-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #34495e;
+  padding: 5px 0;
+  border-radius: 5px;
+  list-style: none;
+  margin: 0;
+  z-index: 2; /* Ensure it appears above other items */
+  white-space: nowrap; /* Prevents breaking of text */
+}
+
+/* Show dropdown on hover of the "Patient" button */
+.navbar-center-buttons .patient-btn:hover .patient-dropdown {
+  display: flex;
+  gap: 10px; /* Space out the items horizontally */
+  flex-wrap: wrap; /* Allow items to wrap in smaller screen sizes */
+}
+
+.navbar-center-buttons .patient-dropdown li {
+  display: inline-block; /* Ensures that items stay in a row */
+  padding: 0 10px; /* Horizontal spacing between items */
+}
+
+.navbar-center-buttons .patient-dropdown li a {
+  padding: 10px 15px;
+  color: white;
+  text-decoration: none;
+  display: block;
+}
+
+.navbar-center-buttons .patient-dropdown li a:hover {
+  background-color: #2c3e50;
+}
+
+/* Responsive: Stacks dropdown items on smaller screens */
+@media (max-width: 768px) {
+  .navbar-center-buttons .patient-dropdown {
+    flex-direction: column; /* Stack items vertically on small screens */
+    width: 100%; /* Ensure it spans the full width on small screens */
+  }
+  
+  .navbar-center-buttons .patient-dropdown li {
+    display: block; /* Ensure the items stack vertically */
+    width: 100%; /* Make the links stretch across the available width */
+  }
 }

@@ -22,7 +22,6 @@ export class UnapprovedMedecinsComponent implements OnInit {
 
 
   approve(userId: number) {
-    console.log('Clicked Approve for user:', userId); // 👈 Add this line
     this.medecinService.approveMedecin(userId).subscribe({
       next: (res) => {
         console.log('Approved:', res);

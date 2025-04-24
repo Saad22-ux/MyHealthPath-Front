@@ -1,36 +1,49 @@
-/* Center the form and set some spacing */
-.form-wrapper {
+/* Main page container with gradient background */
+.page-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Full viewport height */
-  background-color: #f4f7fa; /* Light background color */
+  min-height: 100vh;
+  background: linear-gradient(to right, #74ebd5, #9face6);
+  padding: 20px;
+  animation: fadeIn 1s ease;
 }
 
-form {
+/* Form wrapper styling */
+.form-wrapper {
   width: 100%;
-  max-width: 400px; /* Set max-width to make the form look better on larger screens */
-  padding: 20px;
+  max-width: 400px;
+  padding: 2rem;
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-h1.app-title {
+/* App title styling */
+.app-title {
   text-align: center;
   color: #4caf50;
-  margin-bottom: 20px;
+  margin-bottom: 2rem;
   font-size: 1.8rem;
 }
 
-/* Floating label styles */
-.form-floating {
-  margin-bottom: 1.5rem;
+/* Form element styling */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
+/* Form floating groups */
+.form-floating {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+/* Input field styling */
 input {
   width: 100%;
-  padding: 0.75rem;
+  padding: 1rem;
   font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -40,60 +53,82 @@ input {
 input:focus {
   border-color: #007bff;
   outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
 }
 
-/* Success and error message styles */
-.success-message {
-  background-color: #28a745;
-  color: white;
-  padding: 10px;
-  border-radius: 5px;
-  font-weight: bold;
-  text-align: center;
-  margin-bottom: 1.5rem;
+/* Invalid input styling */
+.is-invalid {
+  border-color: #dc3545;
 }
 
-.alert {
-  font-size: 1rem;
-  color: #721c24;
-  background-color: #f8d7da;
-  border-color: #f5c6cb;
-  text-align: center;
-  margin-bottom: 1.5rem;
+.invalid-feedback {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
 }
 
-.alert-danger {
-  color: #842029;
-  background-color: #f8d7da;
-  border-color: #f5c6cb;
-}
-
-/* Button style */
-button.btn {
-  padding: 12px;
+/* Button styling */
+.btn {
+  width: 100%;
+  padding: 0.75rem;
   background-color: #007bff;
   border: none;
   color: white;
   font-size: 1rem;
   border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.2s;
 }
 
-button.btn:hover {
+.btn:hover {
   background-color: #0056b3;
 }
 
-/* Register link */
+.btn-primary {
+  background-color: #007bff;
+}
+
+/* Message styling */
+.success-message {
+  background-color: #28a745;
+  color: white;
+  padding: 0.75rem;
+  border-radius: 4px;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.alert {
+  padding: 0.75rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.alert-danger {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+
+/* Register link styling */
 p {
   text-align: center;
-  margin-top: 20px;
+  margin-top: 1rem;
+  color: #666;
 }
 
 p span {
-  color: blue;
+  color: #007bff;
   cursor: pointer;
+  text-decoration: underline;
 }
 
 p span:hover {
-  text-decoration: underline;
+  color: #0056b3;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
