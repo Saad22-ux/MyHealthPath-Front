@@ -1,0 +1,30 @@
+<div *ngIf="!loading && !error" class="wrapper">
+  <h2 class="heading">🩺 Patients </h2>
+  <ul>
+    <li *ngFor="let patient of patients" class="patient-card">
+      <div class="info">
+        <div><strong>FullName:</strong> {{ patient.User.fullName }}</div>
+        <div class="status-container">
+        <div class="status-graph" [ngClass]="patient.state.toLowerCase()">
+          <div class="emoji">
+            <span *ngIf="patient.state === 'Danger'">⚠️</span>
+            <span *ngIf="patient.state === 'Normal'">💛</span>
+            <span *ngIf="patient.state === 'Good'">🌟</span>
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <div class="button-group">
+        <button
+          (click)="toggleSubscription(patient.id, patient.Medecins[0]?.Patient_Medecin_Link?.isSubscribed)"
+          [ngClass]="patient.Medecins[0]?.Patient_Medecin_Link?.isSubscribed ? 'btn danger' : 'btn success'">
+          {{ patient.Medecins[0]?.Patient_Medecin_Link?.isSubscribed ? 'Suspend' : 'Activate' }}
+        </button>
+        <a [routerLink]="['/patient', patient.id]">
+          <button class="btn primary">Consult</button>
+        </a>
+      </div>
+    </li>
+  </ul>
+</div>

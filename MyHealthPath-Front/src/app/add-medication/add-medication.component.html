@@ -2,7 +2,7 @@
     <div class="form-container">
       <h2>Add Medication</h2>
   
-      <form [formGroup]="medicationForm" (ngSubmit)="submit()">
+      <form [formGroup]="medicationForm" >
         <div class="form-group">
           <label for="name">Name</label>
           <input id="name" formControlName="name" />
@@ -16,6 +16,11 @@
         <div class="form-group">
           <label for="frequency">Frequency</label>
           <input id="frequency" formControlName="frequency" />
+        </div>
+
+        <div class="form-group">
+          <label for="duree">Duree</label>
+          <input id="duree" formControlName="duree" />
         </div>
   
         <button type="submit" [disabled]="medicationForm.invalid">Add Medicin</button>

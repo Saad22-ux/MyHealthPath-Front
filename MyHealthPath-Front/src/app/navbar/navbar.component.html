@@ -1,53 +1,50 @@
-<nav class="navbar">
+<nav  class="navbar" [ngClass]="{'vertical-navbar': (isPatient() || isMedecin()) && isAuthenticated}">
   <div class="navbar-brand">
-    <img src="assets/logo-transparent.ico" alt="App Logo" class="logo" />
     <span class="app-title">MyHealthPath</span>
   </div>
 
-  <ul class="navbar-center-links">
-    <!-- Show Home and About only if NOT authenticated -->
+  <ul class="navbar-links">
+    <!-- Dashboard for authenticated users -->
+    <ng-container *ngIf="isAuthenticated">
+      <li><a routerLink="/dashboard" class="nav-link dashboard-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Dashboard</a></li>
+    </ng-container>
+
+    <ng-container *ngIf="isAuthenticated&&isAdmin()">
+      <li><a routerLink="/unapproved-medecins" class="nav-link dashboard-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Unapproved Medecins</a></li>
+    </ng-container>
+
+    <!-- Home and About for non-authenticated or patient users -->
     <ng-container *ngIf="!isAuthenticated || isPatient()">
       <li><a routerLink="/home" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a></li>
       <li><a routerLink="/about" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">About</a></li>
     </ng-container>
-  </ul>
 
-  <!-- Centered buttons container (Unapproved Medecins & Patient) -->
-  <ul class="navbar-center-buttons">
-    <!-- Show "Unapproved Medecins" button if authenticated AND admin -->
-    <ng-container *ngIf="isAuthenticated && isAdmin()">
-      <li class="nav-item centred">
-        <a routerLink="/unapproved-medecins" class="nav-link demande-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Unapproved Medecins</a>
-      </li>
-    </ng-container>
-
-    <!-- Patient button with hover effect to show Add Patient and My Patients -->
+    <!-- Medecin-specific Patient Dropdown -->
     <ng-container *ngIf="isAuthenticated && isMedecin()">
-      <li class="nav-item centred patient-btn">
-        <a href="javascript:void(0);" class="nav-link patient-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Patient</a>
+      <li class="nav-item patient-btn">
+        <a href="javascript:void(0);" class="nav-link patient-link">
+          Patient
+        </a>
         <ul class="patient-dropdown">
-          <li><a routerLink="/add-patient" class="nav-link add-patient-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Add Patient</a></li>
-          <li><a routerLink="/patient" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">My Patients</a></li>
+          <li><a routerLink="/add-patient" class="nav-link">Add Patient</a></li>
+          <li><a routerLink="/patient-list" class="nav-link">My Patients</a></li>
         </ul>
       </li>
     </ng-container>
-  </ul>
 
-  <ul class="navbar-links">
-    <!-- Show login/register if NOT authenticated -->
+    <!-- Authentication links for non-authenticated users -->
     <ng-container *ngIf="!isAuthenticated">
       <li><a routerLink="/login" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Login</a></li>
       <li><a routerLink="/register" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Register</a></li>
     </ng-container>
 
-    <!-- Show dashboard or logout if authenticated (not admin) -->
-    <ng-container *ngIf="isAuthenticated && !isAdmin()">
-      <li class="nav-item demande-item"><a routerLink="/dashboard" class="nav-link demande-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Dashboard</a></li>
-    </ng-container>
-
-    <!-- Show logout for all authenticated users -->
-    <ng-container *ngIf="isAuthenticated">
-      <li><a (click)="logout()" class="nav-link logout-link">Logout</a></li>
-    </ng-container>
+    
   </ul>
+
+  <!-- Logout for authenticated users -->
+  <ng-container *ngIf="isAuthenticated">
+    <div class="logout-container">
+      <a (click)="logout()" class="nav-link logout-link">Logout</a>
+    </div>
+  </ng-container>
 </nav>

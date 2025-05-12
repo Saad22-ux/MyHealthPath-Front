@@ -8,28 +8,25 @@ import { Observable } from 'rxjs';
 export class PatientService {
 
   private apiUrl = 'http://localhost:3000/get-patients';
+  private apiUrl_create = 'http://localhost:3000/create-patient';
 
   constructor(private http: HttpClient) {}
 
+  createPatient(patientData: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl_create, patientData, { withCredentials: true });
+  }
 
   getListPatients(): Observable <any>{
     return this.http.get(this.apiUrl, { withCredentials: true });
   }
 
-  suspendPatient(id: number): Observable<any>{
-    return this.http.post(`http://localhost:3000/get-patients/${id}/suspendre`, {});
-  }
-
-  activatePatient(id: number): Observable<any>{
-    return this.http.post(`http://localhost:3000/get-patients/${id}/activate`, {});
+  updateSubscription(patientId: number, isSubscribed: boolean): Observable<any> {
+    const url = `${this.apiUrl}/${patientId}/${isSubscribed ? 'activate' : 'suspendre'}`;
+    return this.http.post(url, {}, { withCredentials: true });
   }
 
   consultPatient(id: number): Observable<any>{
     return this.http.get(`http://localhost:3000/get-patients/${id}`, {});
-  }
-
-  addMedicament(patientId: number, medicament: any) {
-    return this.http.post(`http://localhost:3000/get-patients/${patientId}/medicaments`, medicament);
   }
 
   deleteMedicament(id: number): Observable<any> {

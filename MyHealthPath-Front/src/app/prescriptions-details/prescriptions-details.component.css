@@ -1,0 +1,58 @@
+/* Overall page container */
+.page-container {
+  padding: 2rem;
+  margin-left: 250px; /* Adjust if your navbar width is different */
+  background-color: #f7f9fc;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* Card-style detail container */
+.prescription-card {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Section headings */
+h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #2c3e50;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 0.5rem;
+}
+
+/* Labels and values */
+.detail-item {
+  margin-bottom: 1rem;
+}
+
+.detail-item strong {
+  display: inline-block;
+  width: 150px;
+  color: #34495e;
+}
+
+.detail-item span {
+  color: #2c3e50;
+}
+
+/* Button styling */
+.button-back {
+  margin-top: 2rem;
+  display: inline-block;
+  background-color: #3498db;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.button-back:hover {
+  background-color: #2980b9;
+}

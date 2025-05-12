@@ -1,0 +1,97 @@
+.wrapper {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.heading {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 30px;
+  color: #1f2937;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+.patient-card {
+  background-color: #fff;
+  border-left: 6px solid #cbd5e0;
+  border-radius: 10px;
+  padding: 18px;
+  margin-bottom: 16px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+  transition: border-color 0.3s ease;
+}
+
+.patient-card:hover {
+  border-color: #4299e1;
+}
+
+.info div {
+  margin-bottom: 8px;
+  font-size: 15px;
+  color: #374151;
+}
+
+.button-group {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-weight: 500;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border: none;
+}
+
+.primary {
+  background-color: #4299e1;
+}
+
+.primary:hover {
+  background-color: #3182ce;
+}
+
+.success {
+  background-color: #48bb78;
+}
+
+.success:hover {
+  background-color: #38a169;
+}
+
+.danger {
+  background-color: #f56565;
+}
+
+.danger:hover {
+  background-color: #e53e3e;
+}
+
+.badge-active,
+.badge-suspended {
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.badge-active {
+  background-color: #c6f6d5;
+  color: #22543d;
+}
+
+.badge-suspended {
+  background-color: #fed7d7;
+  color: #742a2a;
+}
+
+

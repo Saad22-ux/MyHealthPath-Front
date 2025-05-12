@@ -27,9 +27,10 @@ export class AddMedicationComponent implements OnInit {
   ) {
     // Added required validation
     this.medicationForm = this.fb.group({
-      name: ['', Validators.required],  // Required validation
-      dose: ['', Validators.required],  // Required validation
-      frequency: ['', Validators.required]  // Required validation
+      name: ['', Validators.required],
+      dose: ['', Validators.required],
+      frequency: ['', Validators.required],
+      duree: ['', Validators.required]
     });
   }
 
@@ -37,15 +38,4 @@ export class AddMedicationComponent implements OnInit {
     this.patientId = Number(this.route.snapshot.paramMap.get('id'));
   }
 
-  submit(): void {
-    if (this.medicationForm.valid) {
-      this.patientService.addMedicament(this.patientId, this.medicationForm.value).subscribe({
-        next: () => {
-          this.success = 'Medication added!';
-          setTimeout(() => this.router.navigate([`/prescription`, this.patientId]), 1000);
-        },
-        error: () => this.error = 'Failed to add medication'
-      });
-    }
-  }
 }

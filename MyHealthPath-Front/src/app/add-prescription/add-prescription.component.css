@@ -1,0 +1,157 @@
+/* Main Container */
+.container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 25px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Headings */
+h2 {
+  color: #2c3e50;
+  margin-bottom: 25px;
+  font-size: 24px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+h3 {
+  color: #3498db;
+  margin: 25px 0 15px 0;
+  font-size: 18px;
+}
+
+/* Form Elements */
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+input {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: border-color 0.3s;
+  box-sizing: border-box;
+}
+
+input:focus {
+  border-color: #3498db;
+  outline: none;
+}
+
+/* Medication Items */
+div[formGroupName] {
+  background-color: #f8fafc;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  border-left: 3px solid #3498db;
+}
+
+/* Medication Inputs Grid */
+div[formGroupName] > div {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+/* Indicator Items */
+div[formArrayName="indicateurs"] > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #f8fafc;
+  padding: 12px 15px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border-left: 3px solid #2ecc71;
+}
+
+div[formArrayName="indicateurs"] input {
+  flex-grow: 1;
+  margin-bottom: 0;
+}
+
+/* Buttons */
+button {
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s;
+  border: none;
+}
+
+button[type="submit"] {
+  background-color: #2ecc71;
+  color: white;
+  display: block;
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+button[type="submit"]:hover {
+  background-color: #27ae60;
+}
+
+button[type="submit"]:disabled {
+  background-color: #95a5a6;
+  cursor: not-allowed;
+}
+
+button[type="button"] {
+  background-color: #3498db;
+  color: white;
+}
+
+button[type="button"]:hover {
+  background-color: #2980b9;
+}
+
+/* Delete Buttons */
+div[formGroupName] button,
+div[formArrayName="indicateurs"] > div button {
+  background-color: #e74c3c;
+  color: white;
+}
+
+div[formGroupName] button:hover,
+div[formArrayName="indicateurs"] > div button:hover {
+  background-color: #c0392b;
+}
+
+/* Add Buttons */
+div[formArrayName] > button[type="button"] {
+  margin-top: 10px;
+}
+
+/* Response Message */
+p {
+  margin-top: 20px;
+  padding: 10px;
+  border-radius: 4px;
+  text-align: center;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+    margin: 15px;
+  }
+  
+  div[formGroupName] > div {
+    grid-template-columns: 1fr;
+  }
+}

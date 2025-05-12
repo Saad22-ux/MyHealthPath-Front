@@ -4,12 +4,13 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
-import { UnapprovedMedecinsComponent } from './pages/unapproved-medecins/unapproved-medecins.component';
-import { AddPatientComponent } from './pages/add-patient/add-patient.component';
-import { PatientComponent } from './pages/patient/patient.component';
+import { UnapprovedMedecinsComponent } from './unapproved-medecins/unapproved-medecins.component';
+import { AddPatientComponent } from './add-patient/add-patient.component';
+import { PatientListComponent } from './patient-list/patient-list.component';
 import { PatientDetailComponent } from './patient-detail/patient-detail.component';
 import { AddMedicationComponent } from './add-medication/add-medication.component';
-import { PrescriptionComponent } from './prescription/prescription.component';
+import { AddPrescriptionComponent } from './add-prescription/add-prescription.component';
+import { PrescriptionsDetailsComponent } from './prescriptions-details/prescriptions-details.component';
 
 
 export const routes: Routes = [
@@ -21,8 +22,10 @@ export const routes: Routes = [
   { path: 'register', component: RegisterComponent }, 
   { path: 'unapproved-medecins', component: UnapprovedMedecinsComponent },
   { path: 'add-patient', component: AddPatientComponent },
-  { path: 'patient', component: PatientComponent },
+  { path: 'patient-list', component: PatientListComponent },
   { path: 'patient/:id', component: PatientDetailComponent },
   { path: 'add-medication/:id', component: AddMedicationComponent },
-  { path: 'prescription/:id', component: PrescriptionComponent },
+  { path: 'add-prescription/:patientId', component: AddPrescriptionComponent },
+  { path: 'prescriptions-details/:id', component: PrescriptionsDetailsComponent }
+
 ];

@@ -1,0 +1,29 @@
+<div class="page-container">
+  <div class="prescription-card">
+    <h2>Prescription Details</h2>
+
+    <!-- Date -->
+    <div class="detail-item">
+      <strong>Date:</strong> <span>{{ prescription?.date }}</span>
+    </div>
+
+    <!-- Medicaments -->
+    <div class="detail-item" *ngFor="let med of prescription?.medicaments">
+      <strong>Medicament:</strong> <span>{{ med.name }}</span>
+    </div>
+
+    <div class="detail-item">
+  <strong>Indicators:</strong>
+  <div *ngIf="prescription?.indicateurs?.length > 0">
+    <ul class="indicators-list">
+      <li *ngFor="let indicator of prescription?.indicateurs">
+        <span>{{ indicator.nom }}</span>
+      </li>
+
+    </ul>
+  </div>
+  <div *ngIf="!prescription?.indicateurs?.length">
+    <p>No indicators assigned.</p>
+  </div>
+</div>
+</div>
