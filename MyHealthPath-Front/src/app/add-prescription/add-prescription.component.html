@@ -19,14 +19,15 @@
       <button type="button" (click)="addMedicament()">Add medicament</button>
     </div>
 
-    <div formArrayName="indicateurs">
+<div formArrayName="indicateurs">
   <h3>Indicators</h3>
   <div *ngFor="let ind of indicateurs.controls; let j = index">
-    <input type="text" [formControlName]="j" readonly />
+    <input type="text" [formControlName]="j" />
     <button type="button" (click)="removeIndicateur(j)">Delete</button>
   </div>
   <button type="button" (click)="addIndicateur()">Add indicator</button>
 </div>
+
 
 
     <div>
@@ -34,7 +35,9 @@
       <input type="text" formControlName="description" />
     </div>
 
-    <button type="submit" [disabled]="prescriptionForm.invalid">Add prescription</button>
+    <button type="submit" [disabled]="prescriptionForm.invalid">
+      {{ editingPrescriptionId ? 'Update Prescription' : 'Add Prescription' }}
+    </button>
   </form>
 
   <p>{{ responseMessage }}</p>

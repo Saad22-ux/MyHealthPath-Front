@@ -11,6 +11,7 @@ import { AuthService } from '../auth.service';  // Import your AuthService
   styleUrls : ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit{
+  patientId: string | null = null;
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
@@ -19,5 +20,11 @@ export class DashboardComponent implements OnInit{
       // Redirect to login if the user is not authenticated
       this.router.navigate(['/login']);
     }
+
+    this.patientId = localStorage.getItem('patientId');
   }
+
+  goToPrescriptions() {
+  this.router.navigate(['/my-prescriptions']);
+}
 }

@@ -1,29 +1,45 @@
-<div class="page-container">
-  <div class="prescription-card">
-    <h2>Prescription Details</h2>
+<div *ngIf="prescription?.isActive; else expiredMsg" class="detail-container">
+  <div class="detail-item" *ngFor="let med of prescription?.medicaments; let i = index">
+    <strong>Medicament:</strong> <span>{{ med.name }}</span>
+    <strong>Dose:</strong> <span>{{ med.dose }}</span>
+    <strong>Frequency:</strong> <span>{{ med.frequency }}</span>
+    <strong>Duree:</strong> <span>{{ med.duree }}</span>
 
-    <!-- Date -->
-    <div class="detail-item">
-      <strong>Date:</strong> <span>{{ prescription?.date }}</span>
+    <div *ngIf="userRole === 'patient'" class="checkbox-wrapper">
+      <input type="checkbox" [(ngModel)]="med.isChecked" id="med-{{ i }}" />
+      <label for="med-{{ i }}">Pris</label>
     </div>
-
-    <!-- Medicaments -->
-    <div class="detail-item" *ngFor="let med of prescription?.medicaments">
-      <strong>Medicament:</strong> <span>{{ med.name }}</span>
-    </div>
-
-    <div class="detail-item">
-  <strong>Indicators:</strong>
-  <div *ngIf="prescription?.indicateurs?.length > 0">
-    <ul class="indicators-list">
-      <li *ngFor="let indicator of prescription?.indicateurs">
-        <span>{{ indicator.nom }}</span>
-      </li>
-
-    </ul>
   </div>
-  <div *ngIf="!prescription?.indicateurs?.length">
-    <p>No indicators assigned.</p>
+
+  <div class="detail-item">
+    <strong>Indicators:</strong>
+    <div *ngIf="prescription?.indicateurs?.length > 0">
+      <ul class="indicators-list">
+        <li *ngFor="let indicator of prescription?.indicateurs; let j = index">
+          <span>{{ indicator.nom }}</span>
+
+          <div *ngIf="userRole === 'patient'" class="indicator-inputs">
+            <input
+              type="text"
+              placeholder="Valeur"
+              [(ngModel)]="indicator.valeur"
+              name="valeur-{{ j }}"
+            />
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div *ngIf="!prescription?.indicateurs?.length">
+      <p>No indicators assigned.</p>
+    </div>
+  </div>
+
+  <!-- Submit button -->
+  <div class="submit-journal">
+    <button *ngIf="userRole === 'patient'" (click)="submitJournal()">Pris Aujourd'hui</button>
   </div>
 </div>
-</div>
+
+<ng-template #expiredMsg>
+  <p class="expired-text">Cette prescription est terminée.</p>
+</ng-template>

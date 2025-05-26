@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { PatientService } from '../services/patient.service';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
+import { PrescriptionService } from '../services/prescription.service';
 
 @Component({
   selector: 'app-patient-detail',
@@ -18,7 +19,8 @@ export class PatientDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private patientService: PatientService,
-    private router: Router
+    private router: Router,
+    private prescriptionService: PrescriptionService
   ) {}
 
   ngOnInit(): void {
@@ -41,4 +43,20 @@ export class PatientDetailComponent implements OnInit {
       }
     });
   }
+
+  togglePrescriptionStatus(prescription: any) {
+  this.prescriptionService.updatePrescriptionStatus(prescription.id, !prescription.isActive).subscribe({
+    next: (res) => {
+      if (res.success) {
+        prescription.isActive = !prescription.isActive;
+      } else {
+        alert('Erreur : ' + res.message);
+      }
+    },
+    error: (err) => {
+      console.error(err);
+      alert('Erreur serveur');
+    }
+  });
+}
 }

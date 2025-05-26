@@ -2,6 +2,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+export interface PatientStatistics {
+  patient: {
+    fullName: string;
+    id: number;
+  };
+  medicamentsPris: number;
+  indicateursMesures: number;
+  suiviMedicamentStats: any[];
+  suiviIndicateurStats: any[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -35,5 +46,9 @@ export class PatientService {
   
   deleteIndicateur(id: number): Observable<any> {
     return this.http.delete(`http://localhost:3000/indicateurs/${id}`, { withCredentials: true });
+  }
+
+  getPatientStatistics(patientId: string, prescriptionId: string): Observable<PatientStatistics> {
+    return this.http.get<PatientStatistics>(`${this.apiUrl}/${patientId}/${prescriptionId}/statistiques`);
   }
 }

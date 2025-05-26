@@ -14,6 +14,11 @@ export class AddPrescriptionComponent implements OnInit {
   prescriptionForm: FormGroup;
   responseMessage: string = '';
   patientId: number = 0;
+  editingPrescriptionId?: number;
+
+  allIndicateurs: string[] = [];
+
+
 
   constructor(
     private fb: FormBuilder,
@@ -34,6 +39,7 @@ export class AddPrescriptionComponent implements OnInit {
   ngOnInit(): void {
   // Log the entire paramMap to check if it contains patientId
   const patientId = this.route.snapshot.paramMap.get('patientId');
+  const prescriptionId = this.route.snapshot.paramMap.get('prescriptionId');
   console.log('patientId from URL:', patientId); // Add a log to check
   
   if (patientId) {
@@ -42,12 +48,14 @@ export class AddPrescriptionComponent implements OnInit {
     console.log('No patientId found in URL');
   }
 
+   if (prescriptionId) {
+    this.loadPrescriptionDetails(+prescriptionId); // Load existing data
+  }
+
   this.prescriptionService.getIndicateursBySpecialite().subscribe({
     next: (res) => {
-      this.indicateurs.clear();
-      res.indicateurs.forEach(ind => {
-        this.indicateurs.push(this.fb.control(ind, Validators.required));
-      });
+      this.allIndicateurs = res.indicateurs;
+      this.refreshIndicateursFormControls(this.allIndicateurs);
     },
     error: (err) => {
       console.error('Failed to load indicators:', err);
@@ -55,14 +63,27 @@ export class AddPrescriptionComponent implements OnInit {
   });
 }
 
+refreshIndicateursFormControls(indicators: string[]) {
+  this.indicateurs.clear();
+  indicators.forEach(ind => {
+    this.indicateurs.push(this.fb.control(ind, Validators.required));
+  });
+}
 
-  get medicaments(): FormArray {
-    return this.prescriptionForm.get('medicaments') as FormArray;
-  }
+get indicateurs(): FormArray {
+  return this.prescriptionForm.get('indicateurs') as FormArray;
+}
 
-  get indicateurs(): FormArray {
-    return this.prescriptionForm.get('indicateurs') as FormArray;
-  }
+get currentIndicateurs(): string[] {
+  return this.indicateurs.controls.map(control => control.value);
+}
+
+
+get medicaments(): FormArray {
+  return this.prescriptionForm.get('medicaments') as FormArray;
+}
+
+
 
   addMedicament() {
     this.medicaments.push(this.fb.group({
@@ -74,16 +95,60 @@ export class AddPrescriptionComponent implements OnInit {
   }
 
   removeMedicament(index: number) {
-    this.medicaments.removeAt(index);
+    this.indicateurs.removeAt(index);
   }
 
   addIndicateur() {
-    this.indicateurs.push(this.fb.control('', Validators.required));
+  // Find which indicators are missing (deleted)
+  const missing = this.allIndicateurs.filter(ind => !this.currentIndicateurs.includes(ind));
+
+  if (missing.length > 0) {
+    // Add the first missing indicator back
+    this.indicateurs.push(this.fb.control(missing[0], Validators.required));
+    console.log('Restored indicator:', missing[0]);
+  } else {
+    console.log('No deleted indicators to restore.');
+  }
   }
 
   removeIndicateur(index: number) {
     this.indicateurs.removeAt(index);
   }
+
+  loadPrescriptionDetails(prescriptionId: number) {
+  this.prescriptionService.getPrescriptionDetails(prescriptionId).subscribe({
+    next: (data) => {
+      const prescription = data.prescription;
+
+      this.prescriptionForm.patchValue({
+        description: prescription.description,
+        date: prescription.date
+      });
+
+      this.medicaments.clear();
+      (prescription.medicaments || []).forEach((med: any) => {
+        this.medicaments.push(this.fb.group({
+          name: [med.name, Validators.required],
+          dose: [med.dose, Validators.required],
+          frequency: [med.frequency, Validators.required],
+          duree: [med.duree, Validators.required]
+        }));
+      });
+
+      if (prescription.indicateurs) {
+        this.indicateurs.clear();
+        prescription.indicateurs.forEach((ind: any) => {
+          this.indicateurs.push(this.fb.control(ind.name, Validators.required));
+        });
+      }
+
+      this.editingPrescriptionId = prescriptionId;
+    },
+    error: (err) => {
+      console.error('Failed to load prescription:', err);
+    }
+  });
+}
 
   onSubmit() {
     if (this.prescriptionForm.invalid) return;
@@ -96,22 +161,37 @@ export class AddPrescriptionComponent implements OnInit {
       indicateurs: formValue.indicateurs
     };
 
-    // Send the patientId with the request
+    if (this.editingPrescriptionId) {
+    // UPDATE
+    this.prescriptionService.updatePrescription(this.editingPrescriptionId, payload).subscribe({
+      next: (res: any) => {
+        this.responseMessage = res.message;
+        setTimeout(() => (this.responseMessage = ''), 2000);
+      },
+      error: () => {
+        this.responseMessage = 'Erreur lors de la mise à jour.';
+      }
+    });
+  } else {
+    // ADD
     this.prescriptionService.addPrescription(this.patientId, payload).subscribe({
       next: (res: any) => {
         this.responseMessage = res.message;
-        setTimeout(() => {
-          this.responseMessage = '';
-        }, 2000);
+        setTimeout(() => (this.responseMessage = ''), 2000);
         this.prescriptionForm.reset();
         this.medicaments.clear();
         this.indicateurs.clear();
         this.addMedicament();
         this.addIndicateur();
       },
-      error: (err) => {
+      error: () => {
         this.responseMessage = 'Erreur lors de l’envoi.';
       }
     });
   }
+  }
+
+  
+
+
 }

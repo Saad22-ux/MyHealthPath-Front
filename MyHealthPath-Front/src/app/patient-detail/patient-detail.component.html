@@ -34,6 +34,18 @@
               <a [routerLink]="['/prescriptions-details', pre.id]">
                 <button class="btn secondary">Consult</button>
               </a>
+
+              <a [routerLink]="['/add-prescription', patientId, pre.id]">
+                <button class="btn warning">Edit</button>
+              </a>
+
+              <button
+                class="btn"
+                [ngClass]="pre.isActive ? 'btn-danger' : 'btn-success'"
+                (click)="togglePrescriptionStatus(pre)"
+              >
+                {{ pre.isActive ? 'Suspend' : 'Activate' }}
+              </button>
             </td>
           </tr>
         </tbody>

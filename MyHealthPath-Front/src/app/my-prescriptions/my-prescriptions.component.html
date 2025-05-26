@@ -1,0 +1,21 @@
+<div style="text-align: center;">
+  <h2>My Prescriptions</h2>
+
+  <div *ngIf="activePrescriptions.length === 0">No active prescriptions found.</div>
+
+  <ul *ngIf="activePrescriptions.length > 0" style="list-style: none; padding: 0;">
+    <li *ngFor="let prescription of activePrescriptions" style="margin-bottom: 10px;">
+      <strong>{{ prescription.title }}</strong> - {{ prescription.description }}
+      <div>Prescribed by: <em>{{ prescription.medecin?.fullName || 'Unknown' }}</em></div>
+
+      <ng-container *ngIf="shouldShowViewButton(prescription.id); else wait24h">
+        <a [routerLink]="['/prescriptions-details', prescription.id]" class="btn" style="margin-top: 5px;">
+        View Details
+        </a>
+      </ng-container>
+      <ng-template #wait24h>
+        <p style="color: gray; margin-top: 5px;">Disponible après 24h du dernier enregistrement.</p>
+      </ng-template>
+    </li>
+  </ul>
+</div>
