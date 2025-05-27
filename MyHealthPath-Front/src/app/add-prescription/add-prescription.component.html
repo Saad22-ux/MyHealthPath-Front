@@ -1,0 +1,44 @@
+<div class="container">
+  <h2>Add prescription</h2>
+  <form [formGroup]="prescriptionForm" (ngSubmit)="onSubmit()">
+    
+    <div>
+      <label>Date:</label>
+      <input type="date" formControlName="date" />
+    </div>
+
+    <div formArrayName="medicaments">
+      <h3>Medicaments</h3>
+      <div *ngFor="let med of medicaments.controls; let i = index" [formGroupName]="i">
+        <input type="text" placeholder="Name" formControlName="name" />
+        <input type="text" placeholder="Dose" formControlName="dose" />
+        <input type="text" placeholder="Frequency" formControlName="frequency" />
+        <input type="text" placeholder="Period" formControlName="duree" />
+        <button type="button" (click)="removeMedicament(i)">Delete</button>
+      </div>
+      <button type="button" (click)="addMedicament()">Add medicament</button>
+    </div>
+
+<div formArrayName="indicateurs">
+  <h3>Indicators</h3>
+  <div *ngFor="let ind of indicateurs.controls; let j = index">
+    <input type="text" [formControlName]="j" />
+    <button type="button" (click)="removeIndicateur(j)">Delete</button>
+  </div>
+  <button type="button" (click)="addIndicateur()">Add indicator</button>
+</div>
+
+
+
+    <div>
+      <label>Description:</label>
+      <input type="text" formControlName="description" />
+    </div>
+
+    <button type="submit" [disabled]="prescriptionForm.invalid">
+      {{ editingPrescriptionId ? 'Update Prescription' : 'Add Prescription' }}
+    </button>
+  </form>
+
+  <p>{{ responseMessage }}</p>
+</div>

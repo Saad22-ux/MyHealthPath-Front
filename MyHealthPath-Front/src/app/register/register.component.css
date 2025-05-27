@@ -1,3 +1,14 @@
+.page-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(to right, #74ebd5, #9face6);
+  padding: 20px;
+  animation: fadeIn 1s ease;
+}
+
+
 /* General Styles */
 body {
   background-color: #f7f8fa;

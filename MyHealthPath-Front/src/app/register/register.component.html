@@ -1,3 +1,4 @@
+<div class="page-wrapper">
 <div class="form-container">
   <div class="form-wrapper">
     <div *ngIf="statusMessage" class="alert fade show" [ngClass]="{'alert-success': isSuccess, 'alert-danger': !isSuccess}">
@@ -62,7 +63,7 @@
       <!-- Speciality -->
       <div class="col-md-4">
         <label for="specialite" class="form-label">Speciality</label>
-        <input
+        <select
           type="text"
           class="form-control"
           id="specialite"
@@ -71,7 +72,12 @@
           [ngClass]="{'is-invalid': validationErrors.specialite, 'is-valid': !validationErrors.specialite && specialite}"
           placeholder="Enter your speciality"
           required
-        />
+        >
+          <option value="" disabled selected>Select Speciality</option>
+          <option value="Diabete">Diabète</option>
+          <option value="Hypertension">Hypertension</option>
+          <option value="Cholesterol">Cholesterol</option>
+        </select>
         <div *ngIf="validationErrors.specialite" class="invalid-feedback">
           {{ validationErrors.specialite }}
         </div>
@@ -84,7 +90,5 @@
     </form>
   </div>
 </div>
-
-
-
+</div>
 

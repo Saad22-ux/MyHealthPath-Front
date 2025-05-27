@@ -1,7 +1,8 @@
+<div class="page-wrapper">
 <div class="form-wrapper">
   <form (ngSubmit)="login()">
     <h1 class="app-title">MyHealthPath</h1>
-    
+
     <!-- Display Success Message -->
     <div *ngIf="successMessage" class="success-message">
       {{ successMessage }}
@@ -13,13 +14,32 @@
     </div>
 
     <div class="form-floating">
-      <input [(ngModel)]="email" name="email" placeholder="Email" required />
+      <input 
+        [(ngModel)]="email" 
+        name="email" 
+        placeholder="Email" 
+        required 
+        [ngClass]="{'is-invalid': emailInvalid}" />
+      <div *ngIf="emailInvalid" class="invalid-feedback">
+        Email is required.
+      </div>
     </div>
+
     <div class="form-floating">
-      <input [(ngModel)]="password" name="password" type="password" placeholder="Password" required />
+      <input 
+        [(ngModel)]="password" 
+        name="password" 
+        type="password" 
+        placeholder="Password" 
+        required 
+        [ngClass]="{'is-invalid': passwordInvalid}" />
+      <div *ngIf="passwordInvalid" class="invalid-feedback">
+        Password is required.
+      </div>
     </div>
 
     <button class="btn btn-primary w-100 py-2" type="submit">Login</button>
     <p>New Doctor? <span (click)="navigateToRegister()" style="color: blue; cursor: pointer;">Register here</span></p>
   </form>
+</div>
 </div>

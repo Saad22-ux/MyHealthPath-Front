@@ -1,0 +1,14 @@
+<div *ngIf="profile; else errorTpl">
+  <h2>Profil Patient</h2>
+  <p><strong>Nom complet:</strong> {{ profile.fullName }}</p>
+  <p><strong>Email:</strong> {{ profile.email }}</p>
+  <p><strong>Genre:</strong> {{ profile.genre }}</p>
+  <p><strong>Date de naissance:</strong> {{ profile.date_naissance }}</p>
+</div>
+
+<ng-template #errorTpl>
+  <p *ngIf="errorMessage">{{ errorMessage }}</p>
+  <p *ngIf="!errorMessage">Chargement du profil...</p>
+</ng-template>
+
+

@@ -1,0 +1,42 @@
+/* profil-medecin.component.css */
+
+:host {
+  display: block;
+  padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  max-width: 600px;
+  margin: 2rem auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+}
+
+p {
+  font-size: 1rem;
+  margin: 0.5rem 0;
+  color: #333;
+}
+
+strong {
+  color: #2c3e50;
+  margin-right: 0.5rem;
+}
+
+.error-message {
+  color: #e74c3c;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.loading-message {
+  color: #555;
+  text-align: center;
+  margin-top: 1rem;
+}

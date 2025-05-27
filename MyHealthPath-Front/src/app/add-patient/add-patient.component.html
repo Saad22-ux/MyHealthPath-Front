@@ -1,0 +1,87 @@
+<div class="page-wrapper">
+  <div class="form-container">
+    <div class="form-wrapper">
+      <div *ngIf="message" class="alert fade show" [ngClass]="{ 'alert-success': messageType === 'success', 'alert-danger': messageType === 'error' }">
+        {{ message }}
+      </div>
+
+      <!-- Show validation errors -->
+      <div *ngIf="validationErrors && messageType === 'error'" class="alert alert-warning mt-2">
+        <ul>
+          <li *ngFor="let key of (validationErrors | keyvalue)">
+            {{ key.key }}: {{ key.value }}
+          </li>
+        </ul>
+      </div>
+
+      <h2>Add New Patient</h2>
+      <form (ngSubmit)="onSubmit()" #patientForm="ngForm" class="row g-3">
+
+        <!-- Full Name -->
+        <div class="col-md-6">
+          <label for="fullName" class="form-label">Full Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="fullName"
+            name="fullName"
+            [(ngModel)]="patient.fullName"
+            [ngClass]="{ 'is-invalid': !patient.fullName && patientForm.submitted, 'is-valid': patient.fullName }"
+            placeholder="Enter your full name"
+            required
+          />
+        </div>
+
+        <!-- Email -->
+        <div class="col-md-6">
+          <label for="email" class="form-label">Email</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            name="email"
+            [(ngModel)]="patient.email"
+            [ngClass]="{ 'is-invalid': !patient.email && patientForm.submitted, 'is-valid': patient.email }"
+            placeholder="Enter your email"
+            required
+          />
+        </div>
+
+        <!-- Genre -->
+        <div class="col-md-6">
+          <label for="genre" class="form-label">Genre</label>
+          <select
+            class="form-control"
+            id="genre"
+            name="genre"
+            [(ngModel)]="patient.genre"
+            [ngClass]="{ 'is-invalid': !patient.genre && patientForm.submitted, 'is-valid': patient.genre }"
+            required
+          >
+            <option value="" disabled>Select Gender</option>
+            <option value="homme">Homme</option>
+            <option value="femme">Femme</option>
+          </select>
+        </div>
+
+        <!-- Date of Birth -->
+        <div class="col-md-6">
+          <label for="date_naissance" class="form-label">Date of Birth</label>
+          <input
+            type="date"
+            class="form-control"
+            id="date_naissance"
+            name="date_naissance"
+            [(ngModel)]="patient.date_naissance"
+            [ngClass]="{ 'is-invalid': !patient.date_naissance && patientForm.submitted, 'is-valid': patient.date_naissance }"
+            required
+          />
+        </div>
+
+        <div class="col-12">
+          <button class="btn btn-primary" type="submit" [disabled]="!patientForm.form.valid">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

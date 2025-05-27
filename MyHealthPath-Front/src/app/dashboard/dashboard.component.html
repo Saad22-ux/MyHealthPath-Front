@@ -1,2 +1,20 @@
+<div class="fullscreen-center">
+  <div *ngIf="patientId">
+    <p>Your Patient ID is: {{ patientId }}</p>
+  </div>
+  <div *ngIf="!patientId">
+    <p>No patient ID found. You may not be logged in as a patient.</p>
+  </div>
+</div>
 
+<div style="display: flex; justify-content: center; margin-top: 20px;">
+  <button (click)="goToPrescriptions()">My Prescriptions</button>
+</div>
 
+<div style="display: flex; justify-content: center; margin-top: 20px;">
+  <button (click)="goToSuiviMedical()">My Suivi Dashboard</button>
+</div>
+
+<div style="display: flex; justify-content: center; margin-top: 20px;">
+  <button (click)="goToProfil()">My Profil</button>
+</div>

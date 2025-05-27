@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
-import { BehaviorSubject } from 'rxjs'; //false in var
+import { BehaviorSubject } from 'rxjs'; 
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -34,6 +34,12 @@ export class AuthService {
       const userRole = response.role; // adjust if it's nested like response.user.role
       this.setRole(userRole);
       localStorage.setItem('role', userRole);
+
+      if (response.patientId) {
+        localStorage.setItem('patientId', response.patientId.toString());
+      } else {
+        localStorage.removeItem('patientId'); // Clean up if not patient
+      }
       })  
     );
   }
@@ -62,7 +68,6 @@ export class AuthService {
     );
   }
 
-
   setRole(role: string) {
     this.role = role;
     localStorage.setItem('role', role);
@@ -76,6 +81,13 @@ export class AuthService {
     return this.role;
   }
   
+  setPatientId(id: number) {
+    localStorage.setItem('patientId', id.toString());
+  }
+
+  getPatientId(): number {
+    return Number(localStorage.getItem('patientId'));
+  }
 
   isLoggedIn(): boolean {
     return !!this.role; // or use a proper check
