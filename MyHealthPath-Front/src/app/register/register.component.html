@@ -24,6 +24,40 @@
         </div>
       </div>
 
+      <div class="col-md-4">
+        <label for="telephone" class="form-label">Telephone</label>
+        <input
+          type="text"
+          class="form-control"
+          id="telephone"
+          [(ngModel)]="telephone"
+          name="email"
+          [ngClass]="{'is-invalid': validationErrors.telephone, 'is-valid': !validationErrors.telephone && telephone}"
+          placeholder="Enter your phone number"
+          required
+        />
+        <div *ngIf="validationErrors.telephone" class="invalid-feedback">
+          {{ validationErrors.telephone }}
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <label for="adress" class="form-label">Addresse de cabinet</label>
+        <input
+          type="text"
+          class="form-control"
+          id="adress"
+          [(ngModel)]="adress"
+          name="adress"
+          [ngClass]="{'is-invalid': validationErrors.adress, 'is-valid': !validationErrors.adress && adress}"
+          placeholder="Enter your address"
+          required
+        />
+        <div *ngIf="validationErrors.adress" class="invalid-feedback">
+          {{ validationErrors.adress }}
+        </div>
+      </div>
+
       <!-- Email -->
       <div class="col-md-4">
         <label for="email" class="form-label">Email</label>
@@ -80,6 +114,23 @@
         </select>
         <div *ngIf="validationErrors.specialite" class="invalid-feedback">
           {{ validationErrors.specialite }}
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <label for="numeroIdentification" class="form-label">Numero Identificateur</label>
+        <input
+          type="text"
+          class="form-control"
+          id="numeroIdentification"
+          [(ngModel)]="numeroIdentification"
+          name="numeroIdentification"
+          [ngClass]="{'is-invalid': validationErrors.numeroIdentification, 'is-valid': !validationErrors.numeroIdentification && numeroIdentification}"
+          placeholder="Enter your IdentificatorNumber"
+          required
+        />
+        <div *ngIf="validationErrors.numeroIdentification" class="invalid-feedback">
+          {{ validationErrors.numeroIdentification }}
         </div>
       </div>
 

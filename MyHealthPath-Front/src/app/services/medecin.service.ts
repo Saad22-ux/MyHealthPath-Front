@@ -7,6 +7,9 @@ export interface MedecinProfile {
   specialite: string;
   UserId: number;
   fullName: string;
+  telephone: string,
+  adress: string,
+  numeroIdentification: string,
   email: string;
 }
 

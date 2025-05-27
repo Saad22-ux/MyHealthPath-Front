@@ -19,6 +19,8 @@ export interface PatientProfile {
   fullName: string;
   email: string;
   genre: string;
+  telephone: string,
+  adress: string,
   date_naissance: string;
 }
 

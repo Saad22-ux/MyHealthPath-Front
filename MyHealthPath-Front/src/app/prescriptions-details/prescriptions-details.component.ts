@@ -80,6 +80,13 @@ export class PrescriptionsDetailsComponent implements OnInit {
   }));
   console.log('Indicateurs to submit:', indicateurs);
 
+  const hasCheckedMedicament = medicaments.some((med: { pris: boolean }) => med.pris === true);
+  const hasValidIndicateur = indicateurs.some((ind: any) => ind.valeur && ind.valeur.trim() !== '');
+  if (!hasCheckedMedicament && !hasValidIndicateur) {
+    alert('Veuillez cocher au moins un médicament ou renseigner au moins un indicateur.');
+    return;
+  }
+
   const patientId = this.authService.getPatientId();
   console.log('Patient ID:', patientId);
   if (!patientId) {
@@ -95,13 +102,16 @@ export class PrescriptionsDetailsComponent implements OnInit {
   };
 
   this.prescriptionService.createJournal(patientId, data).subscribe({
-    next: () => alert('Journal de santé enregistré avec succès.'),
-      error: (err) => {
+    next: () => {
+      alert('Journal de santé enregistré avec succès.');
+      localStorage.setItem(`journalCooldown_${this.prescriptionId}`, new Date().toISOString());
+      this.canSubmit = false;
+    },
+    error: (err) => {
       console.error('Journal save error:', err);
-      alert('Erreur lors de l\'enregistrement du journal.');}
+      alert('Erreur lors de l\'enregistrement du journal.');
+    }
   });
-
-localStorage.setItem(`lastJournalSubmission_${this.prescriptionId}`, new Date().toISOString());
 
 }
 

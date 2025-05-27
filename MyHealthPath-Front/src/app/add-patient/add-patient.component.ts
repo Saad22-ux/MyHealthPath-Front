@@ -16,6 +16,8 @@ export class AddPatientComponent {
     fullName: '',
     email: '',
     genre: '',
+    telephone: '',
+    adress: '',
     date_naissance: '',
   };
 

@@ -6,7 +6,7 @@
   <ul *ngIf="activePrescriptions.length > 0" style="list-style: none; padding: 0;">
     <li *ngFor="let prescription of activePrescriptions" style="margin-bottom: 10px;">
       <strong>{{ prescription.title }}</strong> - {{ prescription.description }}
-      <div>Prescribed by: <em>{{ prescription.medecin?.fullName || 'Unknown' }}</em></div>
+      <div>Prescribed by: <em>{{ prescription.Medecin?.User?.fullName || 'Unknown' }}</em></div>
 
       <ng-container *ngIf="shouldShowViewButton(prescription.id); else wait24h">
         <a [routerLink]="['/prescriptions-details', prescription.id]" class="btn" style="margin-top: 5px;">

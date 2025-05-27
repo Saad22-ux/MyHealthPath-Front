@@ -47,6 +47,34 @@
           />
         </div>
 
+        <div class="col-md-6">
+          <label for="telephone" class="form-label">Telephone</label>
+          <input
+            type="text"
+            class="form-control"
+            id="telephone"
+            name="telephone"
+            [(ngModel)]="patient.telephone"
+            [ngClass]="{ 'is-invalid': !patient.telephone && patientForm.submitted, 'is-valid': patient.telephone }"
+            placeholder="Enter your Phone number"
+            required
+          />
+        </div>
+
+        <div class="col-md-6">
+          <label for="adress" class="form-label">Address</label>
+          <input
+            type="text"
+            class="form-control"
+            id="adress"
+            name="adress"
+            [(ngModel)]="patient.adress"
+            [ngClass]="{ 'is-invalid': !patient.adress && patientForm.submitted, 'is-valid': patient.adress }"
+            placeholder="Enter your address"
+            required
+          />
+        </div>
+
         <!-- Genre -->
         <div class="col-md-6">
           <label for="genre" class="form-label">Genre</label>

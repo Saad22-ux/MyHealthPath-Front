@@ -12,6 +12,9 @@ import { FormsModule } from '@angular/forms'; // Ensure AuthService is imported
 })
 export class RegisterComponent {
   @Input() email = '';
+  @Input() telephone = '';
+  @Input() adress = '';
+  @Input() numeroIdentification = '';
   @Input() password = '';
   @Input() fullName = '';
   @Input() specialite = '';
@@ -23,7 +26,7 @@ export class RegisterComponent {
 
   constructor(private authService: AuthService, private router: Router) {}
   register() {
-    this.authService.register(this.email, this.password, this.fullName, this.specialite).subscribe({
+    this.authService.register(this.email, this.password, this.fullName, this.specialite, this.telephone, this.adress, this.numeroIdentification).subscribe({
       next: () => {
         this.statusMessage = 'Registration successful! Wait for admin to approve!';
         this.isSuccess = true;
@@ -43,7 +46,7 @@ export class RegisterComponent {
     });
 
     this.submitted = true;
-    if (!this.fullName || !this.specialite || !this.email || !this.password) {
+    if (!this.fullName || !this.specialite || !this.email || !this.password || !this.telephone || !this.adress || !this.numeroIdentification) {
       return;
     }
   }
