@@ -1,7 +1,8 @@
-<div *ngIf="!loading && !error" class="wrapper">
-  <h2 class="heading">🩺 Patients </h2>
-  <ul>
-    <li *ngFor="let patient of patients" class="patient-card">
+<ul>
+  <li *ngFor="let patient of patients" class="patient-card">
+
+    <ng-container *ngIf="userRole !== 'patient'; else prescriptionsOnly">
+      <!-- Full info for non-patient -->
       <div class="info">
         <div><strong>FullName:</strong> {{ patient.User.fullName }}</div>
         <div class="status-container">
@@ -13,8 +14,30 @@
             </div>
           </div>
         </div>
+      
+        <!-- Prescriptions also for non-patient -->
+        <div *ngIf="(prescriptionsMap[patient.id] || []).length > 0" class="prescriptions">
+          <h4>📋 Prescription Dates:</h4>
+          <ul>
+            <li *ngFor="let prescription of prescriptionsMap[patient.id]" class="prescription-item">
+              {{ prescription.date }} {{ prescription.description }}
+              <a 
+                [routerLink]="['/patient-dashboard', patient.id, prescription.id, 'statistiques']" 
+                class="btn suivi prescription-btn"
+              >
+                Suivi
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div *ngIf="(prescriptionsMap[patient.id] || []).length === 0">
+          <em>No prescriptions available.</em>
+        </div>
       </div>
+    </ng-container>
 
+    <!-- Template for patient role: ONLY prescriptions -->
+    <ng-template #prescriptionsOnly>
       <div *ngIf="(prescriptionsMap[patient.id] || []).length > 0" class="prescriptions">
         <h4>📋 Prescription Dates:</h4>
         <ul>
@@ -29,11 +52,9 @@
           </li>
         </ul>
       </div>
-
       <div *ngIf="(prescriptionsMap[patient.id] || []).length === 0">
         <em>No prescriptions available.</em>
       </div>
-
-    </li>
-  </ul>
-</div>
+    </ng-template>
+  </li>
+</ul>

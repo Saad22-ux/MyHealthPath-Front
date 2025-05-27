@@ -14,6 +14,9 @@ import { PrescriptionsDetailsComponent } from './prescriptions-details/prescript
 import { MyPrescriptionsComponent } from './my-prescriptions/my-prescriptions.component';
 import { SuiviDashboard } from './suivi-dashboard/suivi-dashboard.component';
 import { PatientDashboardComponent } from './patient-dashboard/patient-dashboard.component';
+import { UpdatePatientComponent } from './update-patient/update-patient.component';
+import { ProfilMedecinComponent } from './profil-medecin/profil-medecin.component';
+import { ProfilPatientComponent } from './profil-patient/profil-patient.component';
 
 
 export const routes: Routes = [
@@ -33,5 +36,8 @@ export const routes: Routes = [
   { path: 'prescriptions-details/:id', component: PrescriptionsDetailsComponent },
   { path: 'my-prescriptions', component: MyPrescriptionsComponent },
   { path: 'suivi-dashboard', component: SuiviDashboard },
-  { path: 'patient-dashboard/:patientId/:prescriptionId/statistiques', component: PatientDashboardComponent }
+  { path: 'patient-dashboard/:patientId/:prescriptionId/statistiques', component: PatientDashboardComponent },
+  { path: 'patient/:id/update', component: UpdatePatientComponent },
+  { path: 'profileMedecin', component: ProfilMedecinComponent },
+  { path: 'profilePatient', component: ProfilPatientComponent }
 ];

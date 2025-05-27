@@ -13,6 +13,15 @@ export interface PatientStatistics {
   suiviIndicateurStats: any[];
 }
 
+export interface PatientProfile {
+  id: number;
+  UserId: number;
+  fullName: string;
+  email: string;
+  genre: string;
+  date_naissance: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -50,5 +59,15 @@ export class PatientService {
 
   getPatientStatistics(patientId: string, prescriptionId: string): Observable<PatientStatistics> {
     return this.http.get<PatientStatistics>(`${this.apiUrl}/${patientId}/${prescriptionId}/statistiques`);
+  }
+
+  updatePatient(id: number, data: any) {
+    return this.http.put(`${this.apiUrl}/${id}/update`, data);
+  }
+
+  getPatientProfile(): Observable<PatientProfile> {
+    return this.http.get<PatientProfile>('http://localhost:3000/profilePatient', {
+      withCredentials: true
+    });
   }
 }

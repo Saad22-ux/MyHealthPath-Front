@@ -1,0 +1,25 @@
+<h2>Mettre à jour le profil du patient</h2>
+
+<form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
+  <label>Nom:</label>
+  <input type="text" formControlName="fullName" />
+
+  <label>Email:</label>
+  <input type="email" formControlName="email" />
+
+  <label>Genre:</label>
+  <select formControlName="genre">
+    <option value="">--Choisir le genre--</option>
+    <option value="homme">Homme</option>
+    <option value="femme">Femme</option>
+  </select>
+
+
+  <label>Date de naissance:</label>
+  <input type="date" formControlName="date_naissance" />
+
+  <button type="submit" [disabled]="updateForm.invalid">Mettre à jour</button>
+</form>
+
+<p *ngIf="successMessage" style="color: green;">{{ successMessage }}</p>
+<p *ngIf="errorMessage" style="color: red;">{{ errorMessage }}</p>

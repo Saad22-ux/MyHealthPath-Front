@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { PatientService } from '../services/patient.service';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../auth.service'; 
 
 @Component({
   selector: 'app-patient-list',
+  standalone: true,
   templateUrl: './suivi-dashboard.component.html',
   imports: [NgIf,NgFor,RouterModule,CommonModule],
   styleUrls: ['./suivi-dashboard.component.css']
@@ -15,25 +17,44 @@ export class SuiviDashboard implements OnInit {
   loading = true;
   error = '';
 
-  constructor(private patientService: PatientService, private router: Router) {}
+  userRole: string = '';
+
+  constructor(private patientService: PatientService, private router: Router, private authService: AuthService) {}
 
   ngOnInit(): void {
-    console.log(this.patients);
+  this.userRole = this.authService.getUserRole();
+
+  if (this.userRole === 'patient') {
+    const patientId = Number(localStorage.getItem('patientId'));
+    if (patientId) {
+      this.patientService.consultPatient(patientId).subscribe({
+        next: (res) => {
+          this.patients = [res];  // wrap single patient in array for *ngFor
+          this.prescriptionsMap[patientId] = res.Prescriptions || [];
+          this.loading = false;
+        },
+        error: (err) => {
+          this.error = 'Failed to load your prescriptions';
+          this.loading = false;
+        }
+      });
+    } else {
+      this.error = 'No patient ID found';
+      this.loading = false;
+    }
+  } else {
     this.patientService.getListPatients().subscribe({
       next: (res) => {
         this.patients = res.data;
-        console.log(this.patients);
         this.loading = false;
 
-        // Fetch prescriptions for each patient
+        // Fetch prescriptions for each patient in the list
         for (let patient of this.patients) {
           this.patientService.consultPatient(patient.id).subscribe({
             next: (res) => {
-              console.log('Patient', patient.id, 'prescriptions:', res)
               this.prescriptionsMap[patient.id] = res.Prescriptions || [];
             },
-            error: (err) => {
-              console.error(`Failed to fetch prescriptions for patient ${patient.id}`, err);
+            error: () => {
               this.prescriptionsMap[patient.id] = [];
             }
           });
@@ -45,6 +66,7 @@ export class SuiviDashboard implements OnInit {
       }
     });
   }
+}
 
 toggleSubscription(patientId: number, currentStatus: boolean): void {
   const newStatus = !currentStatus;
