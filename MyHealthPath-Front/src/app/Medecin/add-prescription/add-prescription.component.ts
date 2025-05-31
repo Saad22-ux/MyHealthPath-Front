@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { PrescriptionService } from '../services/prescription.service';
+import { PrescriptionService } from '../../services/prescription.service';
 import { ActivatedRoute } from '@angular/router';
 import { NgFor } from '@angular/common';
 

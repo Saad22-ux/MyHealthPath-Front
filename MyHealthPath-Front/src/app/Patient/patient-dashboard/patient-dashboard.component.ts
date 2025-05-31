@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PatientService, PatientStatistics } from '../services/patient.service';
+import { PatientService, PatientStatistics } from '../../services/patient.service';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { FormsModule, NgForm, NgModel } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';

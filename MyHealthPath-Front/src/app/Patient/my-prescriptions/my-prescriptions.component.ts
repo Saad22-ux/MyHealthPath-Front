@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../../auth.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { PrescriptionService } from '../services/prescription.service';
+import { PrescriptionService } from '../../services/prescription.service';
 import { NgFor, NgIf } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 

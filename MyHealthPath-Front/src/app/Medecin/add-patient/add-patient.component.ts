@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PatientService } from '../services/patient.service'; // Import the PatientService
+import { PatientService } from '../../services/patient.service'; // Import the PatientService
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';

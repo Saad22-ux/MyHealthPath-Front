@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MedecinService, MedecinProfile } from '../services/medecin.service';
+import { MedecinService, MedecinProfile } from '../../services/medecin.service';
 import { NgIf } from '@angular/common';
 
 @Component({

@@ -7,14 +7,10 @@ import { BehaviorSubject } from 'rxjs';
 export class AuthService {
   private apiUrl = 'http://localhost:3000';
   private isAuthenticatedStatus = new BehaviorSubject<boolean>(this.hasToken());
-  private role: string = localStorage.getItem('role') || '';  // Initialize role from localStorage
-
+  private role: string = localStorage.getItem('role') || '';
   private userRoleSubject = new BehaviorSubject<string>(localStorage.getItem('role') || '');
   userRole$ = this.userRoleSubject.asObservable();
-
-
   isAuthenticated$ = this.isAuthenticatedStatus.asObservable();
-
 
   constructor(private http: HttpClient) {}
 
@@ -22,30 +18,26 @@ export class AuthService {
     return localStorage.getItem('isAuthenticated') === 'true';
   }
 
-  // Login method to send credentials to the backend
   login(email: string, password: string) {
     return this.http.post(`${this.apiUrl}/login`, { email, password }, { withCredentials: true }).pipe(
       tap((response: any) => {
         console.log('Login response:', response);
         this.isAuthenticatedStatus.next(true);
         localStorage.setItem('isAuthenticated', 'true');
-      
-      // Set role from login response
-      const userRole = response.role; // adjust if it's nested like response.user.role
-      this.setRole(userRole);
-      localStorage.setItem('role', userRole);
 
-      if (response.patientId) {
-        localStorage.setItem('patientId', response.patientId.toString());
-      } else {
-        localStorage.removeItem('patientId'); // Clean up if not patient
-      }
+        const userRole = response.role;
+        this.setRole(userRole);
+        localStorage.setItem('role', userRole);
+
+        if (response.patientId) {
+          localStorage.setItem('patientId', response.patientId.toString());
+        } else {
+          localStorage.removeItem('patientId'); // Clean up if not patient
+        }
       })  
     );
   }
 
-  
-  // Logout method to clear session storage
   logout() {
     this.isAuthenticatedStatus.next(false);
     localStorage.removeItem('isAuthenticated');
@@ -53,13 +45,10 @@ export class AuthService {
     this.role = '';
     return this.http.post(`${this.apiUrl}/logout`, {}, { withCredentials: true });
   }
-  
 
-   // Check if the user is authenticated by checking user data in localStorage
   isAuthenticated(): boolean {
-    return this.hasToken();//this.isAuthenticatedStatus || localStorage.getItem('isAuthenticated') === 'true';
+    return this.hasToken();
   }
-
 
   register(email: string, password: string, fullName: string, specialite: string, telephone: string, adress: string, numeroIdentification : string) {
     return this.http.post(`${this.apiUrl}/register`, { email, password, fullName, specialite, telephone, adress, numeroIdentification  }, { withCredentials: true }).pipe(
@@ -71,7 +60,7 @@ export class AuthService {
   setRole(role: string) {
     this.role = role;
     localStorage.setItem('role', role);
-    this.userRoleSubject.next(role); // ✅ This triggers the role update in the navbar
+    this.userRoleSubject.next(role); 
   }
 
   getUserRole(): string {
@@ -90,6 +79,6 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
-    return !!this.role; // or use a proper check
+    return !!this.role; 
   }
 }

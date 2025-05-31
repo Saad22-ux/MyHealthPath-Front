@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../../auth.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; // Ensure AuthService is imported
 
