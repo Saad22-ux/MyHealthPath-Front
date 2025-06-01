@@ -40,8 +40,11 @@ export class UpdatePatientComponent implements OnInit {
       fullName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       genre: ['', Validators.required],
+      cin: ['', Validators.required],
       telephone: ['', Validators.required],
       adress: ['', Validators.required],
+      taille: ['', Validators.required],
+      poids: ['', Validators.required],
       date_naissance: ['', Validators.required],
     });
   }
@@ -55,6 +58,9 @@ export class UpdatePatientComponent implements OnInit {
           fullName: data.User?.fullName || '',
           email: data.User?.email || '',
           genre: data.genre || '',
+          cin: data.User?.cin || '',
+          taille: data.taille || '',
+          poids: data.poids || '',
           telephone: data.User?.telephone || '',
           adress: data.User?.adress || '',
           date_naissance: data.date_naissance ? data.date_naissance.split('T')[0] : '',

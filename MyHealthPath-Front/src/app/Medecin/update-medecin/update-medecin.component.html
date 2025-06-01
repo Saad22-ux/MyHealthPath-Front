@@ -1,0 +1,23 @@
+<form (ngSubmit)="updateProfile()">
+  <input type="text" [(ngModel)]="updatedData.fullName" name="fullName" placeholder="Nom complet" />
+  <input type="email" [(ngModel)]="updatedData.email" name="email" placeholder="Email" />
+  <input type="text" [(ngModel)]="updatedData.telephone" name="telephone" placeholder="Téléphone" />
+  <input type="text" [(ngModel)]="updatedData.adress" name="adress" placeholder="Adresse" />
+  <input type="text" [(ngModel)]="updatedData.cin" name="cin" placeholder="CIN" />
+<label for="specialite">Spécialité actuelle</label>
+<select id="specialite" [(ngModel)]="updatedData.specialite" name="specialite" required>
+  <option value="" disabled>-- Choisissez une spécialité --</option>
+  <option value="diabète">Diabète</option>
+  <option value="hypertension">Hypertension</option>
+  <option value="cholestérol">Cholestérol</option>
+</select>
+
+
+
+
+  <input type="text" [(ngModel)]="updatedData.numeroIdentification" name="numeroIdentification" placeholder="Numéro d'identification" />
+
+  <input type="file" (change)="onPhotoSelected($event)" />
+
+  <button type="submit">Mettre à jour le profil</button>
+</form>

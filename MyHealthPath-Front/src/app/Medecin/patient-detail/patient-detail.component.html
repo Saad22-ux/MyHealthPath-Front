@@ -5,8 +5,13 @@
     <div class="info-grid">
       <p><strong>Full Name:</strong> {{ patientDetails.User?.fullName }}</p>
       <p><strong>Email:</strong> {{ patientDetails.User?.email }}</p>
-      <p><strong>Date of Birth:</strong> {{ patientDetails.date_naissance }}</p>
+      <p><strong>Age:</strong> {{ calculateAge(patientDetails.date_naissance) }} ans</p>
       <p><strong>Gender:</strong> {{ patientDetails.genre }}</p>
+      <p><strong>Taille:</strong> {{ patientDetails.taille }}</p>
+      <p><strong>Poids:</strong> {{ patientDetails.poids }}</p>
+      <p><strong>Cin:</strong> {{ patientDetails.User?.cin }}</p>
+      <p><strong>Telephone:</strong> {{ patientDetails.User?.telephone }}</p>
+      <p><strong>Adresse:</strong> {{ patientDetails.User?.adress }}</p>
     </div>
   </section>
 

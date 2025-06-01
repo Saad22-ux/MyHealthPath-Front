@@ -17,6 +17,8 @@ export class PatientListComponent implements OnInit {
   constructor(private patientService: PatientService, private router: Router) {}
 
   ngOnInit(): void {
+    console.log(this.patients);
+
     this.patientService.getListPatients().subscribe({
       next: (res) => {
         this.patients = res.data;

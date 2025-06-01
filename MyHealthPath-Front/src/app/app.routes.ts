@@ -16,6 +16,8 @@ import { PatientDashboardComponent } from './Patient/patient-dashboard/patient-d
 import { UpdatePatientComponent } from './Medecin/update-patient/update-patient.component';
 import { ProfilMedecinComponent } from './Medecin/profil-medecin/profil-medecin.component';
 import { ProfilPatientComponent } from './Patient/profil-patient/profil-patient.component';
+import { UpdateMedecinComponent } from './Medecin/update-medecin/update-medecin.component';
+import { UpdatePatientProfilComponent } from './Patient/update-patient-profil/update-patient-profil.component';
 
 
 export const routes: Routes = [
@@ -37,5 +39,7 @@ export const routes: Routes = [
   { path: 'patient-dashboard/:patientId/:prescriptionId/statistiques', component: PatientDashboardComponent },
   { path: 'patient/:id/update', component: UpdatePatientComponent },
   { path: 'profileMedecin', component: ProfilMedecinComponent },
-  { path: 'profilePatient', component: ProfilPatientComponent }
+  { path: 'profilePatient', component: ProfilPatientComponent },
+  { path: 'profileMedecin/update', component: UpdateMedecinComponent },
+  { path: 'profilePatient/update', component: UpdatePatientProfilComponent }
 ];

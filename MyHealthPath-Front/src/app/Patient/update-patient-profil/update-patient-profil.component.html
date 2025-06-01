@@ -1,0 +1,52 @@
+<form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label>Nom Complet:</label>
+    <input formControlName="fullName" />
+  </div>
+  <div>
+    <label>Email:</label>
+    <input formControlName="email" type="email" />
+  </div>
+  <div>
+    <label>Téléphone:</label>
+    <input formControlName="telephone" />
+  </div>
+  <div>
+    <label>Adresse:</label>
+    <input formControlName="adress" />
+  </div>
+  <div>
+  <label>Genre:</label>
+  <select formControlName="genre">
+    <option value="">-- Choisir --</option>
+    <option value="homme">Homme</option>
+    <option value="femme">Femme</option>
+  </select>
+</div>
+
+  <div>
+    <label>Date de naissance:</label>
+    <input formControlName="date_naissance" type="date" />
+  </div>
+  <div>
+    <label>Taille:</label>
+    <input formControlName="taille" type="number" />
+  </div>
+  <div>
+    <label>Poids:</label>
+    <input formControlName="poids" type="number" />
+  </div>
+  <div>
+    <label>Photo (URL):</label>
+    <input formControlName="photo" />
+  </div>
+  <div>
+    <label>CIN:</label>
+    <input formControlName="cin" />
+  </div>
+
+  <button type="submit" [disabled]="loading">Mettre à jour</button>
+</form>
+
+<div *ngIf="successMsg" style="color: green;">{{ successMsg }}</div>
+<div *ngIf="errorMsg" style="color: red;">{{ errorMsg }}</div>

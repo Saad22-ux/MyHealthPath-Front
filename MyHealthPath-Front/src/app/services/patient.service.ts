@@ -21,7 +21,17 @@ export interface PatientProfile {
   genre: string;
   telephone: string,
   adress: string,
+  cin: string,
+  taille: number,
+  poids: number,
   date_naissance: string;
+}
+
+export interface UpdatePatientProfileResponse {
+  success: boolean;
+  message: string;
+  patient?: any;
+  user?: any;
 }
 
 @Injectable({
@@ -67,9 +77,14 @@ export class PatientService {
     return this.http.put(`${this.apiUrl}/${id}/update`, data);
   }
 
-  getPatientProfile(): Observable<PatientProfile> {
-    return this.http.get<PatientProfile>('http://localhost:3000/profilePatient', {
-      withCredentials: true
-    });
-  }
+getPatientProfile() {
+  return this.http.get<any>('http://localhost:3000/profilePatient', {
+    withCredentials: true
+  });
+}
+
+  updatePatientProfile(updatedData: any): Observable<any> {
+  return this.http.put(`http://localhost:3000/profilePatient/update`,updatedData,{ withCredentials: true }
+  );
+}
 }

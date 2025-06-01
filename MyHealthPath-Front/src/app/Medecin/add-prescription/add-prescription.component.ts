@@ -3,10 +3,13 @@ import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } fr
 import { PrescriptionService } from '../../services/prescription.service';
 import { ActivatedRoute } from '@angular/router';
 import { NgFor } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
 
 @Component({
   selector: 'app-add-prescription',
-  imports: [NgFor,ReactiveFormsModule],
+  standalone: true,
+  imports: [NgFor,ReactiveFormsModule,FormsModule],
   templateUrl: './add-prescription.component.html',
   styleUrls: ['./add-prescription.component.css']
 })
@@ -17,6 +20,8 @@ export class AddPrescriptionComponent implements OnInit {
   editingPrescriptionId?: number;
 
   allIndicateurs: string[] = [];
+
+selectedIndicateur: string = '';
 
 
 
@@ -29,7 +34,8 @@ export class AddPrescriptionComponent implements OnInit {
       description: ['', Validators.required],
       date: ['', Validators.required],
       medicaments: this.fb.array([]),
-      indicateurs: this.fb.array([])
+      indicateurs: this.fb.array([]),
+      selectedIndicateur: ['']
     });
 
     this.addMedicament();
@@ -48,14 +54,14 @@ export class AddPrescriptionComponent implements OnInit {
     console.log('No patientId found in URL');
   }
 
-   if (prescriptionId) {
+  if (prescriptionId) {
     this.loadPrescriptionDetails(+prescriptionId); // Load existing data
   }
 
   this.prescriptionService.getIndicateursBySpecialite().subscribe({
     next: (res) => {
       this.allIndicateurs = res.indicateurs;
-      this.refreshIndicateursFormControls(this.allIndicateurs);
+      //this.refreshIndicateursFormControls(this.allIndicateurs);
     },
     error: (err) => {
       console.error('Failed to load indicators:', err);
@@ -95,21 +101,31 @@ get medicaments(): FormArray {
   }
 
   removeMedicament(index: number) {
-    this.indicateurs.removeAt(index);
+    this.medicaments.removeAt(index);
   }
 
   addIndicateur() {
-  // Find which indicators are missing (deleted)
-  const missing = this.allIndicateurs.filter(ind => !this.currentIndicateurs.includes(ind));
+  const selectedIndicateur = this.prescriptionForm.get('selectedIndicateur')?.value;
+  console.log('selectedIndicateur:', selectedIndicateur);
 
-  if (missing.length > 0) {
-    // Add the first missing indicator back
-    this.indicateurs.push(this.fb.control(missing[0], Validators.required));
-    console.log('Restored indicator:', missing[0]);
-  } else {
-    console.log('No deleted indicators to restore.');
+  if (!selectedIndicateur) {
+    console.log('Aucun indicateur sélectionné');
+    return;
   }
+
+  if (this.currentIndicateurs.includes(selectedIndicateur)) {
+    console.log('Indicateur déjà ajouté');
+    return;
   }
+
+  this.indicateurs.push(this.fb.control(selectedIndicateur, Validators.required));
+  console.log('Indicateur ajouté:', selectedIndicateur);
+
+  // Réinitialiser la sélection dans le formulaire
+  this.prescriptionForm.get('selectedIndicateur')?.setValue('');
+}
+
+
 
   removeIndicateur(index: number) {
     this.indicateurs.removeAt(index);
@@ -138,7 +154,8 @@ get medicaments(): FormArray {
       if (prescription.indicateurs) {
         this.indicateurs.clear();
         prescription.indicateurs.forEach((ind: any) => {
-          this.indicateurs.push(this.fb.control(ind.name, Validators.required));
+          this.indicateurs.push(this.fb.control(ind.nom, Validators.required));
+
         });
       }
 
@@ -161,6 +178,8 @@ get medicaments(): FormArray {
       indicateurs: formValue.indicateurs
     };
 
+    console.log("Payload envoyé :", payload);
+
     if (this.editingPrescriptionId) {
     // UPDATE
     this.prescriptionService.updatePrescription(this.editingPrescriptionId, payload).subscribe({
@@ -182,7 +201,6 @@ get medicaments(): FormArray {
         this.medicaments.clear();
         this.indicateurs.clear();
         this.addMedicament();
-        this.addIndicateur();
       },
       error: () => {
         this.responseMessage = 'Erreur lors de l’envoi.';
@@ -191,7 +209,11 @@ get medicaments(): FormArray {
   }
   }
 
-  
-
+  addSelectedIndicateur() {
+  if (this.selectedIndicateur && !this.currentIndicateurs.includes(this.selectedIndicateur)) {
+    this.indicateurs.push(this.fb.control(this.selectedIndicateur, Validators.required));
+    this.selectedIndicateur = ''; // reset dropdown
+  }
+}
 
 }

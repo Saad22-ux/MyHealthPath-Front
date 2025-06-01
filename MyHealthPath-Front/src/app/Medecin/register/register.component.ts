@@ -14,6 +14,7 @@ export class RegisterComponent {
   @Input() email = '';
   @Input() telephone = '';
   @Input() adress = '';
+  @Input() cin = '';
   @Input() numeroIdentification = '';
   @Input() password = '';
   @Input() fullName = '';
@@ -26,7 +27,7 @@ export class RegisterComponent {
 
   constructor(private authService: AuthService, private router: Router) {}
   register() {
-    this.authService.register(this.email, this.password, this.fullName, this.specialite, this.telephone, this.adress, this.numeroIdentification).subscribe({
+    this.authService.register(this.email, this.password, this.fullName, this.specialite, this.telephone, this.adress, this.cin, this.numeroIdentification).subscribe({
       next: () => {
         this.statusMessage = 'Registration successful! Wait for admin to approve!';
         this.isSuccess = true;

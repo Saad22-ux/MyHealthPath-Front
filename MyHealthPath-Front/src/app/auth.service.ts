@@ -50,8 +50,8 @@ export class AuthService {
     return this.hasToken();
   }
 
-  register(email: string, password: string, fullName: string, specialite: string, telephone: string, adress: string, numeroIdentification : string) {
-    return this.http.post(`${this.apiUrl}/register`, { email, password, fullName, specialite, telephone, adress, numeroIdentification  }, { withCredentials: true }).pipe(
+  register(email: string, password: string, fullName: string, specialite: string, telephone: string, adress: string, cin: string, numeroIdentification : string) {
+    return this.http.post(`${this.apiUrl}/register`, { email, password, fullName, specialite, telephone, adress, cin, numeroIdentification  }, { withCredentials: true }).pipe(
       tap(() => {
       })
     );

@@ -19,14 +19,27 @@
       <button type="button" (click)="addMedicament()">Add medicament</button>
     </div>
 
-<div formArrayName="indicateurs">
+<div>
   <h3>Indicators</h3>
-  <div *ngFor="let ind of indicateurs.controls; let j = index">
-    <input type="text" [formControlName]="j" />
-    <button type="button" (click)="removeIndicateur(j)">Delete</button>
-  </div>
-  <button type="button" (click)="addIndicateur()">Add indicator</button>
+
+  <!-- Dropdown pour choisir un indicateur -->
+  <select formControlName="selectedIndicateur">
+    <option value="" disabled>-- Choisir un indicateur --</option>
+    <option *ngFor="let ind of allIndicateurs" [value]="ind" >
+      {{ ind }}
+    </option>
+  </select>
+  <button type="button" (click)="addIndicateur()" [disabled]="!prescriptionForm.get('selectedIndicateur')?.value">Ajouter</button>
+
+  <!-- Liste des indicateurs sélectionnés -->
+  <ul>
+    <li *ngFor="let indCtrl of indicateurs.controls; let i = index">
+      {{ indCtrl.value }}
+      <button type="button" (click)="removeIndicateur(i)">Supprimer</button>
+    </li>
+  </ul>
 </div>
+
 
 
 

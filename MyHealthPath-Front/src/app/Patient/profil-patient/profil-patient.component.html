@@ -3,9 +3,14 @@
   <p><strong>Nom complet:</strong> {{ profile.fullName }}</p>
   <p><strong>Email:</strong> {{ profile.email }}</p>
   <p><strong>Genre:</strong> {{ profile.genre }}</p>
+  <p><strong>Cin:</strong> {{ profile.cin }}</p>
+  <p><strong>Taille:</strong> {{ profile.taille }}</p>
+  <p><strong>Poids:</strong> {{ profile.poids }}</p>
   <p><strong>Telephone:</strong> {{ profile.telephone }}</p>
   <p><strong>Address:</strong> {{ profile.adress }}</p>
-  <p><strong>Date de naissance:</strong> {{ profile.date_naissance }}</p>
+  <p><strong>Âge:</strong> {{ calculateAge(profile.date_naissance) }} ans</p>
+
+  <button (click)="redirectToUpdate()" class="btn btn-primary">Modifier Profil</button>
 </div>
 
 <ng-template #errorTpl>

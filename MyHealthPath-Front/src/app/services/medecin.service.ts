@@ -9,6 +9,7 @@ export interface MedecinProfile {
   fullName: string;
   telephone: string,
   adress: string,
+  cin: string,
   numeroIdentification: string,
   email: string;
 }
@@ -34,5 +35,24 @@ export class MedecinService {
     withCredentials: true
   });
 }
-  
+
+updateProfile(updatedData: any, photoFile?: File): Observable<any> {
+    const formData = new FormData();
+
+    // Append all the fields
+    for (const key in updatedData) {
+      if (updatedData.hasOwnProperty(key) && updatedData[key] != null) {
+        formData.append(key, updatedData[key]);
+      }
+    }
+
+    // Append photo file if exists
+    if (photoFile) {
+      formData.append('photo', photoFile);
+    }
+
+    return this.http.put(`http://localhost:3000/profileMedecin/update`, formData, {
+      withCredentials: true,});
+  }
+
 }

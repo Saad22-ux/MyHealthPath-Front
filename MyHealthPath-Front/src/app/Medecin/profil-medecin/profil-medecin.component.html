@@ -2,10 +2,12 @@
   <h2>Profil Médecin</h2>
   <p><strong>Nom complet:</strong> {{ profile.fullName }}</p>
   <p><strong>Email:</strong> {{ profile.email }}</p>
+  <p><strong>Cin:</strong> {{ profile.cin }}</p>
   <p><strong>Spécialité:</strong> {{ profile.specialite }}</p>
   <p><strong>numeroIdentification:</strong> {{ profile.numeroIdentification }}</p>
   <p><strong>Telephone:</strong> {{ profile.telephone }}</p>
   <p><strong>Address:</strong> {{ profile.adress }}</p>
+  <button (click)="redirectToUpdate()" class="btn btn-primary">Modifier Profil</button>
 </div>
 
 <ng-template #errorTpl>

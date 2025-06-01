@@ -18,6 +18,9 @@ export class AddPatientComponent {
     genre: '',
     telephone: '',
     adress: '',
+    cin: '',
+    taille: '',
+    poids: '',
     date_naissance: '',
   };
 

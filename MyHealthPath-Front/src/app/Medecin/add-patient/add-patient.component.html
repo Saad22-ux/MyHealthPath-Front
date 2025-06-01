@@ -75,6 +75,48 @@
           />
         </div>
 
+        <div class="col-md-6">
+          <label for="cin" class="form-label">Cin:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="cin"
+            name="cin"
+            [(ngModel)]="patient.cin"
+            [ngClass]="{ 'is-invalid': !patient.cin && patientForm.submitted, 'is-valid': patient.cin }"
+            placeholder="Enter your cin"
+            required
+          />
+        </div>
+
+        <div class="col-md-6">
+          <label for="taille" class="form-label">Taille:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="taille"
+            name="taille"
+            [(ngModel)]="patient.taille"
+            [ngClass]="{ 'is-invalid': !patient.taille && patientForm.submitted, 'is-valid': patient.taille }"
+            placeholder="Enter your taille"
+            required
+          />
+        </div>
+
+        <div class="col-md-6">
+          <label for="poids" class="form-label">Poids:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="poids"
+            name="poids"
+            [(ngModel)]="patient.poids"
+            [ngClass]="{ 'is-invalid': !patient.poids && patientForm.submitted, 'is-valid': patient.poids }"
+            placeholder="Enter your poids"
+            required
+          />
+        </div>
+
         <!-- Genre -->
         <div class="col-md-6">
           <label for="genre" class="form-label">Genre</label>

@@ -22,6 +22,7 @@ export class SuiviDashboard implements OnInit {
   constructor(private patientService: PatientService, private router: Router, private authService: AuthService) {}
 
   ngOnInit(): void {
+    
   this.userRole = this.authService.getUserRole();
 
   if (this.userRole === 'patient') {
@@ -31,6 +32,7 @@ export class SuiviDashboard implements OnInit {
         next: (res) => {
           this.patients = [res];  // wrap single patient in array for *ngFor
           this.prescriptionsMap[patientId] = res.Prescriptions || [];
+          console.log(this.patients);
           this.loading = false;
         },
         error: (err) => {

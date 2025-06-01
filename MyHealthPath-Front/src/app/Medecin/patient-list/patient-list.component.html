@@ -5,11 +5,11 @@
       <div class="info">
         <div><strong>FullName:</strong> {{ patient.User.fullName }}</div>
         <div class="status-container">
-        <div class="status-graph" [ngClass]="patient.state.toLowerCase()">
+        <div class="status-graph" [ngClass]="patient.Medecins[0]?.Patient_Medecin_Link?.state?.toLowerCase()">
           <div class="emoji">
-            <span *ngIf="patient.state === 'Danger'">⚠️</span>
-            <span *ngIf="patient.state === 'Normal'">💛</span>
-            <span *ngIf="patient.state === 'Good'">🌟</span>
+            <span *ngIf="patient.Medecins[0]?.Patient_Medecin_Link?.state === 'Danger'">⚠️</span>
+            <span *ngIf="patient.Medecins[0]?.Patient_Medecin_Link?.state === 'Normal'">💛</span>
+            <span *ngIf="patient.Medecins[0]?.Patient_Medecin_Link?.state === 'Good'">🌟</span>
           </div>
         </div>
       </div>

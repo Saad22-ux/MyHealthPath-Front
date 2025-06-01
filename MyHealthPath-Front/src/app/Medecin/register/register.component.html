@@ -58,6 +58,23 @@
         </div>
       </div>
 
+      <div class="col-md-4">
+        <label for="cin" class="form-label">Cin:</label>
+        <input
+          type="text"
+          class="form-control"
+          id="cin"
+          [(ngModel)]="cin"
+          name="cin"
+          [ngClass]="{'is-invalid': validationErrors.cin, 'is-valid': !validationErrors.cin && cin}"
+          placeholder="Enter your cin"
+          required
+        />
+        <div *ngIf="validationErrors.cin" class="invalid-feedback">
+          {{ validationErrors.cin }}
+        </div>
+      </div>
+
       <!-- Email -->
       <div class="col-md-4">
         <label for="email" class="form-label">Email</label>
