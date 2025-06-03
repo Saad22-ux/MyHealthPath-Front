@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PatientService } from '../../services/patient.service';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-patient-list',
@@ -13,16 +13,20 @@ export class PatientListComponent implements OnInit {
   patients: any[] = [];
   loading = true;
   error = '';
+  statusMessage = '';
 
-  constructor(private patientService: PatientService, private router: Router) {}
+  constructor(private patientService: PatientService) {}
 
   ngOnInit(): void {
-    console.log(this.patients);
+    this.loadPatients();
+  }
 
+  loadPatients(){
     this.patientService.getListPatients().subscribe({
-      next: (res) => {
+      next: (res: any) => {
         this.patients = res.data;
-        console.log(this.patients);
+        this.statusMessage = res.message || 'Fetched successeful';
+        this.error = '';
         this.loading = false;
       },
       error: (err) => {
@@ -31,37 +35,30 @@ export class PatientListComponent implements OnInit {
       }
     });
   }
+  
+  refreshPatientList(): void {
+    this.loading = true;
+    this.loadPatients();
+  }
 
-toggleSubscription(patientId: number, currentStatus: boolean): void {
-  const newStatus = !currentStatus;
-  this.patientService.updateSubscription(patientId, newStatus).subscribe({
-    next: (res) => {
-      const patient = this.patients.find(p => p.id === patientId);
-      if (patient) {
-        patient.Medecins[0].Patient_Medecin_Link.isSubscribed = newStatus; // Update the status in the nested object
+  toggleSubscription(patientId: number, currentStatus: boolean): void {
+    const newStatus = !currentStatus;
+    this.patientService.updateSubscription(patientId, newStatus).subscribe({
+      next: (res) => {
+        const patient = this.patients.find(p => p.id === patientId);
+        if (patient) {
+          patient.Medecins[0].Patient_Medecin_Link.isSubscribed = newStatus;
+        }
+        this.statusMessage = res.message || 'Status updated successfully';
+        setTimeout(() => {
+          this.statusMessage = '';
+          this.error = '';
+        },3000);
+        this.refreshPatientList();
+      },
+      error: (err) => {
+        this.error = err.error?.message || 'Failed to update subscription status';
       }
-
-      // Re-fetch the patient list to ensure the latest data
-      this.refreshPatientList();
-    },
-    error: (err) => {
-      console.error('Error updating subscription status:', err);
-      alert('Failed to update subscription status');
-    }
-  });
-}
-
-refreshPatientList(): void {
-  this.loading = true; // Show loading indicator
-  this.patientService.getListPatients().subscribe({
-    next: (res) => {
-      this.patients = res.data;
-      this.loading = false;
-    },
-    error: (err) => {
-      this.error = err.error?.message || 'Error fetching patients';
-      this.loading = false;
-    }
-  });
-}
+    });
+  }
 }

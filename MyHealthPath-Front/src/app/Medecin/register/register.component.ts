@@ -1,8 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth.service';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms'; // Ensure AuthService is imported
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
@@ -11,45 +11,47 @@ import { FormsModule } from '@angular/forms'; // Ensure AuthService is imported
   styleUrls:['./register.component.css']
 })
 export class RegisterComponent {
-  @Input() email = '';
-  @Input() telephone = '';
-  @Input() adress = '';
-  @Input() cin = '';
-  @Input() numeroIdentification = '';
-  @Input() password = '';
-  @Input() fullName = '';
-  @Input() specialite = '';
+  email = '';
+  telephone = '';
+  adress = '';
+  cin = '';
+  numeroIdentification = '';
+  password = '';
+  fullName = '';
+  specialite = '';
   submitted = false;
 
   statusMessage: string = '';
-  isSuccess: boolean = true; // to control success vs error styling
-  validationErrors: any = {}; // Object to store errors for each field
+  isSuccess: boolean = true;
+  validationErrors: any = {};
 
   constructor(private authService: AuthService, private router: Router) {}
   register() {
+    this.submitted = true;
+    if (!this.fullName || !this.specialite || !this.email || !this.password || !this.telephone || !this.adress || !this.numeroIdentification) {
+      this.statusMessage = 'Please fill in all required fields.';
+      this.isSuccess = false;
+      return;
+    }
+    this.validationErrors = {};
+    this.statusMessage = '';
+    this.isSuccess = true;
     this.authService.register(this.email, this.password, this.fullName, this.specialite, this.telephone, this.adress, this.cin, this.numeroIdentification).subscribe({
-      next: () => {
-        this.statusMessage = 'Registration successful! Wait for admin to approve!';
+      next: (response: any) => {
+        this.statusMessage = response.message || 'Registration successful!';
         this.isSuccess = true;
         setTimeout(() => {
           this.router.navigate(['/login']);
-        }, 1000); // Redirect to login after successful registration
+        },2000);
       },
       error: (err) => {
-        // Check if the error response contains validation errors
         if (err.error && err.error.errors) {
-          this.validationErrors = err.error.errors; // Set validation errors from the backend
+          this.validationErrors = err.error.errors;
         } else {
-          this.statusMessage = 'Registration failed. Please try again.';
+          this.statusMessage = err.error?.message || 'Registration failed. Please try again.';
           this.isSuccess = false;
         }
       }
     });
-
-    this.submitted = true;
-    if (!this.fullName || !this.specialite || !this.email || !this.password || !this.telephone || !this.adress || !this.numeroIdentification) {
-      return;
-    }
   }
-  
 }

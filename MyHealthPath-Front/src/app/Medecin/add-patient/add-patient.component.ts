@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PatientService } from '../../services/patient.service'; // Import the PatientService
+import { PatientService } from '../../services/patient.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -7,21 +7,21 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-add-patient',
   standalone: true,
-  imports: [FormsModule,CommonModule], // HttpClientModule is already provided in root
+  imports: [FormsModule,CommonModule],
   templateUrl: './add-patient.component.html',
   styleUrls: ['./add-patient.component.css'],
 })
 export class AddPatientComponent {
   patient = {
+    cin: '',
     fullName: '',
     email: '',
-    genre: '',
     telephone: '',
     adress: '',
-    cin: '',
+    genre: '',
+    date_naissance: '',
     taille: '',
     poids: '',
-    date_naissance: '',
   };
 
   message: string = '';
@@ -51,12 +51,10 @@ export class AddPatientComponent {
           if (error.error.errors) {
             this.validationErrors = error.error.errors;
           }
-        } else {
-          this.message = 'Server error';
         }
         setTimeout(() => {
           this.message = '';
-        }, 1000);
+        },2000);
       }
     );
   }

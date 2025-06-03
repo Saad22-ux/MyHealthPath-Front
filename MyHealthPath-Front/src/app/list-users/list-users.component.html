@@ -1,0 +1,27 @@
+<div class="user-list">
+  <h2>Liste des utilisateurs</h2>
+
+  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+  <table *ngIf="users.length > 0; else noUsers">
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Email</th>
+        <th>Rôle</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.fullName }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.role }}</td>
+        <td><button (click)="toggleStatus(user)"> {{ user.isApproved ? 'Suspendre' : 'Activer' }}</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ng-template #noUsers>
+    <p>Aucun utilisateur trouvé.</p>
+  </ng-template>
+</div>

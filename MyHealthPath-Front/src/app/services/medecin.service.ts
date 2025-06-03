@@ -11,7 +11,8 @@ export interface MedecinProfile {
   adress: string,
   cin: string,
   numeroIdentification: string,
-  email: string;
+  email: string,
+  password: string
 }
 
 @Injectable({
@@ -31,28 +32,24 @@ export class MedecinService {
   }
 
   getMedecinProfile(): Observable<MedecinProfile> {
-  return this.http.get<MedecinProfile>('http://localhost:3000/profileMedecin', {
-    withCredentials: true
-  });
-}
+    return this.http.get<MedecinProfile>('http://localhost:3000/profileMedecin', {
+      withCredentials: true
+    });
+  }
 
-updateProfile(updatedData: any, photoFile?: File): Observable<any> {
+  updateProfile(updatedData: any, photoFile?: File): Observable<any> {
     const formData = new FormData();
 
-    // Append all the fields
     for (const key in updatedData) {
       if (updatedData.hasOwnProperty(key) && updatedData[key] != null) {
         formData.append(key, updatedData[key]);
       }
     }
 
-    // Append photo file if exists
     if (photoFile) {
       formData.append('photo', photoFile);
     }
 
-    return this.http.put(`http://localhost:3000/profileMedecin/update`, formData, {
-      withCredentials: true,});
+    return this.http.put(`http://localhost:3000/profileMedecin/update`, formData, {withCredentials: true,});
   }
-
 }

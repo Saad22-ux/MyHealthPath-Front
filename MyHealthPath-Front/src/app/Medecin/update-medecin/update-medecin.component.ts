@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-update-medecin',
   imports: [FormsModule],
   templateUrl: './update-medecin.component.html',
-  styleUrl: './update-medecin.component.css'
+  styleUrls: ['./update-medecin.component.css']
 })
 export class UpdateMedecinComponent {
   updatedData = {
@@ -15,17 +15,22 @@ export class UpdateMedecinComponent {
     email: '',
     telephone: '',
     adress: '',
+    password: '',
     cin: '',
     specialite: '',
     numeroIdentification: '',
-    // other fields you want to update
   };
+
+  statusMessage = '';
+  error = '';
+  loading = false;
 
   selectedPhoto?: File;
 
   constructor(private medecinService: MedecinService) {}
 
   ngOnInit() {
+    this.loading = true;
     this.medecinService.getMedecinProfile().subscribe({
       next: (data) => {
         this.updatedData = {
@@ -34,36 +39,43 @@ export class UpdateMedecinComponent {
           telephone: data.telephone || '',
           adress: data.adress || '',
           cin: data.cin || '',
+          password : '',
           specialite: (data.specialite || '').toLowerCase(),
           numeroIdentification: data.numeroIdentification || '',
         };
-        console.log('Specialité chargée:', this.updatedData.specialite);
+        this.loading = false;
       },
       error: (err) => {
-        console.error('Error fetching profile data', err);
+        this.error = err.error?.message || 'Failed to fetch profil';
+        this.loading = false;
       }
     });
-    
   }
 
   onPhotoSelected(event: any) {
+    this.error = '';
+    this.statusMessage = '';
     if (event.target.files && event.target.files.length > 0) {
       this.selectedPhoto = event.target.files[0];
     }
   }
 
   updateProfile() {
-     console.log('updateProfile called');
+    if (this.loading) return;
+
+    this.loading = true;
+    this.error = '';
+    this.statusMessage = '';
+
     this.medecinService.updateProfile(this.updatedData, this.selectedPhoto).subscribe({
       next: (response) => {
-        console.log('Profile updated successfully:', response);
-        // maybe show a success message or redirect
+        this.statusMessage = response.message || 'Profil updated successfully';
+        this.loading = false;
       },
       error: (error) => {
-        console.error('Error updating profile:', error);
-        // handle error, show feedback to user
+        this.error = error.error?.message || 'Failed to update profil';
+        this.loading = false;
       }
     });
   }
-
 }

@@ -13,17 +13,25 @@ export class ProfilMedecinComponent implements OnInit{
 
   profile?: MedecinProfile;
   errorMessage: string = '';
+  loading = true;
 
   constructor(private medecinService: MedecinService, private router: Router) {}
 
   ngOnInit(): void {
+    this.loadProfile();
+  }
+
+  loadProfile() {
+    this.errorMessage = '';
+    this.loading = true;
     this.medecinService.getMedecinProfile().subscribe({
       next: (data) => {
         this.profile = data;
+        this.loading = false;
       },
-      error: (error) => {
-        this.errorMessage = 'Erreur lors du chargement du profil.';
-        console.error(error);
+      error: (err) => {
+        this.errorMessage = err.error?.message || 'Failed to load profile';
+        this.loading = false;
       }
     });
   }

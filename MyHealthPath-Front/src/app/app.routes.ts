@@ -18,6 +18,7 @@ import { ProfilMedecinComponent } from './Medecin/profil-medecin/profil-medecin.
 import { ProfilPatientComponent } from './Patient/profil-patient/profil-patient.component';
 import { UpdateMedecinComponent } from './Medecin/update-medecin/update-medecin.component';
 import { UpdatePatientProfilComponent } from './Patient/update-patient-profil/update-patient-profil.component';
+import { ListUsersComponent } from './list-users/list-users.component';
 
 
 export const routes: Routes = [
@@ -41,5 +42,6 @@ export const routes: Routes = [
   { path: 'profileMedecin', component: ProfilMedecinComponent },
   { path: 'profilePatient', component: ProfilPatientComponent },
   { path: 'profileMedecin/update', component: UpdateMedecinComponent },
-  { path: 'profilePatient/update', component: UpdatePatientProfilComponent }
+  { path: 'profilePatient/update', component: UpdatePatientProfilComponent },
+  { path: 'admin/utilisateurs', component: ListUsersComponent }
 ];

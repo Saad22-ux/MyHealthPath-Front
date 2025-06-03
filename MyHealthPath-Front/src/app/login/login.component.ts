@@ -1,4 +1,4 @@
-import { Component, Input, input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -12,54 +12,50 @@ import { AuthService } from '../auth.service';
   
 })
 export class LoginComponent implements OnInit{
-  @Input() email = '';
-  @Input() password = '';
-  successMessage: string = '';   // For success messages
-  validationError: string = ''; // One field to control both input errors
+  email = '';
+  password = '';
+  successMessage: string = '';
+  validationError: string = '';
 
-  emailInvalid: boolean = false; // Flag for email validation
-  passwordInvalid: boolean = false; // Flag for password validation
+  emailInvalid: boolean = false; 
+  passwordInvalid: boolean = false;
 
   constructor(private auth: AuthService, private router: Router) {}
   ngOnInit(): void {
     if (this.auth.isAuthenticated()) {
-      this.router.navigate(['/dashboard']); // Redirect if already logged in
+      this.router.navigate(['/dashboard']);
     }
   }
 
   login() {
-      // Reset validation flags
-      this.emailInvalid = !this.email;
-      this.passwordInvalid = !this.password;
+    this.emailInvalid = !this.email.trim();
+    this.passwordInvalid = !this.password.trim();
 
-      // If any field is empty, prevent form submission
-      if (this.emailInvalid || this.passwordInvalid) {
-        return;
-      }
+    if (this.emailInvalid || this.passwordInvalid){
+      return;
+    }
 
-      this.auth.login(this.email, this.password).subscribe({
+    this.validationError = '';
+    this.successMessage = '';
+
+    this.auth.login(this.email, this.password).subscribe({
       next: (response: any) => {
-        // Display success message from backend
-        this.successMessage = response.message;  // message sent from backend
+        this.successMessage = response.message || 'Login successful!';
         setTimeout(() => {
-          this.successMessage = ''; // Clear success message
+          this.successMessage = '';
           this.router.navigateByUrl('dashboard');
-        }, 1000);
+        },3000);
       },
       error: err =>{
-        console.error('Login error:', err);
-        // Get the message sent from backend
-        this.validationError = err.error?.message
+        this.validationError = err.error?.message || 'Login failed. Please try again.';
         setTimeout(()=>{
-          this.validationError = ''; // Clear error message
-        },1000);
-        
-      }// Handle login failure
+          this.validationError = '';
+        },3000);
+      }
     });
   }
 
-  // This method will navigate to the register page
   navigateToRegister() {
-    this.router.navigate(['/register']); // Programmatically navigate to the Register page
+    this.router.navigate(['/register']);
   }
 }

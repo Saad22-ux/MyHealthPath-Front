@@ -77,14 +77,11 @@ export class PatientService {
     return this.http.put(`${this.apiUrl}/${id}/update`, data);
   }
 
-getPatientProfile() {
-  return this.http.get<any>('http://localhost:3000/profilePatient', {
-    withCredentials: true
-  });
-}
+  getPatientProfile() {
+    return this.http.get<any>('http://localhost:3000/profilePatient', {withCredentials: true});
+  }
 
   updatePatientProfile(updatedData: any): Observable<any> {
-  return this.http.put(`http://localhost:3000/profilePatient/update`,updatedData,{ withCredentials: true }
-  );
-}
+    return this.http.put(`http://localhost:3000/profilePatient/update`,updatedData,{ withCredentials: true });
+  }
 }

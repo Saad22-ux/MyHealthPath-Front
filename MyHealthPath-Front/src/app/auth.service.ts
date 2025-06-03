@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs'; 
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -21,7 +22,6 @@ export class AuthService {
   login(email: string, password: string) {
     return this.http.post(`${this.apiUrl}/login`, { email, password }, { withCredentials: true }).pipe(
       tap((response: any) => {
-        console.log('Login response:', response);
         this.isAuthenticatedStatus.next(true);
         localStorage.setItem('isAuthenticated', 'true');
 
@@ -32,7 +32,7 @@ export class AuthService {
         if (response.patientId) {
           localStorage.setItem('patientId', response.patientId.toString());
         } else {
-          localStorage.removeItem('patientId'); // Clean up if not patient
+          localStorage.removeItem('patientId');
         }
       })  
     );
@@ -80,5 +80,13 @@ export class AuthService {
 
   isLoggedIn(): boolean {
     return !!this.role; 
+  }
+
+  getAllUsers(): Observable<any> {
+    return this.http.get(`http://localhost:3000/admin/utilisateurs`);
+  }
+
+  toggleUserStatus(userId: number): Observable<any> {
+    return this.http.put(`http://localhost:3000/admin/users/${userId}/desactiver`, {});
   }
 }

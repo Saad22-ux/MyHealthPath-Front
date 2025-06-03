@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PatientService, PatientStatistics } from '../../services/patient.service';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
-import { FormsModule, NgForm, NgModel } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -11,7 +11,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./patient-dashboard.component.css']
 })
 export class PatientDashboardComponent implements OnInit {
-  patientId: string = '';  // you can bind this to an input or get it from route params
+  patientId: string = '';
   prescriptionId: string = '';
   statistics?: PatientStatistics;
   loading = false;
@@ -29,8 +29,6 @@ export class PatientDashboardComponent implements OnInit {
         this.patientId = id;
         this.prescriptionId = preId ?? '';
         this.loadStatistics(id, preId);
-      } else {
-        this.error = 'No patient ID provided in URL.';
       }
     });
   }
@@ -39,17 +37,14 @@ export class PatientDashboardComponent implements OnInit {
     this.error = null;
     this.loading = true;
 
-    console.log('Calling API with:', patientId, prescriptionId);
-    this.patientService.getPatientStatistics(this.patientId, this.prescriptionId).subscribe({
+    this.patientService.getPatientStatistics(patientId, prescriptionId).subscribe({
       next: (stats) => {
-        console.log('API response:', stats);
         this.statistics = stats;
         this.patientFullName = stats.patient?.fullName || 'Unknown';
         this.loading = false;
       },
       error: (err) => {
-        this.error = 'Failed to load statistics.';
-        console.error('HTTP error:', err);
+        this.error = err.error?.message || 'Failed to load statistics.';
         this.loading = false;
       }
     });

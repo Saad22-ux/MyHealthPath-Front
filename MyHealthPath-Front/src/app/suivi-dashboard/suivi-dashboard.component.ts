@@ -16,51 +16,62 @@ export class SuiviDashboard implements OnInit {
   prescriptionsMap: { [patientId: number]: any[] } = {};
   loading = true;
   error = '';
+  statusMessage = '';
 
   userRole: string = '';
 
   constructor(private patientService: PatientService, private router: Router, private authService: AuthService) {}
 
-  ngOnInit(): void {
-    
-  this.userRole = this.authService.getUserRole();
+  ngOnInit(): void {  
+    this.userRole = this.authService.getUserRole();
 
-  if (this.userRole === 'patient') {
-    const patientId = Number(localStorage.getItem('patientId'));
-    if (patientId) {
-      this.patientService.consultPatient(patientId).subscribe({
+    if (this.userRole === 'patient'){
+      const patientId = Number(localStorage.getItem('patientId'));
+      if (patientId) {
+        this.patientService.consultPatient(patientId).subscribe({
+          next: (res) => {
+            this.patients = [res.data];
+            this.prescriptionsMap[patientId] = res.data?.Prescriptions || [];
+            this.loading = false;
+          },
+          error: (err) => {
+            this.error = err.error?.message || 'Failed to load your prescriptions';
+            this.loading = false;
+          }
+        });
+      }
+    }else {
+      this.patientService.getListPatients().subscribe({
         next: (res) => {
-          this.patients = [res];  // wrap single patient in array for *ngFor
-          this.prescriptionsMap[patientId] = res.Prescriptions || [];
-          console.log(this.patients);
+          this.patients = res.data;
           this.loading = false;
+
+          for (let patient of this.patients) {
+            this.patientService.consultPatient(patient.id).subscribe({
+              next: (res) => {
+                this.prescriptionsMap[patient.id] = res.data.Prescriptions || [];
+              },
+              error: (err) => {
+                this.prescriptionsMap[patient.id] = [];
+                this.error = err.error?.message || 'Failed to load your prescriptions';
+              }
+            });
+          }
         },
         error: (err) => {
-          this.error = 'Failed to load your prescriptions';
+          this.error = err.error?.message || 'Error fetching patients';
           this.loading = false;
         }
       });
-    } else {
-      this.error = 'No patient ID found';
-      this.loading = false;
     }
-  } else {
+  }
+
+  refreshPatientList(): void {
+    this.loading = true;
     this.patientService.getListPatients().subscribe({
       next: (res) => {
         this.patients = res.data;
         this.loading = false;
-
-        // Fetch prescriptions for each patient in the list
-        for (let patient of this.patients) {
-          this.patientService.consultPatient(patient.id).subscribe({
-            next: (res) => {
-              this.prescriptionsMap[patient.id] = res.Prescriptions || [];
-            },
-            error: () => {
-              this.prescriptionsMap[patient.id] = [];
-            }
-          });
-        }
       },
       error: (err) => {
         this.error = err.error?.message || 'Error fetching patients';
@@ -68,38 +79,20 @@ export class SuiviDashboard implements OnInit {
       }
     });
   }
-}
 
-toggleSubscription(patientId: number, currentStatus: boolean): void {
-  const newStatus = !currentStatus;
-  this.patientService.updateSubscription(patientId, newStatus).subscribe({
-    next: (res) => {
-      const patient = this.patients.find(p => p.id === patientId);
-      if (patient) {
-        patient.Medecins[0].Patient_Medecin_Link.isSubscribed = newStatus; // Update the status in the nested object
+  toggleSubscription(patientId: number, currentStatus: boolean): void {
+    const newStatus = !currentStatus;
+    this.patientService.updateSubscription(patientId, newStatus).subscribe({
+      next: () => {
+        const patient = this.patients.find(p => p.id === patientId);
+        if (patient) {
+          patient.Medecins[0].Patient_Medecin_Link.isSubscribed = newStatus;
+        }
+        this.refreshPatientList();
+      },
+      error: (err) => {
+        this.error = err.error?.message || 'Error updating subscription';
       }
-
-      // Re-fetch the patient list to ensure the latest data
-      this.refreshPatientList();
-    },
-    error: (err) => {
-      console.error('Error updating subscription status:', err);
-      alert('Failed to update subscription status');
-    }
-  });
-}
-
-refreshPatientList(): void {
-  this.loading = true; // Show loading indicator
-  this.patientService.getListPatients().subscribe({
-    next: (res) => {
-      this.patients = res.data;
-      this.loading = false;
-    },
-    error: (err) => {
-      this.error = err.error?.message || 'Error fetching patients';
-      this.loading = false;
-    }
-  });
-}
+    });
+  }
 }

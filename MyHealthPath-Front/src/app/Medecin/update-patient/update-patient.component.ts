@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { PatientService} from '../../services/patient.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgIf } from '@angular/common';
@@ -23,16 +23,21 @@ export class UpdatePatientComponent implements OnInit {
     private route: ActivatedRoute,
     private patientService: PatientService,
     private fb: FormBuilder,
-    private router: Router
   ) {}
 
   ngOnInit(): void {
     const idParam = this.route.snapshot.paramMap.get('id');
-    if (idParam) {
-      this.patientId = +idParam; // or Number(idParam)
-    }  
+    if (!idParam) {
+      return;
+    }
+    this.patientId = +idParam;
     this.initForm();
     this.loadPatientData();
+
+    this.updateForm.valueChanges.subscribe(() => {
+      this.errorMessage = '';
+      this.successMessage = '';
+    });
   }
 
   initForm() {
@@ -52,8 +57,8 @@ export class UpdatePatientComponent implements OnInit {
   loadPatientData() {
     this.loading = true;
     this.patientService.consultPatient(this.patientId).subscribe({
-      next: (data) => {
-        console.log('Backend patient data:', data);
+      next: (res) => {
+        const data = res.data;
         this.updateForm.patchValue({
           fullName: data.User?.fullName || '',
           email: data.User?.email || '',
@@ -67,37 +72,36 @@ export class UpdatePatientComponent implements OnInit {
         });
         this.loading = false;
       },
-      error: () => {
-        this.errorMessage = 'Erreur lors du chargement des données du patient.';
+      error: (err) => {
+        this.errorMessage = err.error?.message || 'Failed to fetch patient';
         this.loading = false;
       },
     });
   }
 
   onSubmit() {
-    console.log('Submit clicked');
     if (this.updateForm.invalid) {
-      console.log('Form invalid', this.updateForm.errors);
-      return;}
+      this.updateForm.markAllAsTouched();
+      return;
+    }
 
     this.loading = true;
     this.errorMessage = '';
     this.successMessage = '';
+    this.updateForm.disable();
 
     const updatedFields = this.updateForm.value;
 
     this.patientService.updatePatient(this.patientId, updatedFields).subscribe({
-      next: (res) => {
-        console.log('Update response:', res);
-        this.successMessage = 'Profil mis à jour avec succès!';
+      next: (res: any) => {
+        this.successMessage = res.message || 'Profile updated successfully';
         this.loading = false;
-        // Optionally, navigate away after success
-        // this.router.navigate(['/patients', this.patientId]);
+        this.updateForm.enable();
       },
       error: (err) => {
-        console.error('Update error:', err);
-        this.errorMessage = "Erreur lors de la mise à jour du profil.";
+        this.errorMessage = err.error?.message || "Failed to update profile";
         this.loading = false;
+        this.updateForm.enable();
       },
     });
   }

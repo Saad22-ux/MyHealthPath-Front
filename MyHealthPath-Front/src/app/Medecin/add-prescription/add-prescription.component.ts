@@ -16,26 +16,25 @@ import { FormsModule } from '@angular/forms';
 export class AddPrescriptionComponent implements OnInit {
   prescriptionForm: FormGroup;
   responseMessage: string = '';
+  error = '';
   patientId: number = 0;
   editingPrescriptionId?: number;
 
   allIndicateurs: string[] = [];
 
-selectedIndicateur: string = '';
-
-
+  selectedIndicateur: string = '';
 
   constructor(
     private fb: FormBuilder,
     private prescriptionService: PrescriptionService,
-    private route: ActivatedRoute  // Inject ActivatedRoute
+    private route: ActivatedRoute
   ) {
     this.prescriptionForm = this.fb.group({
       description: ['', Validators.required],
       date: ['', Validators.required],
       medicaments: this.fb.array([]),
       indicateurs: this.fb.array([]),
-      selectedIndicateur: ['']
+      selectedIndicateur: [''],
     });
 
     this.addMedicament();
@@ -43,53 +42,60 @@ selectedIndicateur: string = '';
   }
 
   ngOnInit(): void {
-  // Log the entire paramMap to check if it contains patientId
-  const patientId = this.route.snapshot.paramMap.get('patientId');
-  const prescriptionId = this.route.snapshot.paramMap.get('prescriptionId');
-  console.log('patientId from URL:', patientId); // Add a log to check
-  
-  if (patientId) {
-    this.patientId = +patientId;  // Convert to number
-  } else {
-    console.log('No patientId found in URL');
-  }
+    const patientId = this.route.snapshot.paramMap.get('patientId');
+    const prescriptionId = this.route.snapshot.paramMap.get('prescriptionId');
 
-  if (prescriptionId) {
-    this.loadPrescriptionDetails(+prescriptionId); // Load existing data
-  }
-
-  this.prescriptionService.getIndicateursBySpecialite().subscribe({
-    next: (res) => {
-      this.allIndicateurs = res.indicateurs;
-      //this.refreshIndicateursFormControls(this.allIndicateurs);
-    },
-    error: (err) => {
-      console.error('Failed to load indicators:', err);
+    if (patientId) {
+      this.patientId = +patientId;
     }
-  });
-}
 
-refreshIndicateursFormControls(indicators: string[]) {
-  this.indicateurs.clear();
-  indicators.forEach(ind => {
-    this.indicateurs.push(this.fb.control(ind, Validators.required));
-  });
-}
+    if (prescriptionId) {
+      this.loadPrescriptionDetails(+prescriptionId);
+    }
 
-get indicateurs(): FormArray {
-  return this.prescriptionForm.get('indicateurs') as FormArray;
-}
+    this.prescriptionService.getIndicateursBySpecialite().subscribe({
+      next: (res: any) => {
+        this.allIndicateurs = res.indicateurs;
+      },
+      error: (err) => {
+        this.error = err.error?.message || 'Cannot fetch indicators';
+      }
+    });
+  }
 
-get currentIndicateurs(): string[] {
-  return this.indicateurs.controls.map(control => control.value);
-}
+  loadPrescriptionDetails(prescriptionId: number) {
+    this.prescriptionService.getPrescriptionDetails(prescriptionId).subscribe({
+      next: (data) => {
+        const prescription = data.prescription;
 
+        this.prescriptionForm.patchValue({
+          description: prescription.description,
+          date: prescription.date
+        });
 
-get medicaments(): FormArray {
-  return this.prescriptionForm.get('medicaments') as FormArray;
-}
+        this.medicaments.clear();
+        (prescription.medicaments || []).forEach((med: any) => {
+          this.medicaments.push(this.fb.group({
+            name: [med.name, Validators.required],
+            dose: [med.dose, Validators.required],
+            frequency: [med.frequency, Validators.required],
+            duree: [med.duree, Validators.required]
+          }));
+        });
 
-
+        if (prescription.indicateurs) {
+          this.indicateurs.clear();
+          prescription.indicateurs.forEach((ind: any) => {
+            this.indicateurs.push(this.fb.control(ind.nom, Validators.required));
+          });
+        }
+        this.editingPrescriptionId = prescriptionId;
+        },
+        error: (err) => {
+          this.error = err.error?.message || 'Failed to load prescription';
+        }
+      });
+  }
 
   addMedicament() {
     this.medicaments.push(this.fb.group({
@@ -105,67 +111,50 @@ get medicaments(): FormArray {
   }
 
   addIndicateur() {
-  const selectedIndicateur = this.prescriptionForm.get('selectedIndicateur')?.value;
-  console.log('selectedIndicateur:', selectedIndicateur);
+    const selectedIndicateur = this.prescriptionForm.get('selectedIndicateur')?.value;
 
-  if (!selectedIndicateur) {
-    console.log('Aucun indicateur sélectionné');
-    return;
+    if (!selectedIndicateur) {
+      return;
+    }
+
+    if (this.currentIndicateurs.includes(selectedIndicateur)) {
+      return;
+    }
+
+    this.indicateurs.push(this.fb.control(selectedIndicateur, Validators.required));
+
+    this.prescriptionForm.get('selectedIndicateur')?.setValue('');
   }
 
-  if (this.currentIndicateurs.includes(selectedIndicateur)) {
-    console.log('Indicateur déjà ajouté');
-    return;
+  addSelectedIndicateur() {
+    if (this.selectedIndicateur && !this.currentIndicateurs.includes(this.selectedIndicateur)) {
+      this.indicateurs.push(this.fb.control(this.selectedIndicateur, Validators.required));
+      this.selectedIndicateur = '';
+    }
   }
 
-  this.indicateurs.push(this.fb.control(selectedIndicateur, Validators.required));
-  console.log('Indicateur ajouté:', selectedIndicateur);
-
-  // Réinitialiser la sélection dans le formulaire
-  this.prescriptionForm.get('selectedIndicateur')?.setValue('');
-}
-
-
+  refreshIndicateursFormControls(indicators: string[]) {
+    this.indicateurs.clear();
+    indicators.forEach(ind => {
+      this.indicateurs.push(this.fb.control(ind, Validators.required));
+    });
+  }
 
   removeIndicateur(index: number) {
     this.indicateurs.removeAt(index);
   }
 
-  loadPrescriptionDetails(prescriptionId: number) {
-  this.prescriptionService.getPrescriptionDetails(prescriptionId).subscribe({
-    next: (data) => {
-      const prescription = data.prescription;
+  get indicateurs(): FormArray {
+    return this.prescriptionForm.get('indicateurs') as FormArray;
+  }
 
-      this.prescriptionForm.patchValue({
-        description: prescription.description,
-        date: prescription.date
-      });
+  get currentIndicateurs(): string[] {
+    return this.indicateurs.controls.map(control => control.value);
+  }
 
-      this.medicaments.clear();
-      (prescription.medicaments || []).forEach((med: any) => {
-        this.medicaments.push(this.fb.group({
-          name: [med.name, Validators.required],
-          dose: [med.dose, Validators.required],
-          frequency: [med.frequency, Validators.required],
-          duree: [med.duree, Validators.required]
-        }));
-      });
-
-      if (prescription.indicateurs) {
-        this.indicateurs.clear();
-        prescription.indicateurs.forEach((ind: any) => {
-          this.indicateurs.push(this.fb.control(ind.nom, Validators.required));
-
-        });
-      }
-
-      this.editingPrescriptionId = prescriptionId;
-    },
-    error: (err) => {
-      console.error('Failed to load prescription:', err);
-    }
-  });
-}
+  get medicaments(): FormArray {
+    return this.prescriptionForm.get('medicaments') as FormArray;
+  }
 
   onSubmit() {
     if (this.prescriptionForm.invalid) return;
@@ -178,42 +167,30 @@ get medicaments(): FormArray {
       indicateurs: formValue.indicateurs
     };
 
-    console.log("Payload envoyé :", payload);
-
     if (this.editingPrescriptionId) {
-    // UPDATE
-    this.prescriptionService.updatePrescription(this.editingPrescriptionId, payload).subscribe({
-      next: (res: any) => {
-        this.responseMessage = res.message;
-        setTimeout(() => (this.responseMessage = ''), 2000);
-      },
-      error: () => {
-        this.responseMessage = 'Erreur lors de la mise à jour.';
-      }
-    });
-  } else {
-    // ADD
-    this.prescriptionService.addPrescription(this.patientId, payload).subscribe({
-      next: (res: any) => {
-        this.responseMessage = res.message;
-        setTimeout(() => (this.responseMessage = ''), 2000);
-        this.prescriptionForm.reset();
-        this.medicaments.clear();
-        this.indicateurs.clear();
-        this.addMedicament();
-      },
-      error: () => {
-        this.responseMessage = 'Erreur lors de l’envoi.';
-      }
-    });
+      this.prescriptionService.updatePrescription(this.editingPrescriptionId, payload).subscribe({
+        next: (res: any) => {
+          this.responseMessage = res.message || 'Prescription updated';
+          setTimeout(() => this.responseMessage = '',2000);
+        },
+        error: (err) => {
+          this.error = err.error?.message || 'Failed to update prescription';
+        }
+      });
+    } else {
+      this.prescriptionService.addPrescription(this.patientId, payload).subscribe({
+        next: (res: any) => {
+          this.responseMessage = res.message || 'Prescription created';
+          setTimeout(() => this.responseMessage = '',2000);
+          this.prescriptionForm.reset();
+          this.medicaments.clear();
+          this.indicateurs.clear();
+          this.addMedicament();
+        },
+        error: (err) => {
+          this.error = err.error?.message || 'Failed to add prescription';
+        }
+      });
+    }
   }
-  }
-
-  addSelectedIndicateur() {
-  if (this.selectedIndicateur && !this.currentIndicateurs.includes(this.selectedIndicateur)) {
-    this.indicateurs.push(this.fb.control(this.selectedIndicateur, Validators.required));
-    this.selectedIndicateur = ''; // reset dropdown
-  }
-}
-
 }

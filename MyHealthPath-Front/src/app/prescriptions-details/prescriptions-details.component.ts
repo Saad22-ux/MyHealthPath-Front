@@ -1,13 +1,10 @@
-// prescription-detail.component.ts
-import { Component, NgModule, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PrescriptionService } from '../services/prescription.service';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../auth.service';
-import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-
 
 @Component({
   selector: 'app-prescription-detail',
@@ -19,14 +16,13 @@ export class PrescriptionsDetailsComponent implements OnInit {
   prescriptionId!: number;
   prescription: any;
   error: string = '';
+  statusMessage = '';
 
   userRole: string = '';
 
   canSubmit: boolean = true;
 
-  
-
-  constructor(private route: ActivatedRoute, private prescriptionService: PrescriptionService, private authService: AuthService, private http: HttpClient) {}
+  constructor(private route: ActivatedRoute, private prescriptionService: PrescriptionService, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.userRole = this.authService.getUserRole();
@@ -40,79 +36,73 @@ export class PrescriptionsDetailsComponent implements OnInit {
     }
 
     this.prescriptionService.getPrescriptionDetails(this.prescriptionId).subscribe({
-      next: (res) => {
+      next: (res: any) => {
         this.prescription = res.prescription;
+        this.statusMessage = res.message || 'Details fetched successfully';
         this.checkIfPrescriptionExpired();
       },
-      error: () => {
-        this.error = 'Failed to load prescription details';
+      error: (err) => {
+        this.error = err.error?.message || 'Failed to load prescription details';
       }
     });
   }
 
   checkIfPrescriptionExpired(): void {
-  const startDate = new Date(this.prescription.dateDebut); // Assure-toi que dateDebut existe dans ta prescription
-  const today = new Date();
+    const startDate = new Date(this.prescription.dateDebut);
+    const today = new Date();
 
-  const durationDays = Math.max(...this.prescription.medicaments.map((m: any) => m.duree || 0));
-  
-  const endDate = new Date(startDate);
-  endDate.setDate(startDate.getDate() + durationDays);
+    const durationDays = Math.max(...this.prescription.medicaments.map((m: any) => m.duree || 0));
+    
+    const endDate = new Date(startDate);
+    endDate.setDate(startDate.getDate() + durationDays);
 
-  if (today > endDate) {
-    this.prescription.isActive = false;
-    console.log("Prescription expired — isActive set to false.");
+    if (today > endDate) {
+      this.prescription.isActive = false;
+    }
   }
-}
-
 
   submitJournal() {
-  const medicaments = this.prescription.medicaments.map((med: any) => ({
-    medicamentId: med.id,
-    pris: med.isChecked === true ? true : false
-  }));
-    console.log('Medicaments to submit:', medicaments);
+    const medicaments = this.prescription.medicaments.map((med: any) => ({
+      medicamentId: med.id,
+      pris: !!med.isChecked
+    }));
 
-  const indicateurs = (this.prescription.indicateurs || []).map((ind: any) => ({
-    indicateurId: ind.id,
-    valeur: ind.valeur || '',
-    mesure: (ind.valeur && ind.valeur.trim() !== '') ? 1 : ''
-  }));
-  console.log('Indicateurs to submit:', indicateurs);
+    const indicateurs = (this.prescription.indicateurs || []).map((ind: any) => ({
+      indicateurId: ind.id,
+      valeur: ind.valeur || '',
+      mesure: ind.valeur?.trim() ? 1 : null
+    }));
 
-  const hasCheckedMedicament = medicaments.some((med: { pris: boolean }) => med.pris === true);
-  const hasValidIndicateur = indicateurs.some((ind: any) => ind.valeur && ind.valeur.trim() !== '');
-  if (!hasCheckedMedicament && !hasValidIndicateur) {
-    alert('Veuillez cocher au moins un médicament ou renseigner au moins un indicateur.');
-    return;
-  }
-
-  const patientId = this.authService.getPatientId();
-  console.log('Patient ID:', patientId);
-  if (!patientId) {
-    alert('Patient ID is missing.');
-    return;
-  }
-
-  const data = {
-    date: new Date(),
-    medicaments,
-    indicateurs,
-    prescriptionId: this.prescriptionId
-  };
-
-  this.prescriptionService.createJournal(patientId, data).subscribe({
-    next: () => {
-      alert('Journal de santé enregistré avec succès.');
-      localStorage.setItem(`journalCooldown_${this.prescriptionId}`, new Date().toISOString());
-      this.canSubmit = false;
-    },
-    error: (err) => {
-      console.error('Journal save error:', err);
-      alert('Erreur lors de l\'enregistrement du journal.');
+    const hasCheckedMedicament = medicaments.some((med: { pris: boolean }) => med.pris === true);
+    const hasValidIndicateur = indicateurs.some((ind: any) => ind.valeur && ind.valeur.trim() !== '');
+    if (!hasCheckedMedicament && !hasValidIndicateur) {
+      this.statusMessage = "No values of indicators or medicament checked";
+      return;
     }
-  });
 
-}
+    this.statusMessage = '';
 
+    const patientId = this.authService.getPatientId();
+    if (!patientId) {
+      return;
+    }
+
+    const data = {
+      date: new Date(),
+      medicaments,
+      indicateurs,
+      prescriptionId: this.prescriptionId
+    };
+
+    this.prescriptionService.createJournal(patientId, data).subscribe({
+      next: (res: any) => {
+        this.statusMessage = res.message || 'Created successfully';
+        localStorage.setItem(`journalCooldown_${this.prescriptionId}`, new Date().toISOString());
+        this.canSubmit = false;
+      },
+      error: (err) => {
+        this.error = err.error?.message || 'Failed to create !';
+      }
+    });
+  }
 }

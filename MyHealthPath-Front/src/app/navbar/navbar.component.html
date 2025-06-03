@@ -11,6 +11,7 @@
 
     <ng-container *ngIf="isAuthenticated&&isAdmin()">
       <li><a routerLink="/unapproved-medecins" class="nav-link dashboard-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Unapproved Medecins</a></li>
+      <li><a routerLink="/admin/utilisateurs" class="nav-link dashboard-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">List of Users</a></li>
     </ng-container>
 
     <!-- Home and About for non-authenticated or patient users -->

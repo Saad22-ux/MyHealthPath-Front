@@ -3,6 +3,7 @@
   <table>
     <thead>
       <tr>
+        <th>Date</th>
         <th>fullName</th>
         <th>Email</th>
         <th>Specialty</th>
@@ -11,6 +12,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let medecin of medecins">
+        <td>{{ medecin.createdAt }}</td>
         <td>{{ medecin.User?.fullName }}</td>
         <td>{{ medecin.User?.email }}</td>
         <td>{{ medecin.specialite }}</td>

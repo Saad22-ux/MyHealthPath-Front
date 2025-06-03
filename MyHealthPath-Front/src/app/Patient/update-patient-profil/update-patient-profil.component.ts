@@ -27,48 +27,44 @@ export class UpdatePatientProfilComponent implements OnInit {
       poids: [''],
       photo: [''],
       cin: [''],
+      password: ['']
     });
   }
 
   ngOnInit(): void {
-    console.log('ngOnInit called');
-    this.loadProfile();  // <-- load profile on init
+    this.loadProfile();
   }
 
   loadProfile(): void {
-  this.patientService.getPatientProfile().subscribe({
-    next: (res) => {
-      // Patch the form directly with the response object
-      this.profileForm.patchValue(res);
-      console.log('Form after patch:', this.profileForm.value);
-    },
-    error: (err) => {
-      this.errorMsg = 'Erreur lors du chargement du profil.';
-      console.error(err);
-    }
-  });
-}
-
+    this.patientService.getPatientProfile().subscribe({
+      next: (res: any) => {
+        this.profileForm.patchValue(res);
+        this.successMsg = res.message || 'Profil fetched successfully';
+      },
+      error: (err) => {
+        this.errorMsg = err.error?.message || 'Failed to load profil';
+      }
+    });
+  }
 
   onSubmit(): void {
-    console.log('onSubmit called');
     this.loading = true;
     this.errorMsg = '';
     this.successMsg = '';
 
+    const formValue = { ...this.profileForm.value };
+    if (!formValue.password) {
+      delete formValue.password;
+    }
+
     this.patientService.updatePatientProfile(this.profileForm.value).subscribe({
-      next: (res) => {
-        if (res.success) {
-          this.successMsg = res.message;
-        } else {
-          this.errorMsg = res.message || 'Erreur lors de la mise à jour.';
-        }
+      next: (res: any) => {
+        this.successMsg = res.message || 'Profil updated successfully';
         this.loading = false;
       },
       error: (err) => {
-        this.errorMsg = 'Erreur serveur.';
+        this.errorMsg = err.error?.message || 'Failed to update';
         this.loading = false;
-        console.error(err);
       }
     });
   }

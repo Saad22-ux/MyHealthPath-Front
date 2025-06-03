@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { PatientService } from '../../services/patient.service';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { PrescriptionService } from '../../services/prescription.service';
@@ -14,12 +14,13 @@ import { PrescriptionService } from '../../services/prescription.service';
 export class PatientDetailComponent implements OnInit {
   patientId!: number;
   patientDetails: any = {};
+
   error: string = '';
+  statusMessage = '';
 
   constructor(
     private route: ActivatedRoute,
     private patientService: PatientService,
-    private router: Router,
     private prescriptionService: PrescriptionService
   ) {}
 
@@ -35,46 +36,47 @@ export class PatientDetailComponent implements OnInit {
 
   loadPatientDetails() {
     this.patientService.consultPatient(this.patientId).subscribe({
-      next: (res) => {
-        this.patientDetails = res;
+      next: (res: any) => {
+        this.patientDetails = res.data;
+        this.statusMessage = res.message || 'Details loaded successfully';
+        this.error = '';
       },
-      error: () => {
-        this.error = 'Failed to fetch patient details';
+      error: (err) => {
+        this.error = err.error?.message || 'Failed to fetch patient details';
       }
     });
   }
 
-  togglePrescriptionStatus(prescription: any) {
-  this.prescriptionService.updatePrescriptionStatus(prescription.id, !prescription.isActive).subscribe({
-    next: (res) => {
-      if (res.success) {
-        prescription.isActive = !prescription.isActive;
-      } else {
-        alert('Erreur : ' + res.message);
-      }
-    },
-    error: (err) => {
-      console.error(err);
-      alert('Erreur serveur');
+  calculateAge(dateNaissance: string): number {
+    const birthDate = new Date(dateNaissance);
+    const today = new Date();
+
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+
+    if (
+      monthDiff < 0 ||
+      (monthDiff === 0 && today.getDate() < birthDate.getDate())
+    ) {
+      age--;
     }
-  });
-}
 
-calculateAge(dateNaissance: string): number {
-  const birthDate = new Date(dateNaissance);
-  const today = new Date();
-
-  let age = today.getFullYear() - birthDate.getFullYear();
-  const monthDiff = today.getMonth() - birthDate.getMonth();
-
-  if (
-    monthDiff < 0 ||
-    (monthDiff === 0 && today.getDate() < birthDate.getDate())
-  ) {
-    age--;
+    return age;
   }
 
-  return age;
-}
-
+  togglePrescriptionStatus(prescription: any) {
+    this.prescriptionService.updatePrescriptionStatus(prescription.id, !prescription.isActive).subscribe({
+      next: (res) => {
+        if (res.success) {
+          prescription.isActive = !prescription.isActive;
+          this.statusMessage = res.message || 'Status updated successfully';
+        }
+        setTimeout(() => this.statusMessage = '', 3000);
+      },
+      error: (err) => {
+        this.error = err.error?.message || 'Failed to update prescription status';
+        setTimeout(() => this.error = '', 3000);
+      }
+    });
+  }
 }
