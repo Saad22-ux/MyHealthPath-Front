@@ -37,9 +37,9 @@
     <input formControlName="poids" type="number" />
   </div>
   <div>
-    <label>Photo (URL):</label>
-    <input formControlName="photo" />
-  </div>
+  <label>Photo:</label>
+  <input type="file" (change)="onFileSelected($event)" />
+</div>
   <div>
     <label>CIN:</label>
     <input formControlName="cin" />

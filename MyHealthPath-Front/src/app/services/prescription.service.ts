@@ -38,4 +38,8 @@ export class PrescriptionService {
   createJournal(patientId: number, data: any) {
     return this.http.post(`http://localhost:3000/journal/${patientId}`, data);
   }
+
+  updateJournal(patientId: number, data: any) {
+    return this.http.put(`http://localhost:3000/journal/update/${patientId}`, data);
+  }
 }

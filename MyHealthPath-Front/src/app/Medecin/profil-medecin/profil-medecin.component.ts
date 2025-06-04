@@ -36,6 +36,10 @@ export class ProfilMedecinComponent implements OnInit{
     });
   }
 
+  getPhotoUrl(photoPath: string): string {
+    return photoPath ? `http://localhost:3000/${photoPath}` : 'assets/default-photo.png';
+  }
+
   redirectToUpdate() {
     this.router.navigate(['/profileMedecin/update']);
   }

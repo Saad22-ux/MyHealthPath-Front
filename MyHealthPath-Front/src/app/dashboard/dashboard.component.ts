@@ -63,4 +63,8 @@ goToSuiviMedical(){
 goToProfil(){
   this.router.navigate(['/profilePatient']);
 }
+
+goToNotification(){
+  this.router.navigate(['/notifications']);
+}
 }

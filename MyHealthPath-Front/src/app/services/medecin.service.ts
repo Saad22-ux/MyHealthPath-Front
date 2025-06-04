@@ -12,7 +12,8 @@ export interface MedecinProfile {
   cin: string,
   numeroIdentification: string,
   email: string,
-  password: string
+  password: string,
+  photo?: string;
 }
 
 @Injectable({
@@ -46,7 +47,7 @@ export class MedecinService {
       }
     }
 
-    if (photoFile) {
+    if (photoFile instanceof File) {
       formData.append('photo', photoFile);
     }
 

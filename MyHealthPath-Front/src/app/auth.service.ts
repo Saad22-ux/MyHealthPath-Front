@@ -28,6 +28,7 @@ export class AuthService {
         const userRole = response.role;
         this.setRole(userRole);
         localStorage.setItem('role', userRole);
+        localStorage.setItem('userId', response.id);
 
         if (response.patientId) {
           localStorage.setItem('patientId', response.patientId.toString());

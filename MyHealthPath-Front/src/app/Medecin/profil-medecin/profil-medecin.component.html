@@ -1,5 +1,14 @@
 <div *ngIf="profile; else errorTpl">
   <h2>Profil Médecin</h2>
+<img *ngIf="profile.photo; else noPhoto" 
+       [src]="getPhotoUrl(profile.photo)" 
+       alt="Photo de profil" 
+       style="max-width: 200px; max-height: 200px; object-fit: cover; border-radius: 8px;" />
+
+  <ng-template #noPhoto>
+    <p>Aucune photo disponible</p>
+  </ng-template>
+
   <p><strong>Nom complet:</strong> {{ profile.fullName }}</p>
   <p><strong>Email:</strong> {{ profile.email }}</p>
   <p><strong>Cin:</strong> {{ profile.cin }}</p>

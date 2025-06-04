@@ -21,6 +21,11 @@
   <input type="text" [(ngModel)]="updatedData.numeroIdentification" name="numeroIdentification" placeholder="Numéro d'identification" />
 
   <input type="file" (change)="onPhotoSelected($event)" />
+<div *ngIf="selectedPhoto">
+  <p>Photo sélectionnée : {{ selectedPhoto.name }}</p>
+  <img [src]="photoPreview" alt="Prévisualisation" width="150" *ngIf="photoPreview" />
+</div>
+
 
   <button type="submit">Mettre à jour le profil</button>
 </form>

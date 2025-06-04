@@ -49,6 +49,10 @@ export class ProfilPatientComponent implements OnInit{
     return age;
   }
 
+  getPhotoUrl(photoPath: string): string {
+    return photoPath.startsWith('http') ? photoPath : `http://localhost:3000/${photoPath}`;
+  }
+
   redirectToUpdate() {
       this.router.navigate(['/profilePatient/update']);
   }

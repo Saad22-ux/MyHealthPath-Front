@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { MedecinService } from '../../services/medecin.service';
 import { FormsModule } from '@angular/forms';
+import { NgIf } from '@angular/common';
 
 
 @Component({
   selector: 'app-update-medecin',
-  imports: [FormsModule],
+  imports: [FormsModule,NgIf],
   templateUrl: './update-medecin.component.html',
   styleUrls: ['./update-medecin.component.css']
 })
@@ -26,6 +27,8 @@ export class UpdateMedecinComponent {
   loading = false;
 
   selectedPhoto?: File;
+
+  photoPreview: string | ArrayBuffer | null = null;
 
   constructor(private medecinService: MedecinService) {}
 
@@ -56,9 +59,17 @@ export class UpdateMedecinComponent {
     this.error = '';
     this.statusMessage = '';
     if (event.target.files && event.target.files.length > 0) {
-      this.selectedPhoto = event.target.files[0];
+    this.selectedPhoto = event.target.files[0];
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.photoPreview = reader.result;
+    };
+    if (this.selectedPhoto instanceof Blob) {
+      reader.readAsDataURL(this.selectedPhoto);
     }
   }
+}
 
   updateProfile() {
     if (this.loading) return;
@@ -67,7 +78,9 @@ export class UpdateMedecinComponent {
     this.error = '';
     this.statusMessage = '';
 
-    this.medecinService.updateProfile(this.updatedData, this.selectedPhoto).subscribe({
+    const photo = this.selectedPhoto instanceof File ? this.selectedPhoto : undefined;
+
+    this.medecinService.updateProfile(this.updatedData, photo).subscribe({
       next: (response) => {
         this.statusMessage = response.message || 'Profil updated successfully';
         this.loading = false;

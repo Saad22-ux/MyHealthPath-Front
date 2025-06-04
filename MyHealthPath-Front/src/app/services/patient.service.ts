@@ -25,6 +25,7 @@ export interface PatientProfile {
   taille: number,
   poids: number,
   date_naissance: string;
+  photo:string;
 }
 
 export interface UpdatePatientProfileResponse {
@@ -81,7 +82,15 @@ export class PatientService {
     return this.http.get<any>('http://localhost:3000/profilePatient', {withCredentials: true});
   }
 
-  updatePatientProfile(updatedData: any): Observable<any> {
-    return this.http.put(`http://localhost:3000/profilePatient/update`,updatedData,{ withCredentials: true });
+  updatePatientProfile(formData: FormData): Observable<any> {
+    return this.http.put(`http://localhost:3000/profilePatient/update`, formData, {withCredentials: true,});
+  }
+
+  rechercherPatientParCIN(cin: string): Observable<any> {
+    return this.http.post(`http://localhost:3000/rechercher`, { cin });
+  }
+
+  lierPatientAuMedecin(cin: string): Observable<any> {
+    return this.http.post(`http://localhost:3000/lier-patient`, { cin }, { withCredentials: true });
   }
 }

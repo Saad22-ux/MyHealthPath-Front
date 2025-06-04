@@ -15,6 +15,9 @@ export class UpdatePatientProfilComponent implements OnInit {
   errorMsg = '';
   successMsg = '';
 
+  selectedFile: File | null = null;
+
+
   constructor(private patientService: PatientService, private fb: FormBuilder) {
     this.profileForm = this.fb.group({
       fullName: [''],
@@ -47,20 +50,42 @@ export class UpdatePatientProfilComponent implements OnInit {
     });
   }
 
+  onFileSelected(event: any): void {
+    if (event.target.files && event.target.files.length > 0) {
+      this.selectedFile = event.target.files[0];
+    }
+  }
+
+
   onSubmit(): void {
     this.loading = true;
     this.errorMsg = '';
     this.successMsg = '';
 
-    const formValue = { ...this.profileForm.value };
-    if (!formValue.password) {
-      delete formValue.password;
+    const formData = new FormData();
+
+    Object.keys(this.profileForm.controls).forEach(key => {
+      if (key !== 'photo') {
+        const value = this.profileForm.get(key)?.value;
+        if (value) {
+          formData.append(key, value);
+        }
+      }
+    });
+
+    if (this.profileForm.get('password')?.value) {
+      formData.append('password', this.profileForm.get('password')?.value);
     }
 
-    this.patientService.updatePatientProfile(this.profileForm.value).subscribe({
+    if (this.selectedFile) {
+      formData.append('photo', this.selectedFile, this.selectedFile.name);
+    }
+
+    this.patientService.updatePatientProfile(formData).subscribe({
       next: (res: any) => {
         this.successMsg = res.message || 'Profil updated successfully';
         this.loading = false;
+        this.selectedFile = null;
       },
       error: (err) => {
         this.errorMsg = err.error?.message || 'Failed to update';

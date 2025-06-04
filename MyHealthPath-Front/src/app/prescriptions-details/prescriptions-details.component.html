@@ -1,3 +1,4 @@
+
 <div *ngIf="prescription?.isActive; else expiredMsg" class="detail-container">
   <div class="detail-item" *ngFor="let med of prescription?.medicaments; let i = index">
     <strong>Medicament:</strong> <span>{{ med.name }}</span>

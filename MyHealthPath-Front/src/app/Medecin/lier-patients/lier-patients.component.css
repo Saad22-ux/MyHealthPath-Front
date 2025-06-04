@@ -1,0 +1,60 @@
+div {
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  background-color: #f9f9f9;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+button {
+  padding: 10px 20px;
+  margin-right: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:first-of-type {
+  background-color: #2196f3;
+  color: white;
+}
+
+button:last-of-type {
+  background-color: #4caf50;
+  color: white;
+}
+
+button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+h4 {
+  margin-top: 20px;
+  color: #333;
+}
+
+p {
+  margin: 5px 0;
+  font-size: 15px;
+}
+
+.message {
+  color: #d32f2f;
+  font-weight: bold;
+  margin-top: 10px;
+}

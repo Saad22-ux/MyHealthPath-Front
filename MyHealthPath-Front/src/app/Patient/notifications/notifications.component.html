@@ -1,0 +1,11 @@
+<div class="notifications-container">
+  <div *ngIf="loading">Chargement des notifications...</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <ul>
+    <li *ngFor="let notif of notifications" [class.read]="notif.isRead">
+      {{ notif.message }} - <small>{{ notif.createdAt | date:'short' }}</small>
+      <button *ngIf="!notif.isRead" (click)="markRead(notif)">Marquer comme lue</button>
+    </li>
+  </ul>
+</div>

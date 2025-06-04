@@ -1,0 +1,14 @@
+<div>
+  <input type="text" [(ngModel)]="cin" placeholder="Entrer CIN du patient" />
+  <button (click)="rechercherPatient()">Rechercher</button>
+  <button (click)="lierPatient()" [disabled]="!patientInfo">Lier au médecin</button>
+
+  <div *ngIf="message" style="margin-top: 10px;">{{ message }}</div>
+
+  <div *ngIf="patientInfo">
+    <h4>Informations du patient :</h4>
+    <p><strong>Nom:</strong> {{ patientInfo.user.fullName }}</p>
+    <p><strong>Email:</strong> {{ patientInfo.user.email }}</p>
+    <!-- Affichez d'autres champs si nécessaire -->
+  </div>
+</div>
