@@ -1,24 +1,37 @@
 <div class="user-list">
-  <h2>Liste des utilisateurs</h2>
+  <h2>👤 Users</h2>
 
   <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
 
   <table *ngIf="users.length > 0; else noUsers">
     <thead>
       <tr>
-        <th>Nom</th>
-        <th>Email</th>
-        <th>Rôle</th>
+        <th>FullName</th>
+        <th>Email address</th>
+        <th>Role</th>
+        <th>Actions</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let user of users">
-        <td>{{ user.fullName }}</td>
-        <td>{{ user.email }}</td>
-        <td>{{ user.role }}</td>
-        <td><button (click)="toggleStatus(user)"> {{ user.isApproved ? 'Suspendre' : 'Activer' }}</button></td>
-      </tr>
-    </tbody>
+  <tr *ngFor="let user of users">
+    <td>
+      <span *ngIf="user.role === 'admin'">👑</span>
+      <span *ngIf="user.role === 'medecin'">🧑‍⚕️</span>
+      <span *ngIf="user.role === 'patient'">🧍‍♀️</span>
+      {{ user.fullName }} 
+    </td>
+    <td data-label="Email">{{ user.email }}</td>
+    <td data-label="Rôle">{{ user.role }}</td>
+    <td data-label="Action">
+      <button
+        (click)="toggleStatus(user)"
+        [ngClass]="user.isApproved ? 'btn-red' : 'btn-green'">
+        {{ user.isApproved ? '⛔ Suspend' : '✔️ Activate' }}
+      </button>
+    </td>
+  </tr>
+</tbody>
+
   </table>
 
   <ng-template #noUsers>

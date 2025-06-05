@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -11,14 +11,28 @@ import { AuthService } from '../auth.service';
   styleUrls : ['./login.component.css']
   
 })
-export class LoginComponent implements OnInit{
+export class LoginComponent implements OnInit, AfterViewInit{
   email = '';
   password = '';
-  successMessage: string = '';
-  validationError: string = '';
 
+  validationError: string = '';
   emailInvalid: boolean = false; 
   passwordInvalid: boolean = false;
+
+  telephone = '';
+  adress = '';
+  cin = '';
+  numeroIdentification = '';
+  fullName = '';
+  specialite = '';
+  submitted = false;
+
+  statusMessage: string = '';
+  isSuccess: boolean = true;
+  validationErrors: {[key: string]: string[]} = {};
+
+  showMessage: boolean = false;
+  messageTimeout: any;
 
   constructor(private auth: AuthService, private router: Router) {}
   ngOnInit(): void {
@@ -27,27 +41,62 @@ export class LoginComponent implements OnInit{
     }
   }
 
-  login() {
+  displayMessage(message: string, isSuccess: boolean, duration: number = 3000) {
+    this.statusMessage = message;
+    this.isSuccess = isSuccess;
+    this.showMessage = true;
+
+    if (this.messageTimeout) {
+      clearTimeout(this.messageTimeout);
+    }
+
+    this.messageTimeout = setTimeout(() => {
+      this.showMessage = false;
+      this.statusMessage = '';
+      this.validationError = '';
+    }, duration);
+  }
+
+
+  ngAfterViewInit(): void {
+    const signUpButton = document.getElementById('signUp');
+    const signInButton = document.getElementById('signIn');
+    const container = document.getElementById('container');
+
+    if (signUpButton && signInButton && container) {
+      signUpButton.addEventListener('click', () => {
+        container.classList.add('right-panel-active');
+      });
+
+      signInButton.addEventListener('click', () => {
+        container.classList.remove('right-panel-active');
+      });
+    }
+  }
+
+
+  public login(): void {
     this.emailInvalid = !this.email.trim();
     this.passwordInvalid = !this.password.trim();
 
     if (this.emailInvalid || this.passwordInvalid){
+      this.displayMessage('Please fill in all required fields', false);
       return;
     }
 
     this.validationError = '';
-    this.successMessage = '';
+    this.statusMessage = '';
 
     this.auth.login(this.email, this.password).subscribe({
       next: (response: any) => {
-        this.successMessage = response.message || 'Login successful!';
+        this.displayMessage(response.message || 'Login successful!', true);
         setTimeout(() => {
-          this.successMessage = '';
+          this.statusMessage = '';
           this.router.navigateByUrl('dashboard');
-        },3000);
+        },1000);
       },
       error: err =>{
-        this.validationError = err.error?.message || 'Login failed. Please try again.';
+        this.displayMessage(err.error?.message || 'Login failed. Please try again.', false);
         setTimeout(()=>{
           this.validationError = '';
         },3000);
@@ -55,7 +104,34 @@ export class LoginComponent implements OnInit{
     });
   }
 
-  navigateToRegister() {
-    this.router.navigate(['/register']);
+  register() {
+    this.submitted = true;
+    this.statusMessage = '';
+    this.validationErrors = {};
+    if (!this.fullName || !this.specialite || !this.email || !this.password || !this.telephone || !this.adress || !this.numeroIdentification) {
+      this.displayMessage('Please fill in all required fields', false);
+      this.isSuccess = false;
+      return;
+    }
+    this.validationErrors = {};
+    this.statusMessage = '';
+    this.isSuccess = true;
+    this.auth.register(this.email, this.password, this.fullName, this.specialite, this.telephone, this.adress, this.cin, this.numeroIdentification).subscribe({
+      next: (response: any) => {
+        this.displayMessage(response.message || 'Registration successful!', true);
+        this.isSuccess = true;
+        setTimeout(() => {
+          this.router.navigate(['/home']);
+        },2000);
+      },
+      error: (err) => {
+        if (err.error && err.error.errors) {
+          this.validationErrors = err.error.errors || {};
+        } else {
+          this.displayMessage(err.error?.message || 'Registration failed. Please try again.', false);
+          this.isSuccess = false;
+        }
+      }
+    });
   }
 }

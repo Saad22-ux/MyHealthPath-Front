@@ -1,42 +1,287 @@
-/* profil-medecin.component.css */
-
 :host {
   display: block;
-  padding: 2rem;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f9f9f9;
-  border-radius: 12px;
-  max-width: 600px;
-  margin: 2rem auto;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 3.5rem 4rem;
+  font-family: 'Poppins', 'Helvetica Neue', Arial, sans-serif;
+  background-color: #ffffff;
+  border-radius: 10px;
+  max-width: 920px;
+  margin: 3rem auto;
+  box-shadow: 0 10px 30px rgba(8, 75, 130, 0.08);
+  position: relative;
+  border-top: 15px solid #2E7D32; /* Changé en vert hospitalier */
+  overflow: hidden;
+  color: #2e384d;
+}
+
+:host::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 35%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(46, 125, 50, 0.03) 0%, rgba(46, 125, 50, 0.01) 100%);
+  z-index: 0;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 30% 100%);
 }
 
 h2 {
-  text-align: center;
-  color: #2c3e50;
-  margin-bottom: 1.5rem;
+  color: #2E7D32; /* Changé en vert hospitalier */
+  margin-bottom: 2.5rem;
+  font-size: 2.4rem;
+  font-weight: 700;
+  position: relative;
+  display: inline-block;
+  z-index: 1;
+  letter-spacing: -0.5px;
 }
 
-p {
-  font-size: 1rem;
-  margin: 0.5rem 0;
-  color: #333;
+h2::after {
+  content: "";
+  position: absolute;
+  bottom: -12px;
+  left: 0;
+  width: 70px;
+  height: 4px;
+  background: linear-gradient(90deg, #2E7D32, #4CAF50); /* Dégradé vert */
+  border-radius: 4px;
 }
 
-strong {
-  color: #2c3e50;
-  margin-right: 0.5rem;
+.profile-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 3.5rem;
+  position: relative;
+  z-index: 1;
+  gap: 3rem;
+}
+
+.profile-photo {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.profile-photo img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 6px solid white;
+  box-shadow: 0 8px 20px rgba(46, 125, 50, 0.15); /* Ombre verte */
+  transition: all 0.3s ease;
+}
+
+.profile-photo:hover img {
+  transform: scale(1.03);
+  box-shadow: 0 10px 25px rgba(46, 125, 50, 0.2); /* Ombre verte au survol */
+}
+
+.profile-photo::before {
+  content: "";
+  position: absolute;
+  width: 164px;
+  height: 164px;
+  border-radius: 50%;
+  border: 2px dashed #2E7D32; /* Bordure verte */
+  top: -12px;
+  left: -12px;
+  z-index: -1;
+  opacity: 0.4;
+  animation: rotate 20s linear infinite;
+}
+
+@keyframes rotate {
+  100% { transform: rotate(360deg); }
+}
+
+.profile-info {
+  flex: 1;
+}
+
+.profile-name {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #1a2b6d;
+  margin-bottom: 0.6rem;
+  line-height: 1.2;
+}
+
+.profile-title {
+  font-size: 1.2rem;
+  color: #6c757d;
+  font-weight: 500;
+  margin-bottom: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.profile-title::before {
+  content: "";
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: #2E7D32; /* Ligne verte */
+}
+
+.profile-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: linear-gradient(135deg, #2E7D32, #4CAF50); /* Dégradé vert */
+  color: white;
+  padding: 0.4rem 1.2rem;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: 0 3px 10px rgba(46, 125, 50, 0.2); /* Ombre verte */
+}
+
+.profile-details {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2.2rem;
+  margin-top: 2.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.detail-label {
+  font-weight: 600;
+  color: #2E7D32; /* Texte vert */
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.detail-value {
+  font-size: 1.1rem;
+  color: #495057;
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+.medical-highlight {
+  background-color: rgba(248, 249, 250, 0.8);
+  padding: 2rem;
+  border-radius: 12px;
+  border-left: 5px solid #2E7D32; /* Bordure verte */
+  margin: 3rem 0;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+}
+
+button {
+  background: linear-gradient(135deg, #2E7D32, #4CAF50); /* Dégradé vert */
+  color: white;
+  border: none;
+  padding: 1rem 2.5rem;
+  font-size: 1.05rem;
+  border-radius: 50px;
+  cursor: pointer;
+  margin-top: 2.5rem;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  box-shadow: 0 5px 15px rgba(46, 125, 50, 0.3); /* Ombre verte */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  position: relative;
+  overflow: hidden;
+}
+
+button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: 0.5s;
+}
+
+button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(46, 125, 50, 0.4); /* Ombre verte au survol */
+}
+
+button:hover::before {
+  left: 100%;
 }
 
 .error-message {
-  color: #e74c3c;
-  font-weight: bold;
+  color: #dc3545;
+  font-weight: 600;
   text-align: center;
   margin-top: 1rem;
+  padding: 1.8rem;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  border-left: 5px solid #dc3545;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
 }
 
 .loading-message {
-  color: #555;
+  color: #6c757d;
   text-align: center;
   margin-top: 1rem;
+  padding: 2.5rem;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  font-size: 1.1rem;
+}
+
+.medical-icon {
+  color: #2E7D32; /* Icônes vertes */
+  font-size: 1.1rem;
+  min-width: 20px;
+}
+
+@media (max-width: 992px) {
+  :host {
+    padding: 2.5rem;
+  }
+  
+  .profile-details {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  :host {
+    padding: 2rem;
+  }
+  
+  .profile-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 2rem;
+  }
+  
+  .profile-title {
+    justify-content: center;
+  }
+  
+  h2 {
+    font-size: 2rem;
+  }
+  
+  .profile-name {
+    font-size: 1.8rem;
+  }
 }

@@ -1,12 +1,11 @@
-
 <div *ngIf="prescription?.isActive; else expiredMsg" class="detail-container">
-  <div class="detail-item" *ngFor="let med of prescription?.medicaments; let i = index">
+  <div class="detail-item" *ngFor="let med of filteredMedicaments; let i = index">
     <strong>Medicament:</strong> <span>{{ med.name }}</span>
     <strong>Dose:</strong> <span>{{ med.dose }}</span>
     <strong>Frequency:</strong> <span>{{ med.frequency }}</span>
     <strong>Duree:</strong> <span>{{ med.duree }}</span>
 
-    <div *ngIf="userRole === 'patient'" class="checkbox-wrapper">
+    <div class="checkbox-wrapper">
       <input type="checkbox" [(ngModel)]="med.isChecked" id="med-{{ i }}" />
       <label for="med-{{ i }}">Pris</label>
     </div>
@@ -14,12 +13,12 @@
 
   <div class="detail-item">
     <strong>Indicators:</strong>
-    <div *ngIf="prescription?.indicateurs?.length > 0">
+    <div *ngIf="filteredMedicaments?.length !== undefined && filteredIndicateurs?.length !== undefined">
       <ul class="indicators-list">
-        <li *ngFor="let indicator of prescription?.indicateurs; let j = index">
+        <li *ngFor="let indicator of filteredIndicateurs; let j = index">
           <span>{{ indicator.nom }}</span>
 
-          <div *ngIf="userRole === 'patient'" class="indicator-inputs">
+          <div class="indicator-inputs">
             <input
               type="text"
               placeholder="Valeur"
@@ -30,9 +29,17 @@
         </li>
       </ul>
     </div>
-    <div *ngIf="!prescription?.indicateurs?.length">
+    <div *ngIf="!filteredIndicateurs?.length">
       <p>No indicators assigned.</p>
     </div>
+  </div>
+
+  <!-- Submit button -->
+  <div class="submit-journal" *ngIf="filteredMedicaments.length || filteredIndicateurs.length">
+    <button (click)="submitJournal()">Pris Aujourd'hui</button>
+  </div>
+  <div *ngIf="!filteredMedicaments.length && !filteredIndicateurs.length">
+    <p>Tous les médicaments ont été pris et tous les indicateurs mesurés.</p>
   </div>
 </div>
 

@@ -1,45 +1,74 @@
 <div class="page-wrapper">
-<div class="form-wrapper">
-  <form (ngSubmit)="login()">
-    <h1 class="app-title">MyHealthPath</h1>
+  <div class="container" id="container">
+    <!-- SIGN UP FORM -->
+    <div class="form-container sign-up-container">
+      <form (ngSubmit)="register()" #registerForm="ngForm">
+        <div *ngIf="statusMessage" class="alert" [ngClass]="{'alert-success': isSuccess, 'alert-error': !isSuccess}">
+          {{ statusMessage }}
+        </div>
+        <div *ngIf="(validationErrors | keyvalue)?.length" class="alert alert-error">
+          <div *ngFor="let error of validationErrors | keyvalue">
+            {{ error.value }}
+          </div>
+        </div>
 
-    <!-- Display Success Message -->
-    <div *ngIf="successMessage" class="success-message">
-      {{ successMessage }}
+        <h1>Create Account</h1>
+        <label for="fullName">Full Name</label>
+        <input type="text" placeholder="Enter your FullName" name="fullName" [(ngModel)]="fullName" required />
+        <label for="email">Email address</label>
+        <input type="email" placeholder="Enter your email" name="email" [(ngModel)]="email" required />
+        <label for="cin">Cin</label>
+        <input type="text" placeholder="Enter your Cin" name="cin" [(ngModel)]="cin" required />
+        <label for="telephone">Phone number</label>
+        <input type="text" placeholder="Enter your phone number" name="telephone" [(ngModel)]="telephone" required />
+        <label for="adress">Address</label>
+        <input type="text" placeholder="Enter your adddress" name="adress" [(ngModel)]="adress" required />
+        <label for="numeroIdentification">Identificator number</label>
+        <input type="text" placeholder="Enter your ID Number" name="numeroIdentification" [(ngModel)]="numeroIdentification" required />
+        <label for="specialite">Speciality</label>
+        <select name="specialite" [(ngModel)]="specialite" required class="form-select">
+          <option value="" disabled selected>Choose your speciality</option>
+          <option value="endocrinologie-diabétologie-nutrition">Endocrinologie, Diabétologie & Nutrition</option>
+          <option value="cardiologie">Cardiologie</option>
+          <option value="lipidologie">Lipidologie</option>
+        </select>
+        <label for="password">Password</label>
+        <input type="password" placeholder="Enter your password" name="password" [(ngModel)]="password" required />
+        <button type="submit">Sign Up</button>
+      </form>
     </div>
 
-    <!-- Display Error Message -->
-    <div *ngIf="validationError" class="alert alert-danger">
-      {{ validationError }}
+    <!-- SIGN IN FORM -->
+    <div class="form-container sign-in-container">
+      <form (ngSubmit)="login()" #loginForm="ngForm">
+        <div *ngIf="validationError" class="alert alert-error">
+          {{ validationError }}
+        </div>
+        <div *ngIf="statusMessage" class="alert" [ngClass]="{'alert-success': isSuccess, 'alert-error': !isSuccess}">
+          {{ statusMessage }}
+        </div>
+        <h1>Sign in</h1>
+        <label for="email">Email address</label>
+        <input type="email" name="email" placeholder="Email" [(ngModel)]="email" required />
+        <label for="password">Password</label>
+        <input type="password" name="password" placeholder="Password" [(ngModel)]="password" required />
+        <button type="submit">Sign In</button>
+      </form>
     </div>
 
-    <div class="form-floating">
-      <input 
-        [(ngModel)]="email" 
-        name="email" 
-        placeholder="Email" 
-        required 
-        [ngClass]="{'is-invalid': emailInvalid}" />
-      <div *ngIf="emailInvalid" class="invalid-feedback">
-        Email is required.
+    <!-- OVERLAY -->
+    <div class="overlay-container">
+      <div class="overlay">
+        <div class="overlay-panel overlay-left">
+          <h1>Welcome Back!</h1>
+          <button type="button" class="ghost" id="signIn">Sign In</button>
+        </div>
+        <div class="overlay-panel overlay-right">
+          <h1>New Doctor!</h1>
+          <p>Enter your personal details and start your experience</p>
+          <button type="button" class="ghost" id="signUp">Sign Up</button>
+        </div>
       </div>
     </div>
-
-    <div class="form-floating">
-      <input 
-        [(ngModel)]="password" 
-        name="password" 
-        type="password" 
-        placeholder="Password" 
-        required 
-        [ngClass]="{'is-invalid': passwordInvalid}" />
-      <div *ngIf="passwordInvalid" class="invalid-feedback">
-        Password is required.
-      </div>
-    </div>
-
-    <button class="btn btn-primary w-100 py-2" type="submit">Login</button>
-    <p>New Doctor? <span (click)="navigateToRegister()" style="color: blue; cursor: pointer;">Register here</span></p>
-  </form>
-</div>
+  </div>
 </div>

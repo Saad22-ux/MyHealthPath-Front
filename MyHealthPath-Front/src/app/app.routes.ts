@@ -21,6 +21,7 @@ import { UpdatePatientProfilComponent } from './Patient/update-patient-profil/up
 import { ListUsersComponent } from './list-users/list-users.component';
 import { LierPatientsComponent } from './Medecin/lier-patients/lier-patients.component';
 import { NotificationsComponent } from './Patient/notifications/notifications.component';
+import { CreateJournalComponent } from './Patient/create-journal/create-journal.component';
 
 
 export const routes: Routes = [
@@ -47,5 +48,6 @@ export const routes: Routes = [
   { path: 'profilePatient/update', component: UpdatePatientProfilComponent },
   { path: 'admin/utilisateurs', component: ListUsersComponent },
   { path: 'lier-patients', component: LierPatientsComponent },
-  { path: 'notifications', component: NotificationsComponent }
+  { path: 'notifications', component: NotificationsComponent },
+  { path: 'create-journal/:id', component: CreateJournalComponent }
 ];

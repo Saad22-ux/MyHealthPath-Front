@@ -9,7 +9,7 @@
       <div>Prescribed by: <em>{{ prescription.Medecin?.User?.fullName || 'Unknown' }}</em></div>
 
       <ng-container *ngIf="shouldShowViewButton(prescription.id); else wait24h">
-        <a [routerLink]="['/prescriptions-details', prescription.id]" class="btn" style="margin-top: 5px;">
+        <a [routerLink]="['/create-journal', prescription.id]" class="btn" style="margin-top: 5px;">
         View Details
         </a>
       </ng-container>

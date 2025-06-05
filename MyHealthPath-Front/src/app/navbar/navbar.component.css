@@ -1,267 +1,308 @@
-/* Base Navbar Styles - Default Horizontal */
-.navbar {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #2d3748;
-  padding: 0 20px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  height: 60px;
-  position: relative;
-  /* Hide all scrollbars in horizontal navbar */
-  overflow: hidden;
-}
+:root {
+    --primary-color: #4a6fa5; /* Professional blue */
+    --secondary-color: #6b8cae; /* Lighter blue */
+    --accent-color: #4fd1c5; /* Teal accent */
+    --danger-color: #ff6b6b; /* Soft red */
+    --text-light: #f8f9fa;
+    --text-dark: #2d3748;
+    --bg-light: #ffffff;
+    --bg-dark: #2d3748;
+    --transition-speed: 0.3s;
+  }
 
-/* Vertical Navbar Overrides (for patients and doctors) */
-.navbar.vertical-navbar {
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: stretch;
-  padding: 20px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  position: fixed;
-  height: 100vh;
-  width: 250px;
-  top: 0;
-  left: 0;
-  transition: all 0.3s ease-in-out;
-  /* Hide scrollbar but keep scrolling */
-  overflow-y: auto;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE/Edge */
-}
-
-/* Completely remove scrollbar for all browsers */
-.navbar.vertical-navbar::-webkit-scrollbar {
-  display: none;
-  width: 0;
-  height: 0;
-  background: transparent;
-}
-
-/* Navbar Brand */
-.navbar-brand {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  color: #4fd1c5;
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 30px;
-}
-
-/* Base Navbar Links - Horizontal */
-.navbar-links {
-  display: flex;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  gap: 15px;
-  /* Prevent any scrolling in horizontal nav */
-  overflow: hidden;
-}
-
-/* Vertical Navbar Links */
-.vertical-navbar .navbar-links {
-  flex-direction: column;
-  gap: 10px;
-  flex-grow: 1;
-  width: 100%;
-  /* Hide scrollbar but allow scrolling */
-  overflow-y: auto;
-  max-height: calc(100vh - 80px);
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE/Edge */
-}
-
-/* Hide scrollbar for vertical nav links */
-.vertical-navbar .navbar-links::-webkit-scrollbar {
-  display: none;
-  width: 0;
-  height: 0;
-  background: transparent;
-}
-
-/* Link Styling */
-.nav-link {
-  text-decoration: none;
-  color: #f7fafc;
-  padding: 8px 16px;
-  font-weight: 500;
-  font-size: 16px;
-  border-radius: 8px;
-  transition: background-color 0.3s ease;
-  display: block;
-  text-align: left;
-  position: relative;
-  white-space: nowrap; /* Prevent text wrapping in horizontal nav */
-}
-
-/* Horizontal layout specific link styles */
-.navbar:not(.vertical-navbar) .nav-link {
-  width: auto;
-  margin: 0;
-}
-
-/* Vertical layout specific link styles */
-.vertical-navbar .nav-link {
-  width: calc(100% - 32px);
-  margin: 0;
-}
-
-.nav-link:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-.vertical-navbar .nav-link:hover::after {
-  content: "→";
-  position: absolute;
-  right: 16px;
-  transition: all 0.3s ease;
-}
-
-.nav-link.active {
-  background-color: #4299e1;
-  color: white;
-  box-shadow: 0 4px 10px rgba(66, 153, 225, 0.3);
-}
-
-/* Logout Link */
-.logout-link {
-  color: #f56565;
-  font-weight: 600;
-  text-transform: uppercase;
-  transition: background-color 0.3s ease;
-  padding: 14px 20px;
-  border-radius: 10px;
-  text-align: center;
-  display: block;
-  cursor: pointer;
-}
-
-/* Horizontal logout positioning */
-.logout-container {
-  margin-left: auto;
-}
-
-/* Vertical logout positioning */
-.vertical-navbar .logout-container {
-  margin-left: 0;
-  margin-top: auto;
-  width: 100%;
-}
-
-.logout-link:hover {
-  background-color: rgba(248, 113, 113, 0.1);
-}
-
-/* Patient Button */
-.patient-btn {
-  position: relative;
-}
-
-/* Horizontal patient button */
-.navbar:not(.vertical-navbar) .patient-btn {
-  display: inline-block;
-}
-
-.patient-link {
-  padding: 12px 20px;
-  background-color: #ed8936;
-  color: white;
-  text-align: center;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 600;
-  transition: background-color 0.3s ease;
-  display: block;
-}
-
-.patient-link:hover {
-  background-color: #dd6b20;
-}
-
-/* Patient Dropdown */
-.patient-dropdown {
-  display: none;
-  position: absolute;
-  background-color: #4a5568;
-  padding: 12px 0;
-  border-radius: 8px;
-  list-style: none;
-  margin: 0;
-  z-index: 2;
-  min-width: 200px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* Horizontal dropdown positioning */
-.navbar:not(.vertical-navbar) .patient-dropdown {
-  left: 0;
-  top: 100%;
-}
-
-/* Show dropdown */
-.patient-btn:hover .patient-dropdown,
-.patient-dropdown:hover {
-  display: block;
-}
-
-.patient-dropdown li {
-  display: block;
-}
-
-.patient-dropdown li a {
-  color: #f7fafc;
-  text-decoration: none;
-  padding: 12px 24px;
-  font-weight: 500;
-  transition: background-color 0.3s ease;
-  display: block;
-}
-
-.patient-dropdown li a:hover {
-  background-color: #2d3748;
-  padding-left: 30px;
-}
-
-/* Responsive Styles */
-@media (max-width: 768px) {
+  /* Base Navbar Styles */
   .navbar {
-    flex-direction: column;
-    height: auto;
-    padding: 15px;
-    overflow: hidden !important;
-  }
-
-  .navbar-links {
-    flex-direction: column;
-    gap: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--bg-light);
+    padding: 0 2rem;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
     width: 100%;
-    overflow: hidden !important;
-  }
-
-  .logout-container {
-    margin-left: 0;
-    margin-top: 15px;
-    width: 100%;
-  }
-
-  /* Keep vertical navbar styles on mobile */
-  .navbar.vertical-navbar {
-    width: 100%;
+    height: 70px;
     position: relative;
-    height: auto;
-    overflow-y: hidden !important;
+    z-index: 1000;
+    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  }
+
+  /* Vertical Navbar */
+  .navbar.vertical-navbar {
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 2rem 1.5rem;
+    width: 280px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    border-right: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: none;
+    transition: all var(--transition-speed) ease;
+  }
+
+  /* Navbar Brand */
+  .navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .app-title {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+
+  /* Navbar Links */
+  .navbar-links {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 0.5rem;
   }
 
   .vertical-navbar .navbar-links {
-    max-height: none;
-    overflow-y: hidden !important;
+    flex-direction: column;
+    gap: 0.25rem;
+    width: 100%;
+    margin-top: 1.5rem;
   }
+
+  /* Link Styling */
+  .nav-link {
+    text-decoration: none;
+    color: var(--text-dark);
+    padding: 0.75rem 1.25rem;
+    font-weight: 500;
+    font-size: 0.95rem;
+    border-radius: 8px;
+    transition: all var(--transition-speed) ease;
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+
+  .nav-link:hover {
+    background-color: rgba(74, 111, 165, 0.08);
+    color: var(--primary-color);
+  }
+
+  .nav-link.active {
+    background-color: rgba(74, 111, 165, 0.1);
+    color: var(--primary-color);
+    font-weight: 600;
+  }
+
+  .nav-link.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 60%;
+    width: 3px;
+    background-color: var(--primary-color);
+    border-radius: 0 3px 3px 0;
+  }
+
+  .vertical-navbar .nav-link {
+    padding: 0.75rem 1rem;
+  }
+
+  .dashboard-link:hover {
+    background-color: rgba(79, 209, 197, 0.2);
+  }
+
+  /* Logout Link */
+  .logout-link {
+    color: var(--danger-color);
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all var(--transition-speed) ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .logout-link:hover {
+    background-color: rgba(255, 107, 107, 0.1);
+  }
+
+  .vertical-navbar .logout-container {
+    margin-top: auto;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  /* Patient Dropdown */
+  .patient-btn {
+    position: relative;
+  }
+
+  .patient-link {
+    padding: 0.75rem 1.5rem;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all var(--transition-speed) ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .patient-link:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-1px);
+  }
+
+  .patient-dropdown {
+    display: none;
+    position: absolute;
+    background-color: var(--bg-light);
+    padding: 0.5rem 0;
+    border-radius: 8px;
+    list-style: none;
+    margin: 0;
+    z-index: 100;
+    min-width: 220px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .navbar:not(.vertical-navbar) .patient-dropdown {
+    left: 0;
+    top: calc(100% + 0.5rem);
+  }
+
+  .vertical-navbar .patient-dropdown {
+    position: static;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .patient-btn:hover .patient-dropdown {
+    display: block;
+  }
+
+  .patient-dropdown li a {
+    color: var(--text-dark);
+    padding: 0.75rem 1.5rem;
+    transition: all var(--transition-speed) ease;
+  }
+
+  .patient-dropdown li a:hover {
+    background-color: rgba(74, 111, 165, 0.08);
+    padding-left: 1.75rem;
+    color: var(--primary-color);
+  }
+
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .navbar {
+      padding: 0 1rem;
+      height: 60px;
+    }
+    
+    .navbar.vertical-navbar {
+      width: 100%;
+      height: auto;
+      position: relative;
+      padding: 1rem;
+    }
+    
+    .vertical-navbar .navbar-links {
+      margin-top: 1rem;
+    }
+    
+    .app-title {
+      font-size: 1.25rem;
+    }
+    
+    .nav-link {
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+    }
+  }
+
+  /* Icons (you would add these with font-awesome or similar) */
+  .nav-link i, .logout-link i {
+    font-size: 1.1rem;
+    width: 24px;
+    text-align: center;
+  }
+  
+  /* Ajoutez ceci à votre fichier CSS */
+.centered-links {
+  flex: 1;
+  display: flex;
+  justify-content: center;
 }
 
+/* Pour s'assurer que cela ne s'applique que lorsque l'utilisateur n'est pas authentifié */
+.navbar:not(.vertical-navbar) .navbar-links:has(.centered-links) {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  gap: 1rem;
+}
 
+/* Ajustement pour les liens centrés */
+.navbar:not(.vertical-navbar) .centered-links .nav-link {
+  padding: 0.75rem 1.5rem;
+}
+
+/* Pour la version verticale (si jamais utilisée) */
+.vertical-navbar .centered-links {
+  flex: initial;
+  display: block;
+}
+  
+
+/* Nouveau CSS spécifique pour la disposition non authentifiée */
+.navbar:not(.vertical-navbar) .navbar-links {
+  display: flex;
+  flex: 1;
+  position: relative; /* Important pour le positionnement absolu de home */
+}
+
+/* Login reste collé à gauche */
+.navbar:not(.vertical-navbar) .about-link {
+  margin-left: auto;
+}
+
+/* Home parfaitement centré */
+.navbar:not(.vertical-navbar) .home-link .login-link{
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* About reste collé à droite */
+.navbar:not(.vertical-navbar) .login-link {
+  margin-left: auto;
+}
+
+/* Version mobile */
+@media (max-width: 768px) {
+  .navbar:not(.vertical-navbar) .navbar-links {
+    flex-direction: column;
+    position: static;
+  }
+  
+  .navbar:not(.vertical-navbar) .home-link .login-link{
+    position: static;
+    transform: none;
+    order: -1; /* Met Home en premier */
+  }
+  
+  .navbar:not(.vertical-navbar) .about-link,
+  .navbar:not(.vertical-navbar) .login-link {
+    margin: 0;
+  }
+}

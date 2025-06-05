@@ -1,24 +1,105 @@
-<div *ngIf="profile; else errorTpl">
-  <h2>Profil Patient</h2>
-  <div *ngIf="profile?.photo">
-    <img [src]="getPhotoUrl(profile.photo)" alt="Photo du patient" width="150" height="150" />
+<div *ngIf="profile; else errorTpl" class="profile-container">
+  <h2>Medical record of patient</h2>
+  
+  <div class="profile-header">
+    <div *ngIf="profile?.photo" class="profile-photo">
+      <img [src]="getPhotoUrl(profile.photo)" alt="Photo du patient" />
+    </div>
+    <div class="profile-info">
+      <h1 class="profile-name">{{ profile.fullName }}</h1>
+      <div class="profile-title">
+        <i class="medical-icon fas fa-user-md"></i>
+        <span>Profil Patient</span>
+      </div>
+      <span class="profile-badge">
+        <i class="fas fa-heartbeat"></i>
+        <span>Active Medical Record</span>
+      </span>
+    </div>
   </div>
-  <p><strong>Nom complet:</strong> {{ profile.fullName }}</p>
-  <p><strong>Email:</strong> {{ profile.email }}</p>
-  <p><strong>Genre:</strong> {{ profile.genre }}</p>
-  <p><strong>Cin:</strong> {{ profile.cin }}</p>
-  <p><strong>Taille:</strong> {{ profile.taille }}</p>
-  <p><strong>Poids:</strong> {{ profile.poids }}</p>
-  <p><strong>Telephone:</strong> {{ profile.telephone }}</p>
-  <p><strong>Address:</strong> {{ profile.adress }}</p>
-  <p><strong>Âge:</strong> {{ calculateAge(profile.date_naissance) }} ans</p>
 
-  <button (click)="redirectToUpdate()" class="btn btn-primary">Modifier Profil</button>
+  <div class="medical-highlight">
+    <h3>Informations Clinic</h3>
+    <div class="profile-details">
+      <div class="detail-item">
+        <span class="detail-label">
+          <i class="medical-icon fas fa-envelope"></i>
+          <span>Email adress</span>
+        </span>
+        <span class="detail-value">{{ profile.email }}</span>
+      </div>
+      
+      <div class="detail-item">
+        <span class="detail-label">
+          <i class="medical-icon fas fa-venus-mars"></i>
+          <span>Gender</span>
+        </span>
+        <span class="detail-value">{{ profile.genre }}</span>
+      </div>
+      
+      <div class="detail-item">
+        <span class="detail-label">
+          <i class="medical-icon fas fa-id-card"></i>
+          <span>CIN</span>
+        </span>
+        <span class="detail-value">{{ profile.cin }}</span>
+      </div>
+      
+      <div class="detail-item">
+        <span class="detail-label">
+          <i class="medical-icon fas fa-phone-alt"></i>
+          <span>Phone number</span>
+        </span>
+        <span class="detail-value">{{ profile.telephone }}</span>
+      </div>
+      
+      <div class="detail-item">
+        <span class="detail-label">
+          <i class="medical-icon fas fa-ruler-vertical"></i>
+          <span>Height</span>
+        </span>
+        <span class="detail-value">{{ profile.taille }} cm</span>
+      </div>
+      
+      <div class="detail-item">
+        <span class="detail-label">
+          <i class="medical-icon fas fa-weight"></i>
+          <span>Weight</span>
+        </span>
+        <span class="detail-value">{{ profile.poids }} kg</span>
+      </div>
+      
+      <div class="detail-item">
+        <span class="detail-label">
+          <i class="medical-icon fas fa-birthday-cake"></i>
+          <span>Age</span>
+        </span>
+        <span class="detail-value">{{ calculateAge(profile.date_naissance) }} ans</span>
+      </div>
+      
+      <div class="detail-item">
+        <span class="detail-label">
+          <i class="medical-icon fas fa-map-marker-alt"></i>
+          <span>Address</span>
+        </span>
+        <span class="detail-value">{{ profile.adress }}</span>
+      </div>
+    </div>
+  </div>
+
+  <button (click)="redirectToUpdate()" class="btn btn-primary">
+    <i class="fas fa-edit"></i>
+    <span>Updtae profil</span>
+  </button>
 </div>
 
 <ng-template #errorTpl>
-  <p *ngIf="errorMessage">{{ errorMessage }}</p>
-  <p *ngIf="!errorMessage">Chargement du profil...</p>
+  <p *ngIf="errorMessage" class="error-message">
+    <i class="fas fa-exclamation-triangle"></i>
+    <span>{{ errorMessage }}</span>
+  </p>
+  <p *ngIf="!errorMessage" class="loading-message">
+    <i class="fas fa-circle-notch fa-spin"></i>
+    <span>Loading Medical Record...</span>
+  </p>
 </ng-template>
-
-

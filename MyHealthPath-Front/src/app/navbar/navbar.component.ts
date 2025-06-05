@@ -14,6 +14,7 @@ import { CommonModule, NgIf } from '@angular/common';
 export class NavbarComponent implements OnInit {
   isAuthenticated: boolean = false;
   userRole: string = '';
+  patientId: string | null = null;
 
   constructor(public authService: AuthService, private router: Router) {}
 

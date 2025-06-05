@@ -1,25 +1,86 @@
-<div class="table-container">
-  <h2>🩺 Unapproved Medecins</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Date</th>
-        <th>fullName</th>
-        <th>Email</th>
-        <th>Specialty</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let medecin of medecins">
-        <td>{{ medecin.createdAt }}</td>
-        <td>{{ medecin.User?.fullName }}</td>
-        <td>{{ medecin.User?.email }}</td>
-        <td>{{ medecin.specialite }}</td>
-        <td>
-          <button (click)="approve(medecin.UserId)">✅ Approve</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<div class="doctors-management-container">
+  <header class="management-header">
+    <h2 class="header-title">🩺 Unapproved Doctors</h2>
+    
+    <div *ngIf="statusMessage" class="status-alert" [class.alert-success]="isSuccess" [class.alert-error]="!isSuccess">
+      {{ statusMessage }}
+    </div>
+  </header>
+
+  <div class="responsive-table">
+    <table class="doctors-table">
+      <thead>
+        <tr>
+          <th class="sortable-header" (click)="sortBy('createdAt')">
+            <div class="header-content">
+              <span>Date of register</span>
+              <i class="sort-icon fas" 
+                 [class.fa-sort-up]="sortColumn === 'createdAt' && sortDirection === 'asc'"
+                 [class.fa-sort-down]="sortColumn === 'createdAt' && sortDirection === 'desc'"></i>
+            </div>
+          </th>
+          <th class="sortable-header" (click)="sortBy('fullName')">
+            <div class="header-content">
+              <span>FullName</span>
+              <i class="sort-icon fas" 
+                 [class.fa-sort-up]="sortColumn === 'fullName' && sortDirection === 'asc'"
+                 [class.fa-sort-down]="sortColumn === 'fullName' && sortDirection === 'desc'"></i>
+            </div>
+          </th>
+          <th>Email address</th>
+          <th class="sortable-header" (click)="sortBy('specialite')">
+            <div class="header-content">
+              <span>Speciality</span>
+              <i class="sort-icon fas" 
+                 [class.fa-sort-up]="sortColumn === 'specialite' && sortDirection === 'asc'"
+                 [class.fa-sort-down]="sortColumn === 'specialite' && sortDirection === 'desc'"></i>
+            </div>
+          </th>
+          <th class="sortable-header" (click)="sortBy('specialite')">
+            <div class="header-content">
+              <span>Identificator number</span>
+              <i class="sort-icon fas" 
+                 [class.fa-sort-up]="sortColumn === 'numeroIdentification' && sortDirection === 'asc'"
+                 [class.fa-sort-down]="sortColumn === 'numeroIdentification' && sortDirection === 'desc'"></i>
+            </div>
+          </th>
+          <th>Address</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let medecin of visibleMedecins" class="doctor-row">
+          <td data-label="Date de demande">{{ medecin.createdAt | date:'dd/MM/yyyy' }}</td>
+          <td data-label="Nom complet">{{ medecin.User?.fullName }}</td>
+          <td data-label="Email">{{ medecin.User?.email }}</td>
+          <td data-label="Spécialité">
+            <span class="specialty-tag">{{ medecin.specialite }}</span>
+          </td>
+          <td data-label="numeroIdentification">{{ medecin.numeroIdentification }}</td>
+          <td data-label="adress">{{ medecin.User?.adress }}</td>
+          <td data-label="Actions">
+            <button class="action-btn approve-action" (click)="approve(medecin.UserId)">
+              <i class="fas fa-user-check"></i> Approve
+            </button>
+          </td>
+        </tr>
+        
+        <tr *ngIf="medecins.length === 0" class="empty-row">
+          <td colspan="5">
+            <div class="empty-message">
+              <i class="fas fa-user-md"></i>
+              <p>No doctors to approve</p>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="hasMoreMedecins()" class="load-more-section">
+    <button class="load-more-btn" (click)="loadMore()">
+      <i class="fas fa-chevron-down"></i>
+      Show more ({{ remainingMedecinsCount() }} remaining)
+    </button>
+  </div>
 </div>

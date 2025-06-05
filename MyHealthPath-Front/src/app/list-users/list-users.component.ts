@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
-import { NgFor, NgIf } from '@angular/common';
+import { CommonModule, NgFor, NgIf } from '@angular/common';
+
 
 @Component({
   selector: 'app-list-users',
-  imports: [NgIf,NgFor],
+  imports: [NgIf,NgFor,CommonModule],
   templateUrl: './list-users.component.html',
   styleUrls: ['./list-users.component.css']
 })

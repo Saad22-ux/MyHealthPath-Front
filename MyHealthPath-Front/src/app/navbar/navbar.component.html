@@ -1,60 +1,136 @@
-<nav  class="navbar" [ngClass]="{'vertical-navbar': (isPatient() || isMedecin()) && isAuthenticated}">
+<head>
+  <!-- Autres balises meta... -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+
+<nav class="navbar" [ngClass]="{'vertical-navbar': (isPatient() || isMedecin()) && isAuthenticated}">
   <div class="navbar-brand">
-    <span class="app-title">MyHealthPath</span>
+    <span class="app-title"><i class="fas fa-heartbeat"></i> MyHealthPath</span>
   </div>
 
   <ul class="navbar-links">
     <!-- Dashboard for authenticated users -->
     <ng-container *ngIf="isAuthenticated">
-      <li><a routerLink="/dashboard" class="nav-link dashboard-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Dashboard</a></li>
-    </ng-container>
-
-    <ng-container *ngIf="isAuthenticated&&isAdmin()">
-      <li><a routerLink="/unapproved-medecins" class="nav-link dashboard-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Unapproved Medecins</a></li>
-      <li><a routerLink="/admin/utilisateurs" class="nav-link dashboard-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">List of Users</a></li>
-    </ng-container>
-
-    <!-- Home and About for non-authenticated or patient users -->
-    <ng-container *ngIf="!isAuthenticated || isPatient()">
-      <li><a routerLink="/home" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a></li>
-      <li><a routerLink="/about" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">About</a></li>
-    </ng-container>
-
-    <!-- Medecin-specific Patient Dropdown -->
-    <ng-container *ngIf="isAuthenticated && isMedecin()">
-      <li class="nav-item patient-btn">
-        <a href="javascript:void(0);" class="nav-link patient-link">
-          Patient
+      <li>
+        <a routerLink="/dashboard" class="nav-link dashboard-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          <i class="fas fa-chart-pie"></i>
+          <span>Dashboard</span>
         </a>
-        <ul class="patient-dropdown">
-          <li><a routerLink="/add-patient" class="nav-link">Add Patient</a></li>
-          <li><a routerLink="/patient-list" class="nav-link">My Patients</a></li>
-        </ul>
       </li>
-      <a routerLink="/suivi-dashboard" class="nav-link">
-        Suivi de mes patients
-      </a>
-      <a routerLink="/lier-patients" class="nav-link">
-        Lier Patients
-      </a>
-      <a routerLink="/profileMedecin" class="nav-link">
-        Mon Compte
-      </a>
     </ng-container>
 
-    <!-- Authentication links for non-authenticated users -->
+    <ng-container *ngIf="isAuthenticated && isAdmin()">
+      <li>
+        <a routerLink="/unapproved-medecins" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          <i class="fas fa-user-clock"></i>
+          <span>Unapproved Medecins</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/admin/utilisateurs" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          <i class="fas fa-users-cog"></i>
+          <span>List of Users</span>
+        </a>
+      </li>
+    </ng-container>
+
+    <!-- Patient specific links -->
+    <ng-container *ngIf="isAuthenticated && isPatient()">
+      <li>
+        <a routerLink="/profilePatient" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          <i class="fas fa-user-circle"></i>
+          <span>My Profile</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/notifications" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          <i class="fas fa-bell"></i>
+          <span>My Notifications</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/my-prescriptions" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          <i class="fas fa-prescription-bottle-alt"></i>
+          <span>My Prescriptions</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/suivi-dashboard" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          <i class="fas fa-chart-line"></i>
+          <span>My Suivis</span>
+        </a>
+      </li>
+    </ng-container>
+
+    <!-- Medecin-specific links -->
+    <ng-container *ngIf="isAuthenticated && isMedecin()">
+      <li>
+        <a routerLink="/profileMedecin" class="nav-link" routerLinkActive="active">
+          <i class="fas fa-user-md"></i>
+          <span>Mon Compte</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/patient-list" class="nav-link" routerLinkActive="active">
+          <i class="fas fa-procedures"></i>
+          <span>My Patients</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/suivi-dashboard" class="nav-link" routerLinkActive="active">
+          <i class="fas fa-clipboard-check"></i>
+          <span>Suivi de mes patients</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/add-patient" class="nav-link" routerLinkActive="active">
+          <i class="fas fa-user-plus"></i>
+          <span>Add Patient</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/lier-patients" class="nav-link" routerLinkActive="active">
+          <i class="fas fa-link"></i>
+          <span>Lier Patients</span>
+        </a>
+      </li>
+    </ng-container>
+
+    <!-- Authentication links -->
     <ng-container *ngIf="!isAuthenticated">
-      <li><a routerLink="/login" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Login</a></li>
-      <li><a routerLink="/register" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Register</a></li>
+      <!-- Login à gauche -->
+      <li class="login-link">
+        <a routerLink="/home" class="nav-link" routerLinkActive="active">
+          <i class="fas fa-home"></i>
+          <span>Home</span>
+        </a>
+      </li>
+      
+      <!-- Home au centre -->
+      <li class="home-link">
+        <a routerLink="/about" class="nav-link" routerLinkActive="active">
+          <i class="fas fa-info-circle"></i> 
+          <span>About</span>
+        </a>
+      </li>
+      
+      <!-- About à droite -->
+      <li class="about-link">
+        <a routerLink="/login" class="nav-link" routerLinkActive="active">
+          <i class="fas fa-sign-in-alt"></i>
+          <span>Login</span>
+        </a>
+      </li>
     </ng-container>
-
-    
   </ul>
 
-  <!-- Logout for authenticated users -->
+  <!-- Logout -->
   <ng-container *ngIf="isAuthenticated">
     <div class="logout-container">
-      <a (click)="logout()" class="nav-link logout-link">Logout</a>
+      <a (click)="logout()" class="nav-link logout-link">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Logout</span>
+      </a>
     </div>
   </ng-container>
 </nav>
