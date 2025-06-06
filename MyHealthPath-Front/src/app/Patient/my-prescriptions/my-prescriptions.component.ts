@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../auth.service';
 import { PrescriptionService } from '../../services/prescription.service';
-import { NgFor, NgIf } from '@angular/common';
+import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-my-prescriptions',
-  imports: [NgIf,NgFor,RouterModule],
+  imports: [NgIf,NgFor,RouterModule,CommonModule],
   standalone: true,
   templateUrl: './my-prescriptions.component.html',
+  styleUrls: ['./my-prescriptions.component.css']
 })
 export class MyPrescriptionsComponent implements OnInit {
   prescriptions: any[] = [];

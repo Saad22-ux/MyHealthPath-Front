@@ -1,48 +1,61 @@
 <div *ngIf="prescription?.isActive; else expiredMsg" class="detail-container">
-  <div class="detail-item" *ngFor="let med of filteredMedicaments; let i = index">
-    <strong>Medicament:</strong> <span>{{ med.name }}</span>
-    <strong>Dose:</strong> <span>{{ med.dose }}</span>
-    <strong>Frequency:</strong> <span>{{ med.frequency }}</span>
-    <strong>Duree:</strong> <span>{{ med.duree }}</span>
+  <h2 class="prescription-header">Détails de la Prescription</h2>
 
-    <div class="checkbox-wrapper">
-      <input type="checkbox" [(ngModel)]="med.isChecked" id="med-{{ i }}" />
-      <label for="med-{{ i }}">Pris</label>
-    </div>
-  </div>
+  <table class="medicament-table" *ngIf="filteredMedicaments.length; else noMedicaments">
+    <thead>
+      <tr>
+        <th>Médicament</th>
+        <th>Dose</th>
+        <th>Fréquence</th>
+        <th>Durée</th>
+        <th class="checkbox-col">Pris</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let med of filteredMedicaments; let i = index">
+        <td>{{ med.name }}</td>
+        <td>{{ med.dose }}</td>
+        <td>{{ med.frequency }}</td>
+        <td>{{ med.duree }}</td>
+        <td class="checkbox-col">
+          <input type="checkbox" [(ngModel)]="med.isChecked" id="med-{{ i }}" />
+          <label for="med-{{ i }}" class="visually-hidden">Pris</label>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ng-template #noMedicaments>
+    <p class="empty-message">Aucun médicament à afficher.</p>
+  </ng-template>
 
   <div class="detail-item">
-    <strong>Indicators:</strong>
+    <strong>Indicateurs de Santé:</strong>
     <div *ngIf="filteredMedicaments?.length !== undefined && filteredIndicateurs?.length !== undefined">
       <ul class="indicators-list">
         <li *ngFor="let indicator of filteredIndicateurs; let j = index">
-          <span>{{ indicator.nom }}</span>
-
+          <span class="indicator-name">{{ indicator.nom }}</span>
           <div class="indicator-inputs">
-            <input
-              type="text"
-              placeholder="Valeur"
-              [(ngModel)]="indicator.valeur"
-              name="valeur-{{ j }}"
-            />
+            <input type="text" [(ngModel)]="indicator.valeur" name="valeur-{{ j }}" [attr.aria-label]="indicator.nom + ' valeur'" />
+
+            <span class="unit">{{ indicator.unite }}</span>
           </div>
         </li>
       </ul>
     </div>
     <div *ngIf="!filteredIndicateurs?.length">
-      <p>No indicators assigned.</p>
+      <p class="empty-message">Aucun indicateur assigné.</p>
     </div>
   </div>
 
-  <!-- Submit button -->
   <div class="submit-journal" *ngIf="filteredMedicaments.length || filteredIndicateurs.length">
-    <button (click)="submitJournal()">Pris Aujourd'hui</button>
+    <button (click)="submitJournal()">Enregistrer pour Aujourd'hui</button>
   </div>
   <div *ngIf="!filteredMedicaments.length && !filteredIndicateurs.length">
-    <p>Tous les médicaments ont été pris et tous les indicateurs mesurés.</p>
+    <p class="all-done">Tous les médicaments ont été pris et tous les indicateurs mesurés.</p>
   </div>
 </div>
 
 <ng-template #expiredMsg>
-  <p class="expired-text">Cette prescription est terminée.</p>
+  <p class="expired-text">Cette prescription est terminée ou inactive.</p>
 </ng-template>

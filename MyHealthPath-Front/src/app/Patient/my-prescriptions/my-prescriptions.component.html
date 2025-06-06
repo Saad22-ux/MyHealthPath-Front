@@ -1,21 +1,43 @@
-<div style="text-align: center;">
-  <h2>My Prescriptions</h2>
+<div style="text-align: center;" class="prescriptions-container">
+  <h1>📋</h1><h2>My Prescriptions</h2>
 
-  <div *ngIf="activePrescriptions.length === 0">No active prescriptions found.</div>
+  <div *ngIf="activePrescriptions.length === 0" class="no-prescriptions">
+    <div class="empty-state">
+      <span class="empty-icon">🩺</span>
+      <p>No active prescriptions found.</p>
+    </div>
+  </div>
 
-  <ul *ngIf="activePrescriptions.length > 0" style="list-style: none; padding: 0;">
-    <li *ngFor="let prescription of activePrescriptions" style="margin-bottom: 10px;">
-      <strong>{{ prescription.title }}</strong> - {{ prescription.description }}
-      <div>Prescribed by: <em>{{ prescription.Medecin?.User?.fullName || 'Unknown' }}</em></div>
+  <ul *ngIf="activePrescriptions.length > 0" class="prescriptions-list">
+    <li *ngFor="let prescription of activePrescriptions" class="prescription-card">
+      <div class="prescription-header">
+        <span class="prescription-icon">💊</span>
+        <div class="prescription-title">
+          <strong>{{ prescription.title }}</strong>
+          <span class="prescription-date">{{ prescription.date | date:'mediumDate' }}</span>
+        </div>
+      </div>
+      
+      <div class="prescription-body">
+        <div class="prescription-doctor">
+          <span class="doctor-icon">👨‍⚕️</span>
+          <em>{{ prescription.Medecin?.User?.fullName || 'Unknown' }}</em>
+        </div>
+      </div>
 
-      <ng-container *ngIf="shouldShowViewButton(prescription.id); else wait24h">
-        <a [routerLink]="['/create-journal', prescription.id]" class="btn" style="margin-top: 5px;">
-        View Details
-        </a>
-      </ng-container>
-      <ng-template #wait24h>
-        <p style="color: gray; margin-top: 5px;">Disponible après 24h du dernier enregistrement.</p>
-      </ng-template>
+      <div class="prescription-footer">
+        <ng-container *ngIf="shouldShowViewButton(prescription.id); else wait24h">
+          <a [routerLink]="['/create-journal', prescription.id]" class="btn">
+            View Details
+          </a>
+        </ng-container>
+        <ng-template #wait24h>
+          <p class="wait-message">
+            <span class="wait-icon">⏳</span>
+            Available after 24h
+          </p>
+        </ng-template>
+      </div>
     </li>
   </ul>
 </div>
