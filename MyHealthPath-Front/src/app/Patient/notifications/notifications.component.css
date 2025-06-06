@@ -1,67 +1,78 @@
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 .notifications-container {
   display: flex;
-  justify-content: center;  /* centre horizontalement */
-  align-items: center;      /* centre verticalement */
-  height: 100vh;            /* hauteur = hauteur fenêtre */
-  flex-direction: column;   /* empile verticalement contenu */
-  padding: 20px;
-  box-sizing: border-box;
-}
-
-
-li {
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  margin-bottom: 8px;
-  padding: 12px 16px;
-  border-radius: 5px;
-  display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  transition: background-color 0.3s ease;
+  padding: 20px;
 }
 
-li:hover {
-  background-color: #eef6fb;
+.notification-table-container {
+  width: 80%;
+  max-width: 800px;
+  margin: 20px auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-li.read {
-  opacity: 0.6;
-  text-decoration: line-through;
-  background-color: #e0e0e0;
+.notification-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
 }
 
-small {
-  color: #666;
-  font-size: 0.85rem;
-  margin-left: 8px;
-  font-style: italic;
-}
-
-button {
-  background-color: #007bff;
-  border: none;
+.notification-table th {
+  background-color: #2E7D32;
   color: white;
-  padding: 6px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  transition: background-color 0.3s ease;
+  padding: 12px 15px;
 }
 
-button:hover {
-  background-color: #0056b3;
+.notification-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.notification-table tr:last-child td {
+  border-bottom: none;
+}
+
+.notification-table tr:hover {
+  background-color: #f5f5f5;
+}
+
+.notification-table tr.read {
+  background-color: #f9f9f9;
+  color: #888;
+}
+
+.status-read {
+  color: #2ecc71;
+  font-weight: 500;
+}
+
+.status-unread {
+  color: #e74c3c;
+  font-weight: 500;
+}
+
+.loading, .error {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.loading {
+  background-color: #eaf2f8;
+  color: #4a90e2;
 }
 
 .error {
-  color: #d9534f;
-  margin-bottom: 10px;
-  font-weight: bold;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0 auto;       /* centre horizontalement */
-  max-width: 600px;
+  background-color: #fdecea;
+  color: #e74c3c;
 }

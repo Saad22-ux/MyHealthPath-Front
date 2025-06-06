@@ -1,74 +1,133 @@
+/* Formulaire de modification */
 form {
-  max-width: 500px;
-  margin: 20px auto;
-  padding: 20px;
-  background: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  font-family: Arial, sans-serif;
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 2.5rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 5px 25px rgba(46, 125, 50, 0.1);
+  font-family: 'Poppins', sans-serif;
+  position: relative;
+  border-top: 4px solid #2E7D32;
 }
 
-form div {
-  margin-bottom: 15px;
-  display: flex;
-  flex-direction: column;
+form > div {
+  margin-bottom: 1.5rem;
+  position: relative;
 }
 
 label {
-  font-weight: bold;
-  margin-bottom: 6px;
-  color: #333;
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #2E7D32;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-input[type="text"],
-input[type="email"],
-input[type="date"],
-input[type="number"] {
-  padding: 8px 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  transition: border-color 0.3s;
+input:not([type="file"]),
+select {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background-color: #f9f9f9;
 }
 
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="date"]:focus,
-input[type="number"]:focus {
-  border-color: #007bff;
+input:focus,
+select:focus {
   outline: none;
+  border-color: #2E7D32;
+  box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.2);
+  background-color: #fff;
+}
+
+input[type="file"] {
+  width: 100%;
+  padding: 0.8rem 0;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232E7D32'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1rem;
 }
 
 button[type="submit"] {
-  background-color: #007bff;
+  background: linear-gradient(135deg, #2E7D32, #4CAF50);
   color: white;
-  padding: 12px 20px;
-  font-size: 16px;
   border: none;
-  border-radius: 5px;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  border-radius: 50px;
   cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
   width: 100%;
-  transition: background-color 0.3s;
+  margin-top: 1rem;
+}
+
+button[type="submit"]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(46, 125, 50, 0.4);
 }
 
 button[type="submit"]:disabled {
-  background-color: #a3c1f7;
+  background: #cccccc;
+  box-shadow: none;
+  transform: none;
   cursor: not-allowed;
 }
 
-button[type="submit"]:hover:not(:disabled) {
-  background-color: #0056b3;
+/* Messages d'état */
+div[style*="color: green"],
+div[style*="color: red"] {
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem auto;
+  max-width: 700px;
+  text-align: center;
+  font-weight: 500;
 }
 
-div[ng-reflect-ng-if] {
-  margin-top: 15px;
-  font-weight: bold;
+div[style*="color: green"] {
+  background-color: rgba(46, 125, 50, 0.1);
+  border-left: 4px solid #2E7D32;
 }
 
-div[ng-reflect-ng-if][style*="color: green"] {
-  color: #28a745;
+div[style*="color: red"] {
+  background-color: rgba(220, 53, 69, 0.1);
+  border-left: 4px solid #dc3545;
 }
 
-div[ng-reflect-ng-if][style*="color: red"] {
+/* Améliorations pour mobile */
+@media (max-width: 768px) {
+  form {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+  
+  input, select {
+    padding: 0.7rem;
+  }
+}
+
+/* Style pour les erreurs de validation */
+.ng-invalid.ng-touched:not(form) {
+  border-color: #dc3545 !important;
+}
+
+.validation-error {
   color: #dc3545;
+  font-size: 0.8rem;
+  margin-top: 0.3rem;
+  display: block;
 }

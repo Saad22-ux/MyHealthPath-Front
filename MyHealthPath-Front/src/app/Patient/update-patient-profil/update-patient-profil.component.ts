@@ -42,7 +42,6 @@ export class UpdatePatientProfilComponent implements OnInit {
     this.patientService.getPatientProfile().subscribe({
       next: (res: any) => {
         this.profileForm.patchValue(res);
-        this.successMsg = res.message || 'Profil fetched successfully';
       },
       error: (err) => {
         this.errorMsg = err.error?.message || 'Failed to load profil';

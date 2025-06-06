@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject  } from 'rxjs';
 
 export interface Notification {
   id: number;
@@ -15,6 +15,9 @@ export interface Notification {
 })
 export class NotificationService {
 
+  private notificationsSubject = new BehaviorSubject<Notification[]>([]);
+  notifications$ = this.notificationsSubject.asObservable();
+
   constructor(private http: HttpClient) {}
 
   getNotifications(): Observable<Notification[]> {
@@ -23,5 +26,17 @@ export class NotificationService {
 
   markAsRead(notificationId: number): Observable<any> {
     return this.http.put(`http://localhost:3000/notifications/${notificationId}/lue`, {}, { withCredentials: true });
+  }
+  
+
+  loadNotifications(): void {
+    this.getNotifications().subscribe({
+      next: (data) => {
+        this.notificationsSubject.next(data);
+      },
+      error: (err) => {
+        console.error('Erreur lors du chargement des notifications', err);
+      }
+    });
   }
 }

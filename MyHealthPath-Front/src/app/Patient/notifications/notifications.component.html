@@ -1,11 +1,37 @@
 <div class="notifications-container">
-  <div *ngIf="loading">Chargement des notifications...</div>
-  <div *ngIf="error" class="error">{{ error }}</div>
+  <div *ngIf="loading" class="loading">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style="animation: spin 1s linear infinite; margin-right: 8px;">
+      <path d="M10 3.5C6.41015 3.5 3.5 6.41015 3.5 10C3.5 10.4142 3.16421 10.75 2.75 10.75C2.33579 10.75 2 10.4142 2 10C2 5.58172 5.58172 2 10 2C14.4183 2 18 5.58172 18 10C18 14.4183 14.4183 18 10 18C9.58579 18 9.25 17.6642 9.25 17.25C9.25 16.8358 9.58579 16.5 10 16.5C13.5899 16.5 16.5 13.5899 16.5 10C16.5 6.41015 13.5899 3.5 10 3.5Z" fill="#4a90e2"/>
+    </svg>
+    Chargement des notifications...
+  </div>
+  
+  <div *ngIf="error" class="error">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 8px;">
+      <path d="M12 8V12M12 16H12.01M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" stroke="#e74c3c" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    {{ error }}
+  </div>
 
-  <ul>
-    <li *ngFor="let notif of notifications" [class.read]="notif.isRead">
-      {{ notif.message }} - <small>{{ notif.createdAt | date:'short' }}</small>
-      <button *ngIf="!notif.isRead" (click)="markRead(notif)">Marquer comme lue</button>
-    </li>
-  </ul>
+  <div class="notification-table-container">
+    <table class="notification-table">
+      <thead>
+        <tr>
+          <th>Message</th>
+          <th>Date</th>
+          <th>Statut</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let notif of notifications" [class.read]="notif.isRead">
+          <td class="notification-message">{{ notif.message }}</td>
+          <td class="notification-time">{{ notif.createdAt | date:'short' }}</td>
+          <td class="notification-status">
+            <span *ngIf="notif.isRead" class="status-read">Lu</span>
+            <span *ngIf="!notif.isRead" class="status-unread">Non lu</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

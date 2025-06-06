@@ -25,22 +25,30 @@ export class NotificationsComponent implements OnInit {
     }, 300000);
   }
 
-  loadNotifications() {
-    console.log('loadNotifications appelé');
-    this.loading = true;
-    this.notificationService.getNotifications().subscribe({
-      next: (data) => {
-        console.log('Notifications reçues:', data);
-        this.notifications = data;
-        this.loading = false;
-      },
-      error: (err) => {
-        this.error = 'Erreur lors du chargement des notifications';
-        this.loading = false;
-        console.error(err);
-      }
-    });
-  }
+loadNotifications() {
+  console.log('loadNotifications appelé');
+  this.loading = true;
+
+  this.notificationService.getNotifications().subscribe({
+    next: (data) => {
+      const now = new Date().getTime();
+
+      // Garde uniquement les notifications des dernières 24h
+      this.notifications = data.filter(n => {
+        const createdAt = new Date(n.createdAt).getTime();
+        return (now - createdAt) <= 24 * 60 * 60 * 1000; // 24 heures en ms
+      });
+
+      this.loading = false;
+    },
+    error: (err) => {
+      this.error = 'Erreur lors du chargement des notifications';
+      this.loading = false;
+      console.error(err);
+    }
+  });
+}
+
 
   markRead(notification: Notification) {
     if (notification.isRead) return;

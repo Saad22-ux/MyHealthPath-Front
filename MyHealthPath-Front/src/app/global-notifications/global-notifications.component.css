@@ -1,0 +1,149 @@
+/* Animation for new notifications */
+@keyframes slideIn {
+  from {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Animation for notification removal */
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    max-height: 0;
+    margin-bottom: 0;
+    padding: 0;
+    transform: scale(0.9);
+  }
+}
+
+.notifications-container {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  max-width: 380px;
+  width: 90%;
+  z-index: 1000;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+.notification-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.notification-item {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  padding: 16px;
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  overflow: hidden;
+  transform: translateX(0);
+  opacity: 1;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: slideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  border-left: 4px solid #4f46e5;
+}
+
+.notification-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, rgba(79, 70, 229, 0.03), transparent);
+  pointer-events: none;
+}
+
+.notification-item.read {
+  animation: fadeOut 0.3s forwards;
+}
+
+.notification-content {
+  flex: 1;
+  padding-right: 12px;
+}
+
+.notification-message {
+  margin: 0 0 4px 0;
+  color: #1f2937;
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.notification-time {
+  display: block;
+  color: #6b7280;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.notification-actions {
+  display: flex;
+  align-items: center;
+}
+
+.notification-actions button {
+  background: none;
+  border: none;
+  color: #4f46e5;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  margin-left: 8px;
+}
+
+.notification-actions button:hover {
+  background: rgba(79, 70, 229, 0.1);
+}
+
+.notification-actions button:active {
+  transform: scale(0.96);
+}
+
+/* Progress bar for auto-dismiss notifications */
+.notification-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #4f46e5, #8b5cf6);
+  width: 100%;
+  transform: scaleX(1);
+  transform-origin: left;
+  transition: transform linear;
+}
+
+.notification-item.read .notification-progress {
+  transform: scaleX(0);
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .notifications-container {
+    width: calc(100% - 32px);
+    right: 16px;
+    max-width: none;
+  }
+  
+  .notification-item {
+    padding: 14px;
+  }
+}

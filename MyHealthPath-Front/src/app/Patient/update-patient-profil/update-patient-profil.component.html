@@ -1,22 +1,22 @@
 <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
   <div>
-    <label>Nom Complet:</label>
+    <label>FullName</label>
     <input formControlName="fullName" />
   </div>
   <div>
-    <label>Email:</label>
+    <label>Email address</label>
     <input formControlName="email" type="email" />
   </div>
   <div>
-    <label>Téléphone:</label>
+    <label>Phone number</label>
     <input formControlName="telephone" />
   </div>
   <div>
-    <label>Adresse:</label>
+    <label>Address</label>
     <input formControlName="adress" />
   </div>
   <div>
-  <label>Genre:</label>
+  <label>Gender</label>
   <select formControlName="genre">
     <option value="">-- Choisir --</option>
     <option value="homme">Homme</option>
@@ -25,28 +25,28 @@
 </div>
 
   <div>
-    <label>Date de naissance:</label>
+    <label>Birth date</label>
     <input formControlName="date_naissance" type="date" />
   </div>
   <div>
-    <label>Taille:</label>
+    <label>Height</label>
     <input formControlName="taille" type="number" />
   </div>
   <div>
-    <label>Poids:</label>
+    <label>Weight</label>
     <input formControlName="poids" type="number" />
   </div>
   <div>
-  <label>Photo:</label>
+  <label>Profil picture</label>
   <input type="file" (change)="onFileSelected($event)" />
 </div>
   <div>
-    <label>CIN:</label>
+    <label>CIN</label>
     <input formControlName="cin" />
   </div>
 
   <div>
-  <label>Mot de passe:</label>
+  <label>Password</label>
   <input formControlName="password" type="password" />
 </div>
 

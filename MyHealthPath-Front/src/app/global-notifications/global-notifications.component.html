@@ -1,0 +1,14 @@
+<div class="notifications-container" *ngIf="notifications.length > 0">
+  <ul class="notification-list">
+    <li *ngFor="let notif of notifications" class="notification-item" [class.read]="notif.isRead">
+
+      <div class="notification-content">
+        <p class="notification-message">{{ notif.message }}</p>
+        <span class="notification-time">{{ notif.createdAt | date:'short' }}</span>
+      </div>
+      <div class="notification-actions">
+        <button (click)="markAsRead(notif)">Marquer comme lu</button>
+      </div>
+    </li>
+  </ul>
+</div>
