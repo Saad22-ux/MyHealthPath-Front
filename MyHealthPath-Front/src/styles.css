@@ -3,3 +3,34 @@ html, body { height: 100%;
     background-color: #E8FAEA
 }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+/* Petits écrans : mobiles */
+@media (max-width: 576px) {
+  .responsive-container {
+    flex-direction: column;
+    padding: 1rem;
+  }
+}
+
+/* Tablettes */
+@media (max-width: 768px) {
+  .responsive-container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+/* Grands écrans */
+@media (min-width: 769px) {
+  .responsive-container {
+    flex-direction: row;
+    gap: 2rem;
+  }
+}
+
+.app-wrapper {
+  max-width: 1200px;
+  margin: auto;
+  padding: 0 1rem;
+}
