@@ -95,7 +95,6 @@ export class UpdatePatientProfilComponent implements OnInit {
       }
     });
 
-    // Ajouter le fichier photo s'il a été sélectionné
     if (this.selectedFile) {
       formData.append('photo', this.selectedFile, this.selectedFile.name);
     }
