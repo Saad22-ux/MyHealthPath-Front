@@ -27,7 +27,6 @@ export class PatientListComponent implements OnInit {
     this.patientService.getListPatients().subscribe({
       next: (res: any) => {
         this.patients = res.data;
-        console.log('Patients:', res.data);
         this.statusMessage = res.message || 'Fetched successeful';
         this.error = '';
         this.loading = false;

@@ -1,3 +1,5 @@
 <app-navbar></app-navbar>
 <app-global-notifications *ngIf="role === 'patient'"></app-global-notifications>
-<router-outlet><router-outlet />
+<main class="main-content" [ngClass]="{'with-sidebar': (isPatient() || isMedecin()) && isAuthenticated}">
+    <router-outlet></router-outlet>
+</main>

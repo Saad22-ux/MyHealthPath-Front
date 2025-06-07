@@ -17,29 +17,25 @@ export class GlobalNotificationsComponent implements OnInit {
   constructor(private notificationService: NotificationService, private router: Router, private authService: AuthService) {}
 
   ngOnInit(): void {
-    // Charger une première fois
     this.notificationService.loadNotifications();
 
-    // Recharger toutes les 5 minutes
     setInterval(() => {
       this.notificationService.loadNotifications();
     }, 300000);
 
-    // Mettre à jour les notifications à chaque navigation
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
       this.notificationService.loadNotifications();
     }); 
 
-    // S'abonner aux notifications
     this.notificationService.notifications$.subscribe((data) => {
       this.notifications = data.filter(n => !n.isRead);
     });
 
     this.authService.logout$.subscribe(() => {
-    this.notifications = [];
-  });
+      this.notifications = [];
+    });
   }
 
   markAsRead(notification: Notification) {

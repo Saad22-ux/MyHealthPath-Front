@@ -60,14 +60,12 @@ export class UpdatePatientProfilComponent implements OnInit {
     if (input.files && input.files[0]) {
       this.selectedFile = input.files[0];
       
-      // Créer la prévisualisation
       const reader = new FileReader();
       reader.onload = () => {
         this.photoPreview = reader.result as string;
       };
       reader.readAsDataURL(this.selectedFile);
       
-      // Mettre à jour le contrôle du formulaire
       this.profileForm.patchValue({ photo: this.selectedFile });
       this.profileForm.get('photo')?.updateValueAndValidity();
     }
@@ -101,12 +99,9 @@ export class UpdatePatientProfilComponent implements OnInit {
 
     this.patientService.updatePatientProfile(formData).subscribe({
       next: (res: any) => {
-        console.log('Réponse serveur:', res);
         this.successMsg = res.message || 'Profile updated successfully';
         this.loading = false;
-        // Mettre à jour la prévisualisation si le serveur renvoie une nouvelle URL
         if (res.user?.photo) {
-          // Construire une URL complète (ajoute le domaine + protocole)
           this.photoPreview = `http://localhost:3000/${res.user.photo}`;
         }
 

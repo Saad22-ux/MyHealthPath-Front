@@ -29,29 +29,22 @@ export class CreateJournalComponent implements OnInit {
     private authService: AuthService
   ) {}
 
-ngOnInit(): void {
-  this.prescriptionId = Number(this.route.snapshot.paramMap.get('id'));
+  ngOnInit(): void {
+    this.prescriptionId = Number(this.route.snapshot.paramMap.get('id'));
 
-  this.prescriptionService.getPrescriptionDetails(this.prescriptionId).subscribe({
-    next: (res: any) => {
-      this.prescription = res.prescription;
-      console.log('Prescription chargée :', this.prescription);
-      console.log('Journaux:', this.prescription.journaux); // undefined
-
-      // Comme on n'a pas de journaux, on affiche tout directement (pas de filtre)
-      this.filteredMedicaments = [...this.prescription.medicaments];
-      this.filteredIndicateurs = this.prescription.indicateurs ? [...this.prescription.indicateurs] : [];
-    },
-    error: (err) => {
-      this.error = err.error?.message || 'Erreur chargement prescription';
-    }
-  });
-}
+    this.prescriptionService.getPrescriptionDetails(this.prescriptionId).subscribe({
+      next: (res: any) => {
+        this.prescription = res.prescription;
+        this.filteredMedicaments = [...this.prescription.medicaments];
+        this.filteredIndicateurs = this.prescription.indicateurs ? [...this.prescription.indicateurs] : [];
+      },
+      error: (err) => {
+        this.error = err.error?.message || 'Erreur chargement prescription';
+      }
+    });
+  }
 
   applyFilter(journalState: { medicamentsPris: number[]; indicateursMesures: number[] }) {
-    console.log('Appliquer filtre avec journalState:', journalState);
-
-    // Assure-toi que IDs sont des numbers
     const medicamentsPrisIds = journalState.medicamentsPris.map((id: any) => Number(id));
     const indicateursMesuresIds = journalState.indicateursMesures.map((id: any) => Number(id));
 
@@ -61,13 +54,9 @@ ngOnInit(): void {
     this.filteredIndicateurs = this.prescription.indicateurs
       ? this.prescription.indicateurs.filter((ind: any) => !indicateursMesuresIds.includes(Number(ind.id)))
       : [];
-
-    console.log('Medicaments filtrés:', this.filteredMedicaments);
-    console.log('Indicateurs filtrés:', this.filteredIndicateurs);
   }
 
   submitJournal() {
-    // On récupère les meds cochés (pris) et indicateurs avec valeurs (mesurés)
     const medicaments = this.filteredMedicaments.map((med: any) => ({
       medicamentId: med.id,
       pris: !!med.isChecked,
@@ -79,7 +68,6 @@ ngOnInit(): void {
       mesure: ind.valeur?.trim() ? 1 : null,
     }));
 
-    // Validation simple : au moins un médicament pris ou un indicateur mesuré
     const hasCheckedMedicament = medicaments.some((med: any) => med.pris === true);
     const hasValidIndicateur = indicateurs.some((ind: any) => ind.valeur && ind.valeur.trim() !== '');
     if (!hasCheckedMedicament && !hasValidIndicateur) {
@@ -106,7 +94,6 @@ ngOnInit(): void {
       next: (res: any) => {
         this.statusMessage = res.message || 'Journal créé avec succès';
 
-        // Met à jour journalState dans localStorage pour exclure pris/mesurés
         const localKey = `journalState_${this.prescriptionId}`;
         let savedState = localStorage.getItem(localKey);
         let journalState = savedState

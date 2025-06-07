@@ -112,5 +112,4 @@ export class UnapprovedMedecinsComponent implements OnInit {
   remainingMedecinsCount(): number {
     return this.medecins.length - this.visibleMedecins.length;
   }
-
 }

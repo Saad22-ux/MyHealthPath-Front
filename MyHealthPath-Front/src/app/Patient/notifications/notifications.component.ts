@@ -16,24 +16,20 @@ export class NotificationsComponent implements OnInit {
   constructor(private notificationService: NotificationService) {}
 
   ngOnInit(): void {
-    console.log('ngOnInit appelé');
     this.loadNotifications();
 
-    // Si tu veux rafraîchir automatiquement toutes les 5 min par ex.
     setInterval(() => {
       this.loadNotifications();
     }, 300000);
   }
 
 loadNotifications() {
-  console.log('loadNotifications appelé');
   this.loading = true;
 
   this.notificationService.getNotifications().subscribe({
     next: (data) => {
       const now = new Date().getTime();
 
-      // Garde uniquement les notifications des dernières 24h
       this.notifications = data.filter(n => {
         const createdAt = new Date(n.createdAt).getTime();
         return (now - createdAt) <= 24 * 60 * 60 * 1000; // 24 heures en ms

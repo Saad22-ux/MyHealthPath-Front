@@ -3,3 +3,22 @@ html, body { height: 100%;
     background-color: #E8FAEA
 }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.main-content {
+  margin-left: 0;
+  padding: 1rem;
+  transition: margin-left 0.3s ease;
+}
+
+/* Si la navbar verticale est présente, on décale le contenu */
+.main-content.with-sidebar {
+  margin-left: 280px; /* même largeur que .vertical-navbar */
+}
+
+/* Responsive : sur mobile, plus de marge */
+@media (max-width: 768px) {
+  .main-content.with-sidebar {
+    margin-left: 0;
+  }
+}
+

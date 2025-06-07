@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { AuthService } from '../auth.service';  // Import AuthService
+import { AuthService } from '../auth.service';
 import { CommonModule, NgIf } from '@angular/common';
 
 
@@ -25,22 +25,20 @@ export class NavbarComponent implements OnInit {
   
     this.authService.userRole$.subscribe(role => {
       this.userRole = role;
-      console.log('Updated user role:', role); // 🔍 For debugging
+      console.log('Updated user role:', role);
     });
-
   }
-
 
   logout(): void {
     this.authService.logout().subscribe(() => {
       this.isAuthenticated = false;
-      this.authService.setRole('');  // ✅ Clear it from service
-      this.router.navigate(['/login']);  // Redirect to login after logout
+      this.authService.setRole('');
+      this.router.navigate(['/login']);
     });
   }
   
   isAdmin(): boolean {
-    return this.userRole === 'admin';  // Check if the user is an admin
+    return this.userRole === 'admin';
   }
 
   isMedecin(): boolean {

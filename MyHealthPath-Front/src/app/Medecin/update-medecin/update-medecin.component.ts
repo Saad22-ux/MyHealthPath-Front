@@ -71,7 +71,6 @@ onPhotoSelected(event: Event) {
   if (input.files && input.files.length > 0) {
     this.selectedPhoto = input.files[0];
 
-    // Vérification du type MIME
     if (!this.selectedPhoto.type.match('image.*')) {
       this.error = 'Seules les images sont acceptées';
       this.selectedPhoto = null;
@@ -79,7 +78,6 @@ onPhotoSelected(event: Event) {
       return;
     }
 
-    // Lecture et prévisualisation
     const reader = new FileReader();
     reader.onload = (e: ProgressEvent<FileReader>) => {
       this.photoPreview = e.target?.result ?? null;

@@ -4,13 +4,13 @@ import { AuthService } from './auth.service';
 import { NavbarComponent } from './navbar/navbar.component';
 import { GlobalNotificationsComponent } from './global-notifications/global-notifications.component';
 import { NotificationService } from './services/notification.service';
-import { NgIf } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 
 
 
 @Component({
   selector: 'app-root',
-  imports: [NgIf,RouterOutlet,NavbarComponent,GlobalNotificationsComponent],
+  imports: [NgIf,RouterOutlet,NavbarComponent,GlobalNotificationsComponent,CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -34,4 +34,20 @@ export class AppComponent {
       }, 300000);
     }
   }
-}
+
+  get isAuthenticated(): boolean {
+    return this.authService.isLoggedIn(); // ou une propriété/méthode équivalente
+  }
+
+  isPatient(): boolean {
+    return this.authService.getUserRole() === 'patient';
+  }
+
+  isMedecin(): boolean {
+    return this.authService.getUserRole() === 'medecin';
+  }
+
+  isAdmin(): boolean {
+    return this.authService.getUserRole() === 'admin';
+  }
+} 

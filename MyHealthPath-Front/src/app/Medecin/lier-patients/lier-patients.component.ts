@@ -25,7 +25,6 @@ export class LierPatientsComponent {
 
     this.patientService.rechercherPatientParCIN(this.cin).subscribe({
       next: (res) => {
-        console.log('Patient data:', res.patient);
         this.patientInfo = res.patient;
         this.message = 'Patient trouvé.';
         setTimeout(() => {
