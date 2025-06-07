@@ -42,6 +42,7 @@ export class UpdatePatientProfilComponent implements OnInit {
     this.patientService.getPatientProfile().subscribe({
       next: (res: any) => {
         this.profileForm.patchValue(res);
+        this.profileForm.get('password')?.reset();
         if (res.photo) {
           this.photoPreview = `http://localhost:3000/${res.photo}`;
         } else {
@@ -83,13 +84,14 @@ export class UpdatePatientProfilComponent implements OnInit {
 
     const formData = new FormData();
 
-    // Ajouter tous les champs sauf le fichier photo
     Object.keys(this.profileForm.controls).forEach(key => {
-      if (key !== 'photo') {
-        const value = this.profileForm.get(key)?.value;
-        if (value !== null && value !== undefined) {
-          formData.append(key, value);
+      const value = this.profileForm.get(key)?.value;
+      if (key === 'password') {
+        if (value && value.trim()) {
+          formData.append('password', value);
         }
+      } else if (value !== null && value !== '') {
+        formData.append(key, value);
       }
     });
 
