@@ -1,9 +1,9 @@
 <div class="container">
-  <h2>Add prescription</h2>
+  <h2>📋Add prescription</h2>
   <form [formGroup]="prescriptionForm" (ngSubmit)="onSubmit()">
     
     <div>
-      <label>Date:</label>
+      <label>Date</label>
       <input type="date" formControlName="date" />
     </div>
 
@@ -14,7 +14,7 @@
         <input type="text" placeholder="Dose" formControlName="dose" />
         <input type="text" placeholder="Frequency" formControlName="frequency" />
         <input type="text" placeholder="Period" formControlName="duree" />
-        <button type="button" (click)="removeMedicament(i)">Delete</button>
+        <button type="button" class="btn-delete" (click)="removeMedicament(i)">Delete</button>
       </div>
       <button type="button" (click)="addMedicament()">Add medicament</button>
     </div>
@@ -24,18 +24,18 @@
 
   <!-- Dropdown pour choisir un indicateur -->
   <select formControlName="selectedIndicateur">
-    <option value="" disabled>-- Choisir un indicateur --</option>
+    <option value="" disabled>-- Choose indicators--</option>
     <option *ngFor="let ind of allIndicateurs" [value]="ind" >
       {{ ind }}
     </option>
   </select>
-  <button type="button" (click)="addIndicateur()" [disabled]="!prescriptionForm.get('selectedIndicateur')?.value">Ajouter</button>
+  <button type="button" (click)="addIndicateur()" [disabled]="!prescriptionForm.get('selectedIndicateur')?.value">Add indicator</button>
 
   <!-- Liste des indicateurs sélectionnés -->
   <ul>
     <li *ngFor="let indCtrl of indicateurs.controls; let i = index">
       {{ indCtrl.value }}
-      <button type="button" (click)="removeIndicateur(i)">Supprimer</button>
+      <button type="button" class="btn-delete" (click)="removeIndicateur(i)">Delete</button>
     </li>
   </ul>
 </div>
@@ -44,11 +44,11 @@
 
 
     <div>
-      <label>Description:</label>
+      <label>Description</label>
       <input type="text" formControlName="description" />
     </div>
 
-    <button type="submit" [disabled]="prescriptionForm.invalid">
+    <button type="submit" class="btn-submit" [disabled]="prescriptionForm.invalid">
       {{ editingPrescriptionId ? 'Update Prescription' : 'Add Prescription' }}
     </button>
   </form>

@@ -1,74 +1,168 @@
-/* prescriptions-details.component.css */
-
-/* Global layout */
-:host {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 2rem;
-}
-
+/* Conteneur principal */
 .detail-container {
   max-width: 800px;
+  margin: 40px auto;
+  padding: 32px 40px;
+  background: linear-gradient(145deg, #e8f5e9, #ffffff);
+  border-radius: 20px;
+  box-shadow: 0 12px 24px rgba(46, 125, 50, 0.15);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #1c3a1b;
+  transition: box-shadow 0.3s ease;
+}
+
+.detail-container:hover {
+  box-shadow: 0 18px 32px rgba(46, 125, 50, 0.25);
+}
+
+/* Titre principal */
+.section-title {
+  text-align: center;
+  font-size: 2.2rem;
+  color: #2e7d32;
+  margin-bottom: 30px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* Sous-titres */
+h3 {
+  font-size: 1.5rem;
+  color: #27632a;
+  margin-bottom: 20px;
+  font-weight: 600;
+  border-bottom: 3px solid #4caf50;
+  padding-bottom: 6px;
+}
+
+/* Tableaux médicaux */
+table {
   width: 100%;
-  background-color: #f9f9f9;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-collapse: separate;
+  border-spacing: 0 10px;
+  background: rgba(248, 250, 248, 0.95);
+  backdrop-filter: blur(1.5px);
+  border-radius: 14px;
+  overflow: hidden;
 }
 
-/* Detail item styling */
-.detail-item {
-  margin-bottom: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  background-color: #ffffff;
-  padding: 1rem;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-}
-
-/* Checkbox section */
-.checkbox-wrapper {
-  margin-top: 0.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-/* Indicator inputs */
-.indicator-inputs {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
-}
-
-.indicator-inputs input {
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-}
-
-/* Submit button */
-.submit-journal {
-  display: flex;
-  justify-content: center;
-  margin-top: 2rem;
-}
-
-.submit-journal button {
-  background-color: #007bff;
-  color: white;
-  padding: 0.75rem 1.5rem;
+thead th {
+  background-color: #43a047;
+  color: #fff;
+  padding: 14px 20px;
+  text-align: left;
   font-size: 1rem;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
 }
 
-.submit-journal button:hover {
-  background-color: #0056b3;
+tbody tr {
+  background-color: #f1f8e9;
+  transition: background-color 0.25s ease, transform 0.2s ease;
+}
+
+tbody tr:hover {
+  background-color: #dcedc8;
+  transform: scale(1.005);
+}
+
+tbody td {
+  padding: 14px 20px;
+  color: #2e7d32;
+  vertical-align: middle;
+  border-left: 5px solid transparent;
+}
+
+tbody tr:hover td {
+  border-left: 5px solid #66bb6a;
+}
+
+/* Checkbox stylisée */
+input[type="checkbox"] {
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  accent-color: #388e3c;
+  border-radius: 6px;
+  box-shadow: 0 0 4px rgba(56, 142, 60, 0.3);
+  transition: transform 0.2s ease;
+}
+
+input[type="checkbox"]:hover {
+  transform: scale(1.2);
+}
+
+/* Label checkbox */
+.checkbox-label {
+  margin-left: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Table d'indicateurs */
+.indicators-table input[type="text"] {
+  width: 130px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 2px solid #43a047;
+  font-size: 1rem;
+  color: #2e7d32;
+  font-weight: 600;
+  background: #f4fbf4;
+  box-shadow: inset 0 1px 3px rgba(76, 175, 80, 0.15);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.indicators-table input[type="text"]:focus {
+  border-color: #1b5e20;
+  box-shadow: 0 0 8px #81c784;
+  background-color: #ecf7ec;
+}
+
+.indicators-table input[type="text"]::placeholder {
+  color: #81c784;
+  font-weight: 400;
+}
+
+/* Aucun indicateur */
+.no-indicators-text {
+  font-style: italic;
+  color: #597d4d;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+/* Message de prescription expirée */
+.expired-text {
+  max-width: 760px;
+  margin: 60px auto;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #b83030;
+  background-color: #fdecea;
+  padding: 22px 30px;
+  border-radius: 22px;
+  text-align: center;
+  user-select: none;
+  box-shadow: 0 5px 14px rgba(184, 48, 48, 0.22);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* Responsive mobile */
+@media (max-width: 650px) {
+  .detail-container {
+    padding: 24px 20px;
+  }
+
+  table, thead th, tbody td {
+    font-size: 0.9rem;
+  }
+
+  .indicators-table input[type="text"] {
+    width: 100%;
+  }
 }

@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { PatientService } from '../../services/patient.service';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-patient-list',
   templateUrl: './patient-list.component.html',
-  imports: [NgIf,NgFor,RouterModule,CommonModule],
+  imports: [NgIf,NgFor,RouterModule,CommonModule,MatIconModule,MatButtonModule],
   styleUrls: ['./patient-list.component.css']
 })
 export class PatientListComponent implements OnInit {
@@ -25,6 +27,7 @@ export class PatientListComponent implements OnInit {
     this.patientService.getListPatients().subscribe({
       next: (res: any) => {
         this.patients = res.data;
+        console.log('Patients:', res.data);
         this.statusMessage = res.message || 'Fetched successeful';
         this.error = '';
         this.loading = false;

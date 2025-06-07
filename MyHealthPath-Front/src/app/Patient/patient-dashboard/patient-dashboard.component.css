@@ -2,42 +2,58 @@
   max-width: 900px;
   margin: 2rem auto;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #333;
-  padding: 1rem;
+  color: #2c3e50;
+  background: #f4faf9;
+  padding: 2rem 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(40, 116, 166, 0.1);
+  border: 1px solid #d6e9f8;
 }
 
-/* New Header Flex Row */
 .dashboard-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
-  flex-wrap: wrap; /* allows wrapping on smaller screens */
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .dashboard-title {
   margin: 0;
   font-weight: 700;
-  font-size: 1.8rem;
-  color: #2c3e50;
+  font-size: 2rem;
+  color: #21618c;
   text-align: left;
-}
-
-.patient-name {
-  margin: 0;
-  font-size: 1.1rem;
-  color: #2980b9;
-  font-weight: 600;
+  flex-grow: 1;
+  border-left: 6px solid #4caf50;
+  padding-left: 1rem;
+  background: linear-gradient(90deg, #d0f0e6 0%, #f4faf9 100%);
+  border-radius: 6px;
+  box-shadow: inset 2px 0 5px rgba(76, 175, 80, 0.3);
 }
 
 .loading, .error {
   text-align: center;
-  font-size: 1.1rem;
-  margin: 1rem 0;
+  font-size: 1.15rem;
+  margin: 1.5rem 0;
+  font-weight: 600;
+  padding: 0.75rem;
+  border-radius: 8px;
+}
+
+.loading {
+  color: #21618c;
+  background-color: #d6e9f8;
+  border: 1px solid #4a90e2;
+  box-shadow: 0 0 8px rgba(74, 144, 226, 0.3);
 }
 
 .error {
-  color: #e74c3c;
+  color: #c0392b;
+  background-color: #f9d6d5;
+  border: 1px solid #e74c3c;
+  box-shadow: 0 0 8px rgba(231, 76, 60, 0.3);
 }
 
 .stats-grid {
@@ -51,100 +67,181 @@
   display: flex;
   justify-content: center;
   gap: 2rem;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
 }
 
 .card {
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
-  padding: 1.5rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(33, 97, 140, 0.1);
+  padding: 2rem 1.8rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 24px rgba(33, 97, 140, 0.2);
 }
 
 .summary-card {
   flex: 1;
   text-align: center;
-  border-left: 6px solid #2980b9;
+  border-left: 8px solid #4caf50;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
 .summary-card h3 {
-  font-size: 1.3rem;
-  margin-bottom: 0.5rem;
+  font-size: 1.4rem;
+  color: #21618c;
+  margin-bottom: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .stat-value {
-  font-size: 3rem;
-  font-weight: 700;
-  color: #2980b9;
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: #27ae60;
+  font-family: 'Segoe UI Black', Tahoma, Geneva, Verdana, sans-serif;
+  text-shadow: 0 0 4px rgba(39, 174, 96, 0.5);
 }
 
 .details-card h3 {
-  margin-bottom: 1rem;
-  border-bottom: 2px solid #2980b9;
-  padding-bottom: 0.3rem;
+  margin-bottom: 1.2rem;
+  border-bottom: 3px solid #4caf50;
+  padding-bottom: 0.5rem;
+  font-size: 1.4rem;
+  color: #21618c;
+  font-weight: 700;
+  letter-spacing: 0.05em;
 }
 
 .details-list {
   list-style: none;
   padding: 0;
-  max-height: 300px;
+  max-height: 320px;
   overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #4caf50 #e1f0df;
+}
+
+.details-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.details-list::-webkit-scrollbar-track {
+  background: #e1f0df;
+  border-radius: 10px;
+}
+
+.details-list::-webkit-scrollbar-thumb {
+  background-color: #4caf50;
+  border-radius: 10px;
+  border: 2px solid #e1f0df;
 }
 
 .detail-item {
-  border-bottom: 1px solid #ddd;
-  padding: 0.8rem 0;
+  border-bottom: 1px solid #d9e7db;
+  padding: 1rem 0;
+  transition: background-color 0.25s ease;
+  border-radius: 6px;
+}
+
+.detail-item:hover {
+  background-color: #e6f2ea;
 }
 
 .detail-header {
   display: flex;
   justify-content: space-between;
-  font-weight: 600;
-  margin-bottom: 0.3rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+  color: #2c3e50;
 }
 
 .med-name, .ind-name {
-  font-size: 1.1rem;
-  color: #34495e;
+  font-size: 1.15rem;
+  color: #2c3e50;
+  letter-spacing: 0.02em;
 }
 
 .med-status.taken {
   background-color: #27ae60;
   color: white;
-  padding: 0 0.6rem;
-  border-radius: 12px;
-  font-size: 0.9rem;
-  font-weight: 600;
+  padding: 0.25rem 0.8rem;
+  border-radius: 15px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  box-shadow: 0 0 6px rgba(39, 174, 96, 0.6);
 }
 
 .med-status.not-taken {
   background-color: #e74c3c;
   color: white;
-  padding: 0 0.6rem;
-  border-radius: 12px;
-  font-size: 0.9rem;
-  font-weight: 600;
+  padding: 0.25rem 0.8rem;
+  border-radius: 15px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  box-shadow: 0 0 6px rgba(231, 76, 60, 0.6);
 }
 
 .ind-status.measured {
   background-color: #2980b9;
   color: white;
-  padding: 0 0.6rem;
-  border-radius: 12px;
-  font-size: 0.9rem;
-  font-weight: 600;
+  padding: 0.25rem 0.8rem;
+  border-radius: 15px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  box-shadow: 0 0 6px rgba(41, 128, 185, 0.6);
 }
 
 .ind-status.not-measured {
   background-color: #7f8c8d;
   color: white;
-  padding: 0 0.6rem;
-  border-radius: 12px;
-  font-size: 0.9rem;
-  font-weight: 600;
+  padding: 0.25rem 0.8rem;
+  border-radius: 15px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  box-shadow: 0 0 6px rgba(127, 140, 141, 0.6);
 }
 
 .detail-info {
+  font-size: 1rem;
+  color: #555f61;
+  line-height: 1.4;
+  margin-left: 0.2rem;
+}
+
+/* --- NOUVEAU : gestion compacte des infos médicament --- */
+.med-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.6rem 1.2rem;
   font-size: 0.95rem;
-  color: #555;
+  color: #34495e;
+  font-weight: 500;
+}
+
+.med-info div {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.med-info strong {
+  color: #21618c;
+  font-weight: 700;
+  margin-right: 0.25rem;
+}
+
+/* Responsive improvements */
+@media (max-width: 600px) {
+  .med-info {
+    grid-template-columns: 1fr 1fr;
+    font-size: 0.9rem;
+  }
 }

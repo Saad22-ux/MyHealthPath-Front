@@ -1,108 +1,92 @@
-/* General Layout */
+/* Global wrapper with medical background tone */
 .page-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   min-height: 100vh;
-  background: linear-gradient(to right, #74ebd5, #9face6);
-  padding: 20px;
-}
-
-.form-container {
+  background: linear-gradient(to right, #E8FAEA, #f6fffa);
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  padding: 2rem;
+  font-family: 'Segoe UI', sans-serif;
 }
 
-.form-wrapper {
-  background-color: #fff;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+/* Form container */
+.form-container {
   width: 100%;
-  max-width: 700px;
+  max-width: 900px;
+  background: #ffffff;
+  border-radius: 1.5rem;
+  box-shadow: 0 6px 20px rgba(0, 128, 96, 0.1);
+  padding: 2.5rem;
+  border-left: 6px solid #2ecc71;
+  transition: all 0.3s ease-in-out;
 }
 
-h2 {
+/* Section title */
+.form-wrapper h2 {
+  color: #2f8f71;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
   text-align: center;
-  color: #4caf50;
-  font-size: 28px;
-  margin-bottom: 20px;
 }
 
-/* Input Fields */
+/* Labels */
 .form-label {
-  font-weight: bold;
-  margin-bottom: 8px;
-  color: #333;
+  font-weight: 500;
+  color: #2e3f3f;
 }
 
+/* Form fields */
 .form-control {
-  padding: 12px 15px;
-  border-radius: 8px;
+  border-radius: 0.5rem;
   border: 1px solid #ced4da;
-  width: 100%;
-  font-size: 16px;
-  margin-bottom: 10px;
-  transition: border-color 0.3s ease;
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .form-control:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 8px rgba(0, 123, 255, 0.25);
+  border-color: #2ecc71;
+  box-shadow: 0 0 0 0.2rem rgba(46, 204, 113, 0.25);
 }
 
-/* Validation Feedback */
-.is-invalid {
-  border-color: #e74c3c;
-}
-
+/* Valid/Invalid styling */
 .is-valid {
-  border-color: #28a745;
+  border-color: #2ecc71 !important;
+}
+.is-invalid {
+  border-color: #e74c3c !important;
 }
 
-.invalid-feedback {
-  font-size: 12px;
-  color: #e74c3c;
-  margin-top: 5px;
-}
-
-/* Alert styling */
+/* Alerts */
 .alert {
-  padding: 15px;
-  margin-bottom: 20px;
-  border-radius: 5px;
-  text-align: center;
+  border-radius: 0.5rem;
 }
-
 .alert-success {
-  background-color: #d4edda;
-  color: #155724;
+  background-color: #d4f8e8;
+  color: #1e7e34;
+}
+.alert-danger,
+.alert-warning {
+  background-color: #fff3cd;
+  color: #856404;
 }
 
-.alert-danger {
-  background-color: #f8d7da;
-  color: #721c24;
-}
-
-/* Submit Button */
-.btn {
+/* Submit button */
+button[type="submit"] {
   width: 100%;
-  padding: 12px;
-  background-color: #007bff;
-  color: #fff;
+  padding: 0.75rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  background-color: #2ecc71;
   border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
+  border-radius: 0.75rem;
   transition: background-color 0.3s ease;
 }
-
-.btn:hover {
-  background-color: #0056b3;
+button[type="submit"]:hover {
+  background-color: #27ae60;
 }
 
-.btn:focus {
-  outline: none;
+/* Responsive spacing */
+@media (max-width: 768px) {
+  .form-container {
+    padding: 1.5rem;
+  }
 }

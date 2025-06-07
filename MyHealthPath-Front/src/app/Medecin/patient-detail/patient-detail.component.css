@@ -1,167 +1,469 @@
+/* ===== Styles Généraux avec Navbar ===== */
+.app-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f5f7fa;
+}
+
+/* Navbar (supposée à gauche) */
+app-navbar {
+  width: 250px;
+  min-height: 100vh;
+  background: #2c3e50;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+  transition: width 0.3s ease;
+}
+
+/* Contenu principal */
 .container {
-    max-width: 1200px;
-    margin: 2rem auto;
-    padding: 4rem 2rem 2rem;
-    background: #fff;
-    border-radius: 16px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-    margin-left: 260px; 
-    padding-top: 60px; 
-  }
-  
-  .section {
-    margin-bottom: 3rem;
-  }
-  
-  .section-title {
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 1.5rem;
-    text-align: center;
-    color: #333;
-  }
-  
-  .text-blue {
-    color: #2563eb;
-  }
-  
-  .text-green {
-    color: #16a34a;
-  }
-  
-  .info-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1rem;
-    font-size: 1.1rem;
-    color: #444;
-  }
-  
-  .custom-table {
-    width: 100%;
-    border-collapse: collapse;
-    border-radius: 12px;
-    overflow: hidden;
-    font-size: 1rem;
-  }
-  
-  .custom-table th,
-  .custom-table td {
-    padding: 0.75rem 1rem;
-    text-align: left;
-  }
-  
-  .custom-table thead {
-    background-color: #f3f4f6;
-    font-weight: 600;
-  }
-  
-  .custom-table tbody tr {
-    border-top: 1px solid #e5e7eb;
-    transition: background 0.3s;
-  }
-  
-  .custom-table tbody tr:hover {
-    background-color: #f0f9ff;
-  }
-  
-  .blue-table thead {
-    background-color: #dbeafe;
-    color: #1e3a8a;
-  }
-  
-  .green-table thead {
-    background-color: #dcfce7;
-    color: #065f46;
-  }
-  
-  .empty {
-    text-align: center;
-    color: #666;
-    font-style: italic;
-  }
-  
-  .error-box {
-    background: #fee2e2;
-    color: #b91c1c;
-    padding: 1rem;
-    border-radius: 8px;
-    text-align: center;
-    font-weight: bold;
-  }
-  
-  /* Style for the delete button */
-.delete-btn {
-    background-color: #f44336;  /* Red background */
-    color: white;               /* White text */
-    border: none;               /* Remove border */
-    padding: 8px 16px;          /* Add padding */
-    border-radius: 4px;         /* Rounded corners */
-    font-size: 14px;            /* Set font size */
-    cursor: pointer;           /* Change cursor to pointer on hover */
-    transition: background-color 0.3s ease, transform 0.2s ease;  /* Smooth transitions */
-  }
-  
-  .delete-btn:hover {
-    background-color: #d32f2f;  /* Darker red when hovered */
-    transform: scale(1.05);      /* Slightly enlarge on hover */
-  }
-  
-  .delete-btn:active {
-    background-color: #c62828;  /* Even darker red when clicked */
-  }
-  
-  .delete-btn:focus {
-    outline: none;  /* Remove outline on focus */
-  }
-  
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  width: calc(100% - 250px);
+  margin-left: 250px;
+  padding: 30px;
+  background-color: #E8FAEA;
+  min-height: 100vh;
+  transition: margin-left 0.3s ease;
+}
 
-  .section-title {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.75rem;
-  }
-  
-  .add-btn {
-    background-color: #2563eb;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-  }
-  
-  .add-btn:hover {
-    background-color: #1e40af;
-    transform: scale(1.05);
-  }
-  
-  .add-btn:active {
-    background-color: #1c3faa;
-  }
+/* Adaptation quand navbar est réduite */
+.navbar-collapsed + .container {
+  margin-left: 70px;
+  width: calc(100% - 70px);
+}
 
-  .title-with-button {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 1.5rem;
-  }
-  
-  .add-button-wrapper {
-    display: flex;
-    justify-content: center;
-    margin-top: 1rem;
-  }
-
-.title-with-button {
+/* ===== Style Fiche Médicale ===== */
+/* En-tête médical */
+.medical-header {
+  background: linear-gradient(135deg, #94dcdc 0%, #2c3e50 100%);
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+.medical-header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.patient-id {
+  text-align: right;
+  font-size: 0.9rem;
+}
+
+/* Sections */
+.section {
+  background-color: white;
+  border-radius: 8px;
+  padding: 25px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  border-left: 4px solid #94dcdc;
+  position: relative;
+  overflow: hidden;
+}
+
+.section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, #94dcdc 0%, transparent 100%);
+}
+
+.section-title {
+  color: #2c3e50;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eaeaea;
+  font-weight: 600;
+}
+
+/* Grille d'informations patient */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 15px;
+}
+
+.info-grid p {
+  margin: 0;
+  padding: 12px 15px;
+  background-color: #f8fafc;
+  border-radius: 6px;
+  border-left: 3px solid #94dcdc;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.info-grid strong {
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+/* Photo patient */
+.info-grid img {
+  grid-column: 1 / -1;
+  justify-self: center;
+  border: 3px solid white;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Tableau des prescriptions */
+.custom-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 20px;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.blue-table th {
+  background: linear-gradient(135deg, #94dcdc 0%, #94dcdc 100%);
+  color: white;
+  padding: 14px;
+  text-align: left;
+  font-weight: 500;
+}
+
+.blue-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #f0f0f0;
+  vertical-align: middle;
+}
+
+.blue-table tr:last-child td {
+  border-bottom: none;
+}
+
+.blue-table tr:nth-child(even) {
+  background-color: #f8fafc;
+}
+
+.blue-table tr:hover {
+  background-color: #f0f7ff;
+}
+
+/* Boutons */
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-right: 10px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.primary {
+  background: linear-gradient(135deg, #94dcdc 0%, #94dcdc 100%);
+  color: white;
+}
+
+.secondary {
+  background: linear-gradient(135deg, #5cb85c 0%, #4cae4c 100%);
+  color: white;
+}
+
+.warning {
+  background: linear-gradient(135deg, #f0ad4e 0%, #eea236 100%);
+  color: white;
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #d9534f 0%, #d43f3a 100%);
+  color: white;
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #5cb85c 0%, #4cae4c 100%);
+  color: white;
+}
+
+/* Message d'erreur */
+.error-box {
+  padding: 15px;
+  background-color: #fff3f3;
+  color: #d32f2f;
+  border-left: 4px solid #d32f2f;
+  border-radius: 0 6px 6px 0;
+  margin: 20px 0;
+  font-weight: 500;
+}
+
+.empty {
+  color: #7f8c8d;
+  font-style: italic;
+  text-align: center;
+  padding: 30px;
+  background-color: #f8fafc;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 992px) {
+  .container {
+    width: calc(100% - 70px);
+    margin-left: 70px;
+    padding: 20px;
+  }
+  
+  .info-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  app-navbar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    min-height: auto;
+  }
+  
+  .container {
+    width: 100%;
+    margin-left: 0;
+    padding: 15px;
+  }
+  
+  .medical-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+  }
+  
+  .patient-id {
+    text-align: center;
+  }
+  
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .btn {
+    margin-bottom: 8px;
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .blue-table td {
+    display: block;
+    text-align: right;
+    padding-left: 50%;
+    position: relative;
+  }
+  
+  .blue-table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 14px;
+    font-weight: bold;
+    text-align: left;
+  }
+  
+  .blue-table tr {
+    margin-bottom: 15px;
+    display: block;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .blue-table thead {
+    display: none;
+  }
+}
+
+/* === Tableau prescriptions modernisé === */
+.custom-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 20px;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(46, 117, 91, 0.15);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  transition: box-shadow 0.3s ease;
+}
+
+.custom-table:hover {
+  box-shadow: 0 6px 25px rgba(46, 117, 91, 0.3);
+}
+
+.blue-table th, .blue-table td {
+  padding: 16px 20px;
+  vertical-align: middle;
+  text-align: left;
+  font-size: 1rem;
+  color: #2c3e50;
+}
+
+.blue-table th {
+  background: linear-gradient(135deg, #DAF1DC 0%, #8ACF8F 100%);
+  color: white;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  user-select: none;
+}
+
+.blue-table tbody tr {
+  border-bottom: 1.5px solid #e6f2eb;
+  transition: background-color 0.25s ease;
+  cursor: default;
+}
+
+.blue-table tbody tr:hover {
+  background-color: #e6f2eb;
+}
+
+.blue-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+/* === Boutons actions === */
+.btn {
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  user-select: none;
+  color: white;
+  white-space: nowrap;
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(60, 162, 125, 0.25);
+}
+
+.primary {
+  background-color: #3ca27d;
+}
+
+.primary:hover {
+  background-color: #2f7a57;
+}
+
+.secondary {
+  background-color: #4cae4c;
+}
+
+.secondary:hover {
+  background-color: #3a8c3a;
+}
+
+.warning {
+  background-color: #eea236;
+}
+
+.warning:hover {
+  background-color: #cc8525;
+}
+
+.btn-danger {
+  background-color: #d43f3a;
+}
+
+.btn-danger:hover {
+  background-color: #a8302b;
+}
+
+.btn-success {
+  background-color: #4cae4c;
+}
+
+.btn-success:hover {
+  background-color: #357a35;
+}
+
+/* === Responsive : passage en carte === */
+@media (max-width: 768px) {
+  .custom-table, 
+  .blue-table thead {
+    display: block;
+  }
+
+  .blue-table tbody tr {
+    display: block;
+    margin-bottom: 16px;
+    background-color: #f9fff8;
+    border-radius: 12px;
+    padding: 15px 20px;
+    box-shadow: 0 3px 10px rgba(46, 117, 91, 0.1);
+  }
+
+  .blue-table tbody tr:hover {
+    background-color: #7FFFD4;
+  }
+
+  .blue-table tbody tr td {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    text-align: right;
+    font-size: 1rem;
+    border: none;
+    border-bottom: 1px solid #c4e2ca;
+    position: relative;
+  }
+
+  .blue-table tbody tr td:last-child {
+    border-bottom: none;
+    margin-top: 10px;
+  }
+
+  .blue-table tbody tr td::before {
+    content: attr(data-label);
+    font-weight: 700;
+    color: #7FFFD4;
+    flex-grow: 1;
+    text-align: left;
+  }
+
+  /* Boutons en ligne verticale */
+  .blue-table tbody tr td:last-child {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    flex: 1 1 45%;
+    padding: 10px 0;
+    font-size: 0.95rem;
+    border-radius: 12px;
+  }
+}

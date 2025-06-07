@@ -1,9 +1,4 @@
 <div class="dashboard-container">
-  <div class="dashboard-header">
-    <h2 class="dashboard-title">Statistics Dashboard Patient: {{ patientFullName }}</h2>
-  </div>
-
-
   <div *ngIf="loading" class="loading">Loading...</div>
   <div *ngIf="error" class="error">{{ error }}</div>
 
@@ -11,29 +6,32 @@
     <!-- Summary Cards -->
     <div class="summary-cards">
       <div class="card summary-card">
-        <h3>Medicaments Pris</h3>
+        <h3>Medications Taken</h3>
         <div class="stat-value">{{ statistics.medicamentsPris }}</div>
       </div>
 
       <div class="card summary-card">
-        <h3>Indicateurs Mesures</h3>
+        <h3>Indicators Measures</h3>
         <div class="stat-value">{{ statistics.indicateursMesures }}</div>
       </div>
     </div>
 
     <!-- Medicaments Details -->
     <div class="card details-card">
-      <h3>Medicaments Details</h3>
+      <h3>Medications Details</h3>
       <ul class="details-list">
         <li *ngFor="let med of statistics.suiviMedicamentStats" class="detail-item">
           <div class="detail-header">
             <span class="med-name">{{ med.Medicament.nom }}</span>
             <span class="med-status" [ngClass]="{'taken': med.pris, 'not-taken': !med.pris}">
-              {{ med.pris ? 'Pris' : 'Non Pris' }}
+              {{ med.pris ? 'Taken' : 'Not taken' }}
             </span>
           </div>
-          <div class="detail-info">
-            Dose: {{ med.Medicament.dose }}, Frequency: {{ med.Medicament.frequency }}, Date: {{ med.JournalSante.date | date:'mediumDate' }}
+          <div class="med-info">
+            <div><strong>Name:</strong> {{ med.Medicament.name }}</div>
+            <div><strong>Dose:</strong> {{ med.Medicament.dose }}</div>
+            <div><strong>Frequency:</strong> {{ med.Medicament.frequency }}</div>
+            <div><strong>Date:</strong> {{ med.JournalSante.date | date:'mediumDate' }}</div>
           </div>
         </li>
       </ul>
@@ -41,18 +39,18 @@
 
     <!-- Indicateurs Details -->
     <div class="card details-card">
-      <h3>Indicateurs Details</h3>
+      <h3>Indicators Details</h3>
       <ul class="details-list">
         <li *ngFor="let ind of statistics.suiviIndicateurStats" class="detail-item">
           <div class="detail-header">
             <span class="ind-name">{{ ind.Indicateur.name }}</span>
             <span class="ind-status" [ngClass]="{'measured': ind.mesure, 'not-measured': !ind.mesure}">
-              {{ ind.mesure ? 'Mesuré' : 'Non Mesuré' }}
+              {{ ind.mesure ? 'Measured' : 'Not Measured' }}
             </span>
           </div>
-          <div class="detail-info">
-            <span *ngIf="ind.mesure">Valeur: {{ ind.valeur }}</span>
-            <span *ngIf="!ind.mesure">Valeur: N/A</span>
+          <div class="ind-info">
+            <div><strong>Name:</strong> {{ ind.Indicateur.name }}</div>
+            <div><strong>Value:</strong> {{ ind.mesure ? ind.valeur : 'N/A' }}</div>
           </div>
         </li>
       </ul>

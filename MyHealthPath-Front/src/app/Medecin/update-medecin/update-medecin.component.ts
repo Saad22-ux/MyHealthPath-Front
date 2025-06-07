@@ -26,48 +26,67 @@ export class UpdateMedecinComponent {
   error = '';
   loading = false;
 
-  selectedPhoto?: File;
+  selectedPhoto: File | null = null;
 
   photoPreview: string | ArrayBuffer | null = null;
 
   constructor(private medecinService: MedecinService) {}
 
-  ngOnInit() {
-    this.loading = true;
-    this.medecinService.getMedecinProfile().subscribe({
-      next: (data) => {
-        this.updatedData = {
-          fullName: data.fullName || '',
-          email: data.email || '',
-          telephone: data.telephone || '',
-          adress: data.adress || '',
-          cin: data.cin || '',
-          password : '',
-          specialite: (data.specialite || '').toLowerCase(),
-          numeroIdentification: data.numeroIdentification || '',
-        };
-        this.loading = false;
-      },
-      error: (err) => {
-        this.error = err.error?.message || 'Failed to fetch profil';
-        this.loading = false;
+ngOnInit() {
+  this.loading = true;
+  this.medecinService.getMedecinProfile().subscribe({
+    next: (data) => {
+      this.updatedData = {
+        fullName: data.fullName || '',
+        email: data.email || '',
+        telephone: data.telephone || '',
+        adress: data.adress || '',
+        cin: data.cin || '',
+        password: '',
+        specialite: (data.specialite || '').toLowerCase(),
+        numeroIdentification: data.numeroIdentification || '',
+      };
+      
+      if (data.photoUrl) {
+        const baseUrl = 'http://localhost:3000';
+        this.photoPreview = `${baseUrl}/${data.photoUrl}`; // <-- corrige ici
       }
-    });
-  }
 
-  onPhotoSelected(event: any) {
-    this.error = '';
-    this.statusMessage = '';
-    if (event.target.files && event.target.files.length > 0) {
-    this.selectedPhoto = event.target.files[0];
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.photoPreview = reader.result;
-    };
-    if (this.selectedPhoto instanceof Blob) {
-      reader.readAsDataURL(this.selectedPhoto);
+      this.loading = false;
+    },
+    error: (err) => {
+      this.error = err.error?.message || 'Failed to fetch profil';
+      this.loading = false;
     }
+  });
+}
+
+onPhotoSelected(event: Event) {
+  this.error = '';
+  this.statusMessage = '';
+  
+  const input = event.target as HTMLInputElement;
+  
+  if (input.files && input.files.length > 0) {
+    this.selectedPhoto = input.files[0];
+
+    // Vérification du type MIME
+    if (!this.selectedPhoto.type.match('image.*')) {
+      this.error = 'Seules les images sont acceptées';
+      this.selectedPhoto = null;
+      this.photoPreview = null;
+      return;
+    }
+
+    // Lecture et prévisualisation
+    const reader = new FileReader();
+    reader.onload = (e: ProgressEvent<FileReader>) => {
+      this.photoPreview = e.target?.result ?? null;
+    };
+    reader.readAsDataURL(this.selectedPhoto);
+  } else {
+    this.selectedPhoto = null;
   }
 }
 

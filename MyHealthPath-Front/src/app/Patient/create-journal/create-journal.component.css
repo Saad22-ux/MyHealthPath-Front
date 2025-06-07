@@ -245,7 +245,7 @@
   .medicament-table tbody td {
     display: flex;
     justify-content: space-between;
-    padding: 12px 18px;
+    padding: 12px px;
     font-size: 1rem;
   }
 

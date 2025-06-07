@@ -1,31 +1,94 @@
-<form (ngSubmit)="updateProfile()">
-  <input type="text" [(ngModel)]="updatedData.fullName" name="fullName" placeholder="Nom complet" />
-  <input type="email" [(ngModel)]="updatedData.email" name="email" placeholder="Email" />
-  <input type="text" [(ngModel)]="updatedData.telephone" name="telephone" placeholder="Téléphone" />
-  <input type="text" [(ngModel)]="updatedData.adress" name="adress" placeholder="Adresse" />
-  <input type="text" [(ngModel)]="updatedData.cin" name="cin" placeholder="CIN" />
-<label for="specialite">Spécialité actuelle</label>
-<select id="specialite" [(ngModel)]="updatedData.specialite" name="specialite" required>
-  <option value="" disabled>-- Choisissez une spécialité --</option>
-  <option value="endocrinologie-diabétologie-nutrition">endocrinologie-diabétologie-nutrition</option>
-  <option value="cardiologie">cardiologie</option>
-  <option value="lipidologie">lipidologie</option>
-</select>
+<div class="profile-container">
+  <div class="profile-header">
+    <h2>My Professional Profile</h2>
+  </div>
 
-<input type="password" [(ngModel)]="updatedData.password" name="password" placeholder="Nouveau mot de passe (laissez vide si inchangé)" />
+  <form (ngSubmit)="updateProfile()" class="profile-form">
+    <div class="form-grid">
+      <!-- Section Informations Personnelles -->
+      <div class="form-section personal-info">
+        <h3><i class="fas fa-user"></i> Personal Information</h3>
+        
+        <div class="photo-upload">
+        <div class="photo-preview-container" (click)="fileInput.click()">
+          <img [src]="photoPreview || 'assets/default-avatar.png'" alt="Photo de profil" class="profile-photo" />
+          <div class="upload-overlay">
+            <i class="fas fa-camera"></i>
+            <span>Change profil picture</span>
+          </div>
+        </div>
+        <input #fileInput type="file" (change)="onPhotoSelected($event)" accept="image/*" style="display: none;" />
+      </div>
 
+        <div class="form-group">
+          <label for="fullName">FullName</label>
+          <input type="text" id="fullName" [(ngModel)]="updatedData.fullName" name="fullName" placeholder="Dr. Jean Dupont" />
+        </div>
 
+        <div class="form-group">
+          <label for="cin">CIN</label>
+          <input type="text" id="cin" [(ngModel)]="updatedData.cin" name="cin" placeholder="AB123456" />
+        </div>
 
+        <div class="form-group">
+          <label for="numeroIdentification">Identificator number</label>
+          <input type="text" id="numeroIdentification" [(ngModel)]="updatedData.numeroIdentification" name="numeroIdentification" placeholder="ID-12345" />
+        </div>
+      </div>
 
+      <!-- Section Contact -->
+      <div class="form-section contact-info">
+        <h3><i class="fas fa-address-book"></i> Contact details</h3>
+        
+        <div class="form-group">
+          <label for="email">Email address</label>
+          <input type="email" id="email" [(ngModel)]="updatedData.email" name="email" placeholder="jean.dupont@example.com" />
+        </div>
 
-  <input type="text" [(ngModel)]="updatedData.numeroIdentification" name="numeroIdentification" placeholder="Numéro d'identification" />
+        <div class="form-group">
+          <label for="telephone">Phone number</label>
+          <input type="text" id="telephone" [(ngModel)]="updatedData.telephone" name="telephone" placeholder="+212 6 12 34 56 78" />
+        </div>
 
-  <input type="file" (change)="onPhotoSelected($event)" />
-<div *ngIf="selectedPhoto">
-  <p>Photo sélectionnée : {{ selectedPhoto.name }}</p>
-  <img [src]="photoPreview" alt="Prévisualisation" width="150" *ngIf="photoPreview" />
+        <div class="form-group">
+          <label for="adress">Address</label>
+          <input type="text" id="adress" [(ngModel)]="updatedData.adress" name="adress" placeholder="123 Rue de la Santé, Casablanca" />
+        </div>
+      </div>
+
+      <!-- Section Professionnelle -->
+      <div class="form-section professional-info">
+        <h3><i class="fas fa-briefcase"></i> Professional Information</h3>
+        
+        <div class="form-group">
+          <label for="specialite">Speciality</label>
+          <select id="specialite" [(ngModel)]="updatedData.specialite" name="specialite" required>
+            <option value="" disabled>-- Choose your speciality --</option>
+            <option value="endocrinologie-diabétologie-nutrition">Endocrinologie-Diabétologie-Nutrition</option>
+            <option value="cardiologie">Cardiologie</option>
+            <option value="lipidologie">Lipidologie</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Change password</label>
+          <input type="password" id="password" [(ngModel)]="updatedData.password" name="password" placeholder="Laissez vide pour ne pas changer" />
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn-primary">
+        <i class="fas fa-save"></i> Update Profil
+      </button>
+    </div>
+
+    <div *ngIf="statusMessage" class="status-message">
+      {{ statusMessage }}
+    </div>
+
+    <div *ngIf="error" class="error-message">
+      {{ error }}
+    </div>
+  </form>
 </div>
-
-
-  <button type="submit">Mettre à jour le profil</button>
-</form>

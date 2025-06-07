@@ -4,66 +4,74 @@
     <h2 class="section-title">Patient Details</h2>
     <div class="info-grid">
       <img *ngIf="patientDetails.User?.photo" [src]="'http://localhost:3000/' + patientDetails.User.photo" 
-         alt="Photo du patient" width="150" height="150" style="object-fit: cover; border-radius: 8px; margin-bottom: 10px;">
+        alt="Photo du patient" width="150" height="150" style="object-fit: cover; border-radius: 8px; margin-bottom: 10px;">
 
-      <p><strong>Full Name:</strong> {{ patientDetails.User?.fullName }}</p>
-      <p><strong>Email:</strong> {{ patientDetails.User?.email }}</p>
+      <p><strong>FullName:</strong> {{ patientDetails.User?.fullName }}</p>
+      <p><strong>Email address:</strong> {{ patientDetails.User?.email }}</p>
       <p><strong>Age:</strong> {{ calculateAge(patientDetails.date_naissance) }} ans</p>
       <p><strong>Gender:</strong> {{ patientDetails.genre }}</p>
-      <p><strong>Taille:</strong> {{ patientDetails.taille }}</p>
-      <p><strong>Poids:</strong> {{ patientDetails.poids }}</p>
+      <p><strong>Height:</strong> {{ patientDetails.taille }}</p>
+      <p><strong>Weight:</strong> {{ patientDetails.poids }}</p>
       <p><strong>Cin:</strong> {{ patientDetails.User?.cin }}</p>
-      <p><strong>Telephone:</strong> {{ patientDetails.User?.telephone }}</p>
-      <p><strong>Adresse:</strong> {{ patientDetails.User?.adress }}</p>
+      <p><strong>Phone Number:</strong> {{ patientDetails.User?.telephone }}</p>
+      <p><strong>Address:</strong> {{ patientDetails.User?.adress }}</p>
     </div>
   </section>
 
   <!-- Prescriptions Section -->
   <section class="section">
-    <div class="title-with-button" style="display: flex; justify-content: space-between; align-items: center;">
-      <h3 class="section-title text-blue" style="margin: 0;">Prescriptions</h3>
-      <a [routerLink]="['/add-prescription', patientId]">
-        <button class="btn primary">Add Prescription</button>
-      </a>
-    </div>
+  <div class="title-with-button" style="display: flex; justify-content: space-between; align-items: center;">
+    <h3 class="section-title text-blue" style="margin: 0;">Prescriptions</h3>
+    <a [routerLink]="['/add-prescription', patientId]">
+      <button class="btn primary" type="button">+Add Prescription</button>
+    </a>
+  </div>
 
-    <div *ngIf="patientDetails?.Prescriptions?.length > 0; else noPrescriptions">
-      <table class="custom-table blue-table">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let pre of patientDetails.Prescriptions">
-            <td>{{ pre.date | date: 'mediumDate' }}</td>
-            <td>
-              <a [routerLink]="['/prescriptions-details', pre.id]">
-                <button class="btn secondary">Consult</button>
-              </a>
-
-              <a [routerLink]="['/add-prescription', patientId, pre.id]">
-                <button class="btn warning">Edit</button>
-              </a>
-
-              <button
-                class="btn"
-                [ngClass]="pre.isActive ? 'btn-danger' : 'btn-success'"
-                (click)="togglePrescriptionStatus(pre)"
-              >
-                {{ pre.isActive ? 'Suspend' : 'Activate' }}
+  <div *ngIf="patientDetails?.Prescriptions?.length > 0; else noPrescriptions">
+    <table class="custom-table blue-table" role="grid" aria-label="Liste des prescriptions">
+      <thead>
+        <tr>
+          <th scope="col">Date</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let pre of patientDetails.Prescriptions">
+          <td data-label="Date">{{ pre.date | date: 'mediumDate' }}</td>
+          <td data-label="Actions">
+            <a [routerLink]="['/prescriptions-details', pre.id]">
+              <button class="btn secondary" type="button" aria-label="Consult Prescription">
+                Details
               </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+            </a>
 
-    <ng-template #noPrescriptions>
-      <p class="empty">No prescriptions found.</p>
-    </ng-template>
-  </section>
+            <a [routerLink]="['/add-prescription', patientId, pre.id]">
+              <button class="btn warning" type="button" aria-label="Edit Prescription">
+                Edit 
+              </button>
+            </a>
+
+            <button
+              class="btn"
+              [ngClass]="pre.isActive ? 'btn-danger' : 'btn-success'"
+              (click)="togglePrescriptionStatus(pre)"
+              type="button"
+              [attr.aria-pressed]="pre.isActive"
+              [attr.aria-label]="pre.isActive ? 'Suspend Prescription' : 'Activate Prescription'"
+            >
+              {{ pre.isActive ? 'Suspend' : 'Activate' }}
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ng-template #noPrescriptions>
+    <p class="empty">No prescriptions found.</p>
+  </ng-template>
+</section>
+
 
   <!-- Error Message -->
   <div *ngIf="error" class="error-box">

@@ -1,26 +1,95 @@
-<div *ngIf="profile; else errorTpl">
-  <h2>Profil Médecin</h2>
-<img *ngIf="profile.photo; else noPhoto" 
-       [src]="getPhotoUrl(profile.photo)" 
-       alt="Photo de profil" 
-       style="max-width: 200px; max-height: 200px; object-fit: cover; border-radius: 8px;" />
+<div *ngIf="profile; else errorTpl" class="profile-container">
+  <h2>Doctor Profil</h2>
+  
+  <div class="profile-header">
+    <div *ngIf="profile.photo; else noPhoto" class="profile-photo">
+      <img [src]="getPhotoUrl(profile.photo)" alt="Photo de profil" />
+    </div>
+    <ng-template #noPhoto>
+      <div class="profile-photo no-photo-message">
+        <p>No picture available</p>
+      </div>
+    </ng-template>
+    
+    <div class="profile-info">
+      <h1 class="profile-name">{{ profile.fullName }}</h1>
+      <div class="profile-title">
+        <i class="medical-icon fas fa-user-md"></i>
+        <span>Doctor</span>
+      </div>
+      <span class="profile-badge">
+        <i class="fas fa-stethoscope"></i>
+        <span>Healthcare professional</span>
+      </span>
+    </div>
+  </div>
 
-  <ng-template #noPhoto>
-    <p>Aucune photo disponible</p>
-  </ng-template>
+  <div class="medical-highlight">
+    <h3>Professional Informations</h3>
+    <div class="profile-details">
+      <div class="detail-item">
+        <span class="detail-label">
+          <i class="medical-icon fas fa-envelope"></i>
+          <span>Email address</span>
+        </span>
+        <span class="detail-value">{{ profile.email }}</span>
+      </div>
+      
+      <div class="detail-item">
+        <span class="detail-label">
+          <i class="medical-icon fas fa-id-card"></i>
+          <span>CIN</span>
+        </span>
+        <span class="detail-value">{{ profile.cin }}</span>
+      </div>
+      
+      <div class="detail-item">
+        <span class="detail-label">
+          <i class="medical-icon fas fa-heartbeat"></i>
+          <span>Speciality</span>
+        </span>
+        <span class="detail-value">{{ profile.specialite }}</span>
+      </div>
+      
+      <div class="detail-item">
+        <span class="detail-label">
+          <i class="medical-icon fas fa-id-badge"></i>
+          <span>Identificator number</span>
+        </span>
+        <span class="detail-value">{{ profile.numeroIdentification }}</span>
+      </div>
+      
+      <div class="detail-item">
+        <span class="detail-label">
+          <i class="medical-icon fas fa-phone-alt"></i>
+          <span>Phone number</span>
+        </span>
+        <span class="detail-value">{{ profile.telephone }}</span>
+      </div>
+      
+      <div class="detail-item">
+        <span class="detail-label">
+          <i class="medical-icon fas fa-map-marker-alt"></i>
+          <span>Adress</span>
+        </span>
+        <span class="detail-value">{{ profile.adress }}</span>
+      </div>
+    </div>
+  </div>
 
-  <p><strong>Nom complet:</strong> {{ profile.fullName }}</p>
-  <p><strong>Email:</strong> {{ profile.email }}</p>
-  <p><strong>Cin:</strong> {{ profile.cin }}</p>
-  <p><strong>Spécialité:</strong> {{ profile.specialite }}</p>
-  <p><strong>numeroIdentification:</strong> {{ profile.numeroIdentification }}</p>
-  <p><strong>Telephone:</strong> {{ profile.telephone }}</p>
-  <p><strong>Address:</strong> {{ profile.adress }}</p>
-  <button (click)="redirectToUpdate()" class="btn btn-primary">Modifier Profil</button>
+  <button (click)="redirectToUpdate()" class="btn btn-primary">
+    <i class="fas fa-edit"></i>
+    <span>Update Profil</span>
+  </button>
 </div>
 
 <ng-template #errorTpl>
-  <p *ngIf="errorMessage">{{ errorMessage }}</p>
-  <p *ngIf="!errorMessage">Chargement du profil...</p>
+  <p *ngIf="errorMessage" class="error-message">
+    <i class="fas fa-exclamation-triangle"></i>
+    <span>{{ errorMessage }}</span>
+  </p>
+  <p *ngIf="!errorMessage" class="loading-message">
+    <i class="fas fa-circle-notch fa-spin"></i>
+    <span>Loading profil...</span>
+  </p>
 </ng-template>
-

@@ -14,6 +14,7 @@ export interface MedecinProfile {
   email: string,
   password: string,
   photo?: string;
+  photoUrl?: string;
 }
 
 @Injectable({

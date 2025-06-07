@@ -44,6 +44,7 @@ export class SuiviDashboard implements OnInit {
       this.patientService.getListPatients().subscribe({
         next: (res) => {
           this.patients = res.data;
+          this.sortPatientsByState();
           this.loading = false;
 
           for (let patient of this.patients) {
@@ -71,6 +72,7 @@ export class SuiviDashboard implements OnInit {
     this.patientService.getListPatients().subscribe({
       next: (res) => {
         this.patients = res.data;
+        this.sortPatientsByState();
         this.loading = false;
       },
       error: (err) => {
@@ -93,6 +95,24 @@ export class SuiviDashboard implements OnInit {
       error: (err) => {
         this.error = err.error?.message || 'Error updating subscription';
       }
+    });
+  }
+
+  private sortPatientsByState(): void {
+    const statePriority: Record<string, number> = {
+      Danger: 1,
+      Normal: 2,
+      Good: 3
+    };
+
+    this.patients.sort((a, b) => {
+      const stateA = a.Medecins[0]?.Patient_Medecin_Link?.state || 'Good';
+      const stateB = b.Medecins[0]?.Patient_Medecin_Link?.state || 'Good';
+
+      const priorityA = statePriority[stateA] ?? 99;
+      const priorityB = statePriority[stateB] ?? 99;
+
+      return priorityA - priorityB;
     });
   }
 }

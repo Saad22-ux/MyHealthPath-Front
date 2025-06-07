@@ -3,6 +3,7 @@ import { NotificationService, Notification } from '../services/notification.serv
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-global-notifications',
@@ -13,7 +14,7 @@ import { filter } from 'rxjs';
 export class GlobalNotificationsComponent implements OnInit {
   notifications: Notification[] = [];
 
-  constructor(private notificationService: NotificationService, private router: Router) {}
+  constructor(private notificationService: NotificationService, private router: Router, private authService: AuthService) {}
 
   ngOnInit(): void {
     // Charger une première fois
@@ -35,6 +36,10 @@ export class GlobalNotificationsComponent implements OnInit {
     this.notificationService.notifications$.subscribe((data) => {
       this.notifications = data.filter(n => !n.isRead);
     });
+
+    this.authService.logout$.subscribe(() => {
+    this.notifications = [];
+  });
   }
 
   markAsRead(notification: Notification) {

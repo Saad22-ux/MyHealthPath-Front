@@ -1,39 +1,62 @@
-
 <div *ngIf="prescription?.isActive; else expiredMsg" class="detail-container">
-  <div class="detail-item" *ngFor="let med of prescription?.medicaments; let i = index">
-    <strong>Medicament:</strong> <span>{{ med.name }}</span>
-    <strong>Dose:</strong> <span>{{ med.dose }}</span>
-    <strong>Frequency:</strong> <span>{{ med.frequency }}</span>
-    <strong>Duree:</strong> <span>{{ med.duree }}</span>
+  <h2 class="section-title">Prescription Details</h2>
 
-    <div *ngIf="userRole === 'patient'" class="checkbox-wrapper">
-      <input type="checkbox" [(ngModel)]="med.isChecked" id="med-{{ i }}" />
-      <label for="med-{{ i }}">Pris</label>
-    </div>
-  </div>
+  <section class="medicaments-section">
+    <h3>Medicaments</h3>
+    <table class="medicaments-table">
+      <thead>
+        <tr>
+          <th>Medicament</th>
+          <th>Dose</th>
+          <th>Frequency</th>
+          <th>Duration</th>
+          <th *ngIf="userRole === 'patient'">Pris</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let med of prescription?.medicaments; let i = index">
+          <td>{{ med.name }}</td>
+          <td>{{ med.dose }}</td>
+          <td>{{ med.frequency }}</td>
+          <td>{{ med.duree }}</td>
+          <td *ngIf="userRole === 'patient'">
+            <input type="checkbox" [(ngModel)]="med.isChecked" id="med-{{ i }}" />
+            <label for="med-{{ i }}" class="checkbox-label"></label>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
 
-  <div class="detail-item">
-    <strong>Indicators:</strong>
-    <div *ngIf="prescription?.indicateurs?.length > 0">
-      <ul class="indicators-list">
-        <li *ngFor="let indicator of prescription?.indicateurs; let j = index">
-          <span>{{ indicator.nom }}</span>
-
-          <div *ngIf="userRole === 'patient'" class="indicator-inputs">
-            <input
-              type="text"
-              placeholder="Valeur"
-              [(ngModel)]="indicator.valeur"
-              name="valeur-{{ j }}"
-            />
-          </div>
-        </li>
-      </ul>
+  <section class="indicators-section">
+    <h3>Indicators</h3>
+    <div *ngIf="prescription?.indicateurs?.length > 0; else noIndicators">
+      <table class="indicators-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th *ngIf="userRole === 'patient'">Valeur</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let indicator of prescription?.indicateurs; let j = index">
+            <td>{{ indicator.nom }}</td>
+            <td *ngIf="userRole === 'patient'">
+              <input
+                type="text"
+                placeholder="Valeur"
+                [(ngModel)]="indicator.valeur"
+                name="valeur-{{ j }}"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <div *ngIf="!prescription?.indicateurs?.length">
-      <p>No indicators assigned.</p>
-    </div>
-  </div>
+    <ng-template #noIndicators>
+      <p class="no-indicators-text">Aucun indicateur assigné.</p>
+    </ng-template>
+  </section>
 </div>
 
 <ng-template #expiredMsg>

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
-import { BehaviorSubject } from 'rxjs'; 
+import { BehaviorSubject, Subject  } from 'rxjs'; 
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -12,6 +12,7 @@ export class AuthService {
   private userRoleSubject = new BehaviorSubject<string>(localStorage.getItem('role') || '');
   userRole$ = this.userRoleSubject.asObservable();
   isAuthenticated$ = this.isAuthenticatedStatus.asObservable();
+  logout$ = new Subject<void>();
 
   constructor(private http: HttpClient) {}
 
@@ -43,7 +44,11 @@ export class AuthService {
     this.isAuthenticatedStatus.next(false);
     localStorage.removeItem('isAuthenticated');
     localStorage.removeItem('role');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('patientId');
     this.role = '';
+
+    this.logout$.next(); 
     return this.http.post(`${this.apiUrl}/logout`, {}, { withCredentials: true });
   }
 

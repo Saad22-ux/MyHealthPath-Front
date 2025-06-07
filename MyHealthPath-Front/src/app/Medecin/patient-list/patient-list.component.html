@@ -1,31 +1,53 @@
 <div *ngIf="!loading && !error" class="wrapper">
-  <h2 class="heading">🩺 Patients </h2>
-  <ul>
+  <h2 class="heading">🩺 Patients List</h2>
+  <ul class="patients-list">
     <li *ngFor="let patient of patients" class="patient-card">
-      <div class="info">
-        <div><strong>FullName:</strong> {{ patient.User.fullName }}</div>
+      <div class="patient-info">  
+        <div class="patient-photo-wrapper">
+          <img
+            [src]="'http://localhost:3000/' + patient.User.photo"
+            alt="Photo de {{ patient.User.fullName }}"
+            class="patient-photo"
+            onerror="this.src='assets/images/default-avatar.png'"
+          />
+        </div>
+
+        <div class="patient-name">
+          <span>{{ patient.User.fullName }}</span>
+        </div>
+        
         <div class="status-container">
-        <div class="status-graph" [ngClass]="patient.Medecins[0]?.Patient_Medecin_Link?.state?.toLowerCase()">
-          <div class="emoji">
-            <span *ngIf="patient.Medecins[0]?.Patient_Medecin_Link?.state === 'Danger'">⚠️</span>
-            <span *ngIf="patient.Medecins[0]?.Patient_Medecin_Link?.state === 'Normal'">💛</span>
-            <span *ngIf="patient.Medecins[0]?.Patient_Medecin_Link?.state === 'Good'">🌟</span>
+          <div class="status-indicator" [ngClass]="patient.Medecins[0]?.Patient_Medecin_Link?.state?.toLowerCase()">
+            <span class="status-emoji">
+              <span *ngIf="patient.Medecins[0]?.Patient_Medecin_Link?.state === 'Danger'">⚠️ Danger</span>
+              <span *ngIf="patient.Medecins[0]?.Patient_Medecin_Link?.state === 'Normal'">💛 Normal</span>
+              <span *ngIf="patient.Medecins[0]?.Patient_Medecin_Link?.state === 'Good'">🌟 Good</span>
+            </span>
           </div>
         </div>
       </div>
-      </div>
 
-      <div class="button-group">
-        <button
+      <div class="action-buttons">
+        <button mat-raised-button
           (click)="toggleSubscription(patient.id, patient.Medecins[0]?.Patient_Medecin_Link?.isSubscribed)"
-          [ngClass]="patient.Medecins[0]?.Patient_Medecin_Link?.isSubscribed ? 'btn danger' : 'btn success'">
+          [ngClass]="patient.Medecins[0]?.Patient_Medecin_Link?.isSubscribed ? 'suspend-btn' : 'activate-btn'">
+          <mat-icon>{{ patient.Medecins[0]?.Patient_Medecin_Link?.isSubscribed ? 'pause_circle' : 'play_circle' }}</mat-icon>
           {{ patient.Medecins[0]?.Patient_Medecin_Link?.isSubscribed ? 'Suspend' : 'Activate' }}
         </button>
+
+        
         <a [routerLink]="['/patient', patient.id]">
-          <button class="btn primary">Consult</button>
+          <button mat-raised-button color="accent" class="custom-consult-button">
+            <mat-icon>medical_services</mat-icon>
+            Consult
+          </button>
         </a>
+        
         <a [routerLink]="['/patient', patient.id, 'update']">
-          <button class="btn primary">Edit Profil</button>
+          <button mat-raised-button class="custom-consult-button">
+            <mat-icon>edit</mat-icon>
+            Edit
+          </button>
         </a>
       </div>
     </li>

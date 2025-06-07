@@ -1,167 +1,213 @@
-/* Wrapper and heading */
-.wrapper {
-  max-width: 900px;
-  margin: 2rem auto;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #333;
-  background: #f9f9f9;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgb(0 0 0 / 0.1);
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+* {
+  box-sizing: border-box;
 }
 
-.heading {
-  font-weight: 700;
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
-  color: #004aad;
-  text-align: center;
-}
-
-/* Patient list */
 ul {
-  list-style-type: none;
-  padding-left: 0;
+  list-style: none;
+  padding: 0;
   margin: 0;
 }
 
-.patient-card {
-  background: #fff;
-  border-radius: 10px;
-  padding: 1.5rem 2rem;
-  margin-bottom: 1.2rem;
-  box-shadow: 0 2px 8px rgb(0 0 0 / 0.08);
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  transition: transform 0.2s ease;
-}
-.patient-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 20px rgb(0 0 0 / 0.15);
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f4fdf7;
+  color: #2e7d32;
 }
 
-/* Patient info */
-.info > div {
-  font-size: 1.1rem;
+/* Container style for each patient */
+.patient-card {
+  background-color: #ffffff;
+  border: 1px solid #cce3dc;
+  border-left: 6px solid #4caf50;
+  border-radius: 16px;
+  margin-bottom: 24px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.patient-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(76, 175, 80, 0.15);
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 1rem;
+  color: #2c3e50;
 }
 
 .status-container {
-  margin-top: 0.3rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .status-graph {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 1.4rem;
-  user-select: none;
+  width: 120px;
+  height: 14px;
+  border-radius: 7px;
+  position: relative;
+  background-color: #e0e0e0;
   transition: background-color 0.3s ease;
 }
 
-/* Status colors */
-.status-graph.danger {
-  background-color: #ffccd5;
-  color: #b00020;
-}
 .status-graph.normal {
-  background-color: #fff3cd;
-  color: #856404;
+  background-color: #fff59d; /* jaune doux */
 }
+
+.status-graph.danger {
+  background-color: #ef9a9a; /* rouge doux */
+}
+
 .status-graph.good {
-  background-color: #d4edda;
-  color: #155724;
+  background-color: #81c784; /* vert doux */
 }
 
-/* Button group */
-.button-group {
-  margin-top: 1rem;
-}
-.btn.suivi {
-  background-color: #007bff;
-  color: white;
-  padding: 0.5rem 1.3rem;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 600;
-  transition: background-color 0.3s ease;
-  display: inline-block;
-}
-.btn.suivi:hover {
-  background-color: #0056b3;
+.status-graph .emoji {
+  position: absolute;
+  top: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.4em;
 }
 
-/* Prescriptions */
+/* Prescription section */
 .prescriptions {
-  background: #eef6ff;
-  border-left: 5px solid #007bff;
-  padding: 1rem 1.2rem;
-  border-radius: 8px;
-  margin-top: 1rem;
-  font-size: 0.95rem;
-  color: #034078;
+  background-color: #e8f5e9;
+  padding: 18px;
+  border-radius: 12px;
+  margin-top: 16px;
+  border: 1px solid #a5d6a7;
 }
 
 .prescriptions h4 {
-  margin-bottom: 0.8rem;
-  font-weight: 600;
+  margin-bottom: 12px;
+  font-weight: 500;
+  color: #388e3c;
 }
-
-.prescriptions ul {
-  list-style-type: disc;
-  padding-left: 1.3rem;
-  margin: 0;
-}
-
-.prescriptions li {
-  margin-bottom: 0.4rem;
-  line-height: 1.3;
-  word-wrap: break-word;
-}
-
-/* No prescriptions */
-em {
-  color: #666;
-  font-style: italic;
-  margin-top: 0.6rem;
-  display: block;
-  font-size: 0.9rem;
-}
-
-/* Responsive for smaller screens */
-@media (max-width: 600px) {
-  .patient-card {
-    padding: 1rem 1.2rem;
-  }
-
-  .btn.suivi {
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
-  }
-}
-
 
 .prescription-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 0.5rem;
+  padding: 10px 0;
+  border-bottom: 1px dashed #b2dfdb;
   font-size: 0.95rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
 }
 
+.prescription-item:last-child {
+  border-bottom: none;
+}
+
+/* Modern button */
 .prescription-btn {
-  padding: 0.25rem 0.7rem;
+  padding: 6px 14px;
   font-size: 0.85rem;
-  border-radius: 6px;
-  background-color: #007bff;
+  background-color: #43a047;
   color: white;
   text-decoration: none;
-  transition: background-color 0.3s ease;
+  border-radius: 10px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  white-space: nowrap;
 }
 
 .prescription-btn:hover {
-  background-color: #0056b3;
+  background-color: #2e7d32;
+  transform: scale(1.05);
+}
+
+em {
+  color: #777;
+  font-style: italic;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .patient-card {
+    padding: 16px;
+  }
+
+  .prescription-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .prescription-btn {
+    margin-top: 8px;
+    width: 100%;
+    text-align: center;
+  }
+}
+.patient-list-wrapper {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* En option, si la navbar est en position fixed */
+body {
+  padding-left: 240px; /* ajuste selon la largeur de ta navbar */
+}
+
+@media (max-width: 768px) {
+  body {
+    padding-left: 0;
+  }
+
+  .patient-list-wrapper {
+    padding: 10px;
+  }
+}
+.status-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Badge principal */
+.status-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: #fff;
+  transition: transform 0.2s ease;
+  cursor: default;
+  user-select: none;
+}
+
+.status-badge .emoji {
+  font-size: 1.2rem;
+}
+
+.status-badge.danger {
+  background-color: #e53935;
+}
+
+.status-badge.normal {
+  background-color: #fbc02d;
+  color: #212121;
+}
+
+.status-badge.good {
+  background-color: #43a047;
+}
+
+.status-badge:hover {
+  transform: scale(1.05);
+}
+
+/* Label */
+.status-badge .label {
+  text-transform: capitalize;
 }

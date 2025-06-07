@@ -1,66 +1,74 @@
 <div class="page-wrapper">
   <div class="form-container">
     <div class="form-wrapper">
-      <div *ngIf="message" class="alert fade show" [ngClass]="{ 'alert-success': messageType === 'success', 'alert-danger': messageType === 'error' }">
+      <div *ngIf="message" class="alert fade show" 
+           [ngClass]="{ 'alert-success': messageType === 'success', 'alert-danger': messageType === 'error' }">
         {{ message }}
       </div>
 
-      <!-- Show validation errors -->
-      <div *ngIf="validationErrors && messageType === 'error'" class="alert alert-warning mt-2">
-        <ul>
-          <li *ngFor="let key of (validationErrors | keyvalue)">
-            {{ key.key }}: {{ key.value }}
-          </li>
-        </ul>
-      </div>
-
       <h2>Add New Patient</h2>
-      <form (ngSubmit)="onSubmit()" #patientForm="ngForm" class="row g-3">
+      <form (ngSubmit)="onSubmit(patientForm)" #patientForm="ngForm" class="row g-3" novalidate>
 
         <!-- Full Name -->
         <div class="col-md-6">
-          <label for="fullName" class="form-label">Full Name</label>
+          <label for="fullName" class="form-label">FullName</label>
           <input
             type="text"
             class="form-control"
             id="fullName"
             name="fullName"
             [(ngModel)]="patient.fullName"
-            [ngClass]="{ 'is-invalid': !patient.fullName && patientForm.submitted, 'is-valid': patient.fullName }"
+            #fullName="ngModel"
+            [ngClass]="{ 'is-invalid': fullName.invalid && (fullName.touched || patientForm.submitted), 'is-valid': fullName.valid }"
             placeholder="Enter your full name"
             required
           />
+          <div *ngIf="fullName.invalid && (fullName.touched || patientForm.submitted)" class="invalid-feedback">
+            FullName is required.
+          </div>
         </div>
 
         <!-- Email -->
         <div class="col-md-6">
-          <label for="email" class="form-label">Email</label>
+          <label for="email" class="form-label">Email address</label>
           <input
             type="email"
             class="form-control"
             id="email"
             name="email"
             [(ngModel)]="patient.email"
-            [ngClass]="{ 'is-invalid': !patient.email && patientForm.submitted, 'is-valid': patient.email }"
+            #email="ngModel"
+            [ngClass]="{ 'is-invalid': email.invalid && (email.touched || patientForm.submitted), 'is-valid': email.valid }"
             placeholder="Enter your email"
             required
+            email
           />
+          <div *ngIf="email.errors && (email.touched || patientForm.submitted)" class="invalid-feedback">
+            <div *ngIf="email.errors['required']">Email is required.</div>
+            <div *ngIf="email.errors['email']">Email must be valid.</div>
+          </div>
         </div>
 
+        <!-- Phone number -->
         <div class="col-md-6">
-          <label for="telephone" class="form-label">Telephone</label>
+          <label for="telephone" class="form-label">Phone number</label>
           <input
             type="text"
             class="form-control"
             id="telephone"
             name="telephone"
             [(ngModel)]="patient.telephone"
-            [ngClass]="{ 'is-invalid': !patient.telephone && patientForm.submitted, 'is-valid': patient.telephone }"
+            #telephone="ngModel"
+            [ngClass]="{ 'is-invalid': telephone.invalid && (telephone.touched || patientForm.submitted), 'is-valid': telephone.valid }"
             placeholder="Enter your Phone number"
             required
           />
+          <div *ngIf="telephone.invalid && (telephone.touched || patientForm.submitted)" class="invalid-feedback">
+            Phone number is required.
+          </div>
         </div>
 
+        <!-- Address -->
         <div class="col-md-6">
           <label for="adress" class="form-label">Address</label>
           <input
@@ -69,69 +77,92 @@
             id="adress"
             name="adress"
             [(ngModel)]="patient.adress"
-            [ngClass]="{ 'is-invalid': !patient.adress && patientForm.submitted, 'is-valid': patient.adress }"
+            #adress="ngModel"
+            [ngClass]="{ 'is-invalid': adress.invalid && (adress.touched || patientForm.submitted), 'is-valid': adress.valid }"
             placeholder="Enter your address"
             required
           />
+          <div *ngIf="adress.invalid && (adress.touched || patientForm.submitted)" class="invalid-feedback">
+            Address is required.
+          </div>
         </div>
 
+        <!-- Cin -->
         <div class="col-md-6">
-          <label for="cin" class="form-label">Cin:</label>
+          <label for="cin" class="form-label">Cin</label>
           <input
             type="text"
             class="form-control"
             id="cin"
             name="cin"
             [(ngModel)]="patient.cin"
-            [ngClass]="{ 'is-invalid': !patient.cin && patientForm.submitted, 'is-valid': patient.cin }"
+            #cin="ngModel"
+            [ngClass]="{ 'is-invalid': cin.invalid && (cin.touched || patientForm.submitted), 'is-valid': cin.valid }"
             placeholder="Enter your cin"
             required
           />
+          <div *ngIf="cin.invalid && (cin.touched || patientForm.submitted)" class="invalid-feedback">
+            Cin is required.
+          </div>
         </div>
 
+        <!-- Height -->
         <div class="col-md-6">
-          <label for="taille" class="form-label">Taille:</label>
+          <label for="taille" class="form-label">Height</label>
           <input
             type="text"
             class="form-control"
             id="taille"
             name="taille"
             [(ngModel)]="patient.taille"
-            [ngClass]="{ 'is-invalid': !patient.taille && patientForm.submitted, 'is-valid': patient.taille }"
-            placeholder="Enter your taille"
+            #taille="ngModel"
+            [ngClass]="{ 'is-invalid': taille.invalid && (taille.touched || patientForm.submitted), 'is-valid': taille.valid }"
+            placeholder="Enter your height"
             required
           />
+          <div *ngIf="taille.invalid && (taille.touched || patientForm.submitted)" class="invalid-feedback">
+            Height is required.
+          </div>
         </div>
 
+        <!-- Weight -->
         <div class="col-md-6">
-          <label for="poids" class="form-label">Poids:</label>
+          <label for="poids" class="form-label">Weight</label>
           <input
             type="text"
             class="form-control"
             id="poids"
             name="poids"
             [(ngModel)]="patient.poids"
-            [ngClass]="{ 'is-invalid': !patient.poids && patientForm.submitted, 'is-valid': patient.poids }"
-            placeholder="Enter your poids"
+            #poids="ngModel"
+            [ngClass]="{ 'is-invalid': poids.invalid && (poids.touched || patientForm.submitted), 'is-valid': poids.valid }"
+            placeholder="Enter your weight"
             required
           />
+          <div *ngIf="poids.invalid && (poids.touched || patientForm.submitted)" class="invalid-feedback">
+            Weight is required.
+          </div>
         </div>
 
-        <!-- Genre -->
+        <!-- Gender -->
         <div class="col-md-6">
-          <label for="genre" class="form-label">Genre</label>
+          <label for="genre" class="form-label">Gender</label>
           <select
             class="form-control"
             id="genre"
             name="genre"
             [(ngModel)]="patient.genre"
-            [ngClass]="{ 'is-invalid': !patient.genre && patientForm.submitted, 'is-valid': patient.genre }"
+            #genre="ngModel"
+            [ngClass]="{ 'is-invalid': genre.invalid && (genre.touched || patientForm.submitted), 'is-valid': genre.valid }"
             required
           >
             <option value="" disabled>Select Gender</option>
             <option value="homme">Homme</option>
             <option value="femme">Femme</option>
           </select>
+          <div *ngIf="genre.invalid && (genre.touched || patientForm.submitted)" class="invalid-feedback">
+            Gender is required.
+          </div>
         </div>
 
         <!-- Date of Birth -->
@@ -143,13 +174,17 @@
             id="date_naissance"
             name="date_naissance"
             [(ngModel)]="patient.date_naissance"
-            [ngClass]="{ 'is-invalid': !patient.date_naissance && patientForm.submitted, 'is-valid': patient.date_naissance }"
+            #date_naissance="ngModel"
+            [ngClass]="{ 'is-invalid': date_naissance.invalid && (date_naissance.touched || patientForm.submitted), 'is-valid': date_naissance.valid }"
             required
           />
+          <div *ngIf="date_naissance.invalid && (date_naissance.touched || patientForm.submitted)" class="invalid-feedback">
+            Date of Birth is required.
+          </div>
         </div>
 
         <div class="col-12">
-          <button class="btn btn-primary" type="submit" [disabled]="!patientForm.form.valid">Submit</button>
+          <button class="btn btn-primary" type="submit" [disabled]="!patientForm.form.valid">Add</button>
         </div>
       </form>
     </div>

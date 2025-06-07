@@ -1,157 +1,179 @@
-/* Main Container */
 .container {
+  font-family: 'Arial', sans-serif;
   max-width: 800px;
   margin: 20px auto;
-  padding: 25px;
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border-radius: 12px;
 }
 
-/* Headings */
 h2 {
   color: #2c3e50;
-  margin-bottom: 25px;
-  font-size: 24px;
-  border-bottom: 1px solid #eee;
+  text-align: center;
+  border-bottom: 2px solid #3498db;
   padding-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 h3 {
-  color: #3498db;
-  margin: 25px 0 15px 0;
-  font-size: 18px;
+  color: #2980b9;
+  margin-top: 20px;
+  margin-bottom: 10px;
 }
 
-/* Form Elements */
+form {
+  background-color: white;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #eee;
+}
+
 label {
   display: block;
-  margin-bottom: 8px;
-  font-weight: 600;
-  color: #2c3e50;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #34495e;
 }
 
-input {
+input[type="text"],
+input[type="date"],
+select {
   width: 100%;
-  padding: 10px 12px;
+  padding: 8px;
   margin-bottom: 15px;
   border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
-  transition: border-color 0.3s;
+  border-radius: 12px;
   box-sizing: border-box;
 }
 
-input:focus {
+input[type="text"]:focus,
+input[type="date"]:focus,
+select:focus {
   border-color: #3498db;
   outline: none;
 }
 
-/* Medication Items */
-div[formGroupName] {
-  background-color: #f8fafc;
-  padding: 15px;
-  margin-bottom: 15px;
-  border-radius: 6px;
-  border-left: 3px solid #3498db;
-}
-
-/* Medication Inputs Grid */
-div[formGroupName] > div {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 10px;
-  margin-bottom: 10px;
-}
-
-/* Indicator Items */
-div[formArrayName="indicateurs"] > div {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background-color: #f8fafc;
-  padding: 12px 15px;
-  margin-bottom: 10px;
-  border-radius: 6px;
-  border-left: 3px solid #2ecc71;
-}
-
-div[formArrayName="indicateurs"] input {
-  flex-grow: 1;
-  margin-bottom: 0;
-}
-
-/* Buttons */
 button {
-  padding: 8px 16px;
-  border-radius: 4px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.3s;
-  border: none;
-}
-
-button[type="submit"] {
-  background-color: #2ecc71;
+  background-color: #3498db;
   color: white;
-  display: block;
-  width: 100%;
-  padding: 12px;
-  font-size: 16px;
-  margin-top: 20px;
+  border: none;
+  padding: 8px 15px;
+  margin: 5px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
 }
 
-button[type="submit"]:hover {
-  background-color: #27ae60;
+button:hover {
+  background-color: #2980b9;
 }
 
-button[type="submit"]:disabled {
+button:disabled {
   background-color: #95a5a6;
   cursor: not-allowed;
 }
 
-button[type="button"] {
-  background-color: #3498db;
-  color: white;
+.form-array-item {
+  background-color: #f8f9fa;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  border-left: 4px solid #3498db;
 }
 
-button[type="button"]:hover {
-  background-color: #2980b9;
+ul {
+  list-style-type: none;
+  padding: 0;
 }
 
-/* Delete Buttons */
-div[formGroupName] button,
-div[formArrayName="indicateurs"] > div button {
-  background-color: #e74c3c;
-  color: white;
+li {
+  background-color: #ecf0f1;
+  padding: 8px 15px;
+  margin-bottom: 5px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-div[formGroupName] button:hover,
-div[formArrayName="indicateurs"] > div button:hover {
-  background-color: #c0392b;
-}
-
-/* Add Buttons */
-div[formArrayName] > button[type="button"] {
-  margin-top: 10px;
-}
-
-/* Response Message */
-p {
+.response-message {
   margin-top: 20px;
   padding: 10px;
-  border-radius: 4px;
+  border-radius: 6px;
   text-align: center;
 }
 
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-  .container {
-    padding: 15px;
-    margin: 15px;
-  }
-  
-  div[formGroupName] > div {
-    grid-template-columns: 1fr;
-  }
+.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.error {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* Prescription-like styling */
+.prescription-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.prescription-header div {
+  text-align: right;
+}
+
+.medicament-entry {
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px dashed #ccc;
+}
+
+.medicament-entry:last-child {
+  border-bottom: none;
+}
+
+.signature-line {
+  margin-top: 50px;
+  border-top: 1px solid #000;
+  width: 200px;
+  text-align: center;
+  padding-top: 5px;
+}
+
+.btn-delete {
+  background-color: #ff4d4d; /* rouge vif */
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-delete:hover {
+  background-color: #e60000; /* rouge un peu plus foncé au survol */
+}
+
+.btn-submit {
+  background-color: #28a745; /* vert */
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  cursor: pointer;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.btn-submit:disabled {
+  background-color: #94d3a2; /* vert clair désactivé */
+  cursor: not-allowed;
+}
+
+.btn-submit:hover:not(:disabled) {
+  background-color: #218838; /* vert plus foncé au survol */
 }

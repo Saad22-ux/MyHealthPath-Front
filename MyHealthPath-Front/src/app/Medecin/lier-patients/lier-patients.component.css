@@ -1,60 +1,202 @@
-div {
-  max-width: 500px;
-  margin: 20px auto;
-  padding: 20px;
-  border: 2px solid #e0e0e0;
-  border-radius: 12px;
-  background-color: #f9f9f9;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+/* Style général */
+.medical-search-container {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 5px 25px rgba(0, 107, 166, 0.1);
+  font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
 }
 
-input[type="text"] {
+/* Groupe de recherche */
+.search-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.medical-icon {
+  position: absolute;
+  left: 15px;
+  color: #1a6fbf;
+  font-size: 1.2rem;
+}
+
+.medical-input {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  box-sizing: border-box;
+  padding: 12px 20px 12px 45px;
+  border: 2px solid #e0f2fe;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: all 0.3s;
+  background-color: #f8fafc;
 }
 
-button {
-  padding: 10px 20px;
-  margin-right: 10px;
-  font-size: 16px;
+.medical-input:focus {
+  outline: none;
+  border-color: #ACE1AF;
+  box-shadow: 0 0 0 3px rgba(26, 111, 191, 0.2);
+  background: white;
+}
+
+/* Boutons */
+.button-group {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.medical-btn {
+  flex: 1;
+  padding: 12px;
   border: none;
-  border-radius: 6px;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
-button:first-of-type {
-  background-color: #2196f3;
+.search-btn {
+  background-color: #00AB66;
   color: white;
 }
 
-button:last-of-type {
-  background-color: #4caf50;
+.search-btn:hover {
+  background-color: #50C878;
+  transform: translateY(-2px);
+}
+
+.link-btn {
+  background-color: #10b981;
   color: white;
 }
 
-button:disabled {
-  background-color: #cccccc;
+.link-btn:hover:not([disabled]) {
+  background-color: #0d9e6e;
+  transform: translateY(-2px);
+}
+
+.link-btn[disabled] {
+  background-color: #d1d5db;
+  color: #6b7280;
   cursor: not-allowed;
+  opacity: 0.7;
 }
 
-h4 {
-  margin-top: 20px;
-  color: #333;
+/* Message */
+.medical-message {
+  padding: 12px 15px;
+  border-radius: 8px;
+  margin: 1rem 0;
+  font-size: 0.95rem;
+  background-color: #f0fdf4;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-p {
-  margin: 5px 0;
-  font-size: 15px;
+/* Carte patient */
+.patient-card {
+  margin-top: 2rem;
+  border-radius: 12px;
+  background: #f8fafc;
+  overflow: hidden;
+  border: 1px solid #e0f2fe;
+  animation: fadeIn 0.5s ease-out;
 }
 
-.message {
-  color: #d32f2f;
-  font-weight: bold;
-  margin-top: 10px;
+.patient-header {
+  background-color: #00853E;
+  color: white;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.patient-header h4 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.patient-content {
+  padding: 1.5rem;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.patient-photo {
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 3px solid #e0f2fe;
+}
+
+.patient-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.patient-details {
+  flex: 1;
+}
+
+.patient-details p {
+  margin: 0.5rem 0;
+  color: #334155;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.patient-details strong {
+  color: #17B169;
+  font-weight: 600;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .medical-search-container {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+  
+  .button-group {
+    flex-direction: column;
+  }
+  
+  .patient-content {
+    flex-direction: column;
+  }
+  
+  .patient-photo {
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .medical-search-container {
+    padding: 1rem;
+  }
+  
+  .medical-input {
+    padding: 10px 15px 10px 40px;
+  }
 }

@@ -1,25 +1,57 @@
-<ul>
-  <li *ngFor="let patient of patients" class="patient-card">
+<div class="patient-list-wrapper">
+  <ul>
+    <li *ngFor="let patient of patients" class="patient-card">
 
-    <ng-container *ngIf="userRole !== 'patient'; else prescriptionsOnly">
-      <!-- Full info for non-patient -->
-      <div class="info">
-        <div><strong>FullName:</strong> {{ patient.User.fullName }}</div>
+      <ng-container *ngIf="userRole !== 'patient'; else prescriptionsOnly">
+        <!-- Full info for non-patient -->
+        <div class="info">
+          <div><strong>FullName:</strong> {{ patient.User.fullName }}</div>
 
-        <div class="status-container">
-          <div class="status-graph" [ngClass]="patient.Medecins[0]?.Patient_Medecin_Link?.state?.toLowerCase()">
-          <div class="emoji">
-            <span *ngIf="patient.Medecins[0]?.Patient_Medecin_Link?.state === 'Danger'">⚠️</span>
-            <span *ngIf="patient.Medecins[0]?.Patient_Medecin_Link?.state === 'Normal'">💛</span>
-            <span *ngIf="patient.Medecins[0]?.Patient_Medecin_Link?.state === 'Good'">🌟</span>
+          <div class="status-container">
+            <div 
+              class="status-badge" 
+              [ngClass]="patient.Medecins[0]?.Patient_Medecin_Link?.state?.toLowerCase()"
+              [attr.title]="patient.Medecins[0]?.Patient_Medecin_Link?.state"
+            >
+              <span class="emoji">
+                <ng-container [ngSwitch]="patient.Medecins[0]?.Patient_Medecin_Link?.state">
+                  <span *ngSwitchCase="'Danger'">⚠️</span>
+                  <span *ngSwitchCase="'Normal'">💛</span>
+                  <span *ngSwitchCase="'Good'">✅</span>
+                </ng-container>
+              </span>
+              <span class="label">
+                {{ patient.Medecins[0]?.Patient_Medecin_Link?.state }}
+              </span>
+            </div>
+          </div>
+
+        
+          <!-- Prescriptions also for non-patient -->
+          <div *ngIf="(prescriptionsMap[patient.id] || []).length > 0" class="prescriptions">
+            <h4>📋 Prescription Dates:</h4>
+            <ul>
+              <li *ngFor="let prescription of prescriptionsMap[patient.id]" class="prescription-item">
+                {{ prescription.date }} {{ prescription.description }}
+                <a 
+                  [routerLink]="['/patient-dashboard', patient.id, prescription.id, 'statistiques']" 
+                  class="btn suivi prescription-btn"
+                >
+                  Medical Care
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div *ngIf="(prescriptionsMap[patient.id] || []).length === 0">
+            <em>No prescriptions available.</em>
           </div>
         </div>
+      </ng-container>
 
-        </div>
-      
-        <!-- Prescriptions also for non-patient -->
+      <!-- Template for patient role: ONLY prescriptions -->
+      <ng-template #prescriptionsOnly>
         <div *ngIf="(prescriptionsMap[patient.id] || []).length > 0" class="prescriptions">
-          <h4>📋 Prescription Dates:</h4>
+          <h4>📋 Prescription Date:</h4>
           <ul>
             <li *ngFor="let prescription of prescriptionsMap[patient.id]" class="prescription-item">
               {{ prescription.date }} {{ prescription.description }}
@@ -27,7 +59,7 @@
                 [routerLink]="['/patient-dashboard', patient.id, prescription.id, 'statistiques']" 
                 class="btn suivi prescription-btn"
               >
-                Suivi
+                Medical Care
               </a>
             </li>
           </ul>
@@ -35,28 +67,7 @@
         <div *ngIf="(prescriptionsMap[patient.id] || []).length === 0">
           <em>No prescriptions available.</em>
         </div>
-      </div>
-    </ng-container>
-
-    <!-- Template for patient role: ONLY prescriptions -->
-    <ng-template #prescriptionsOnly>
-      <div *ngIf="(prescriptionsMap[patient.id] || []).length > 0" class="prescriptions">
-        <h4>📋 Prescription Dates:</h4>
-        <ul>
-          <li *ngFor="let prescription of prescriptionsMap[patient.id]" class="prescription-item">
-            {{ prescription.date }} {{ prescription.description }}
-            <a 
-              [routerLink]="['/patient-dashboard', patient.id, prescription.id, 'statistiques']" 
-              class="btn suivi prescription-btn"
-            >
-              Suivi
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div *ngIf="(prescriptionsMap[patient.id] || []).length === 0">
-        <em>No prescriptions available.</em>
-      </div>
-    </ng-template>
-  </li>
-</ul>
+      </ng-template>
+    </li>
+  </ul>
+</div>

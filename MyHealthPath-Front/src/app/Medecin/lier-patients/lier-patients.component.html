@@ -1,14 +1,48 @@
-<div>
-  <input type="text" [(ngModel)]="cin" placeholder="Entrer CIN du patient" />
-  <button (click)="rechercherPatient()">Rechercher</button>
-  <button (click)="lierPatient()" [disabled]="!patientInfo">Lier au médecin</button>
+<div class="medical-search-container">
+  <!-- Champ de recherche -->
+  <div class="search-group">
+    <i class="fas fa-id-card medical-icon"></i>
+    <input type="text" 
+           [(ngModel)]="cin" 
+           placeholder="Entrer le CIN du patient"
+           class="medical-input">
+  </div>
 
-  <div *ngIf="message" style="margin-top: 10px;">{{ message }}</div>
+  <!-- Boutons d'action -->
+  <div class="button-group">
+    <button (click)="rechercherPatient()" class="medical-btn search-btn">
+      <i class="fas fa-search"></i> Search
+    </button>
+    <button (click)="lierPatient()" 
+            [disabled]="!patientInfo" 
+            class="medical-btn link-btn">
+      <i class="fas fa-user-md"></i> Link patient
+    </button>
+  </div>
 
-  <div *ngIf="patientInfo">
-    <h4>Informations du patient :</h4>
-    <p><strong>Nom:</strong> {{ patientInfo.user.fullName }}</p>
-    <p><strong>Email:</strong> {{ patientInfo.user.email }}</p>
-    <!-- Affichez d'autres champs si nécessaire -->
+  <!-- Message d'état -->
+  <div *ngIf="message" class="medical-message">
+    <i class="fas fa-info-circle"></i> {{ message }}
+  </div>
+
+  <!-- Informations du patient -->
+  <div *ngIf="patientInfo" class="patient-card">
+    <div class="patient-header">
+      <i class="fas fa-user-injured"></i>
+      <h4>Patient Information</h4>
+    </div>
+    
+    <div class="patient-content">
+      <div *ngIf="patientInfo.user.photo" class="patient-photo">
+        <img [src]="getPhotoUrl()" alt="Photo du patient" />
+      </div>
+      
+      <div class="patient-details">
+        <p><i class="fas fa-user-tag"></i> <strong>FullName:</strong> {{ patientInfo.user.fullName }}</p>
+        <p><i class="fas fa-envelope"></i> <strong>Email address:</strong> {{ patientInfo.user.email }}</p>
+        <p><i class="fas fa-envelope"></i> <strong>Cin:</strong> {{ patientInfo.user.cin }}</p>
+        <p><i class="fas fa-envelope"></i> <strong>Phone number:</strong> {{ patientInfo.user.telephone }}</p>
+      </div>
+    </div>
   </div>
 </div>

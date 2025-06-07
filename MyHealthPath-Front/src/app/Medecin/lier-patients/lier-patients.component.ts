@@ -25,8 +25,12 @@ export class LierPatientsComponent {
 
     this.patientService.rechercherPatientParCIN(this.cin).subscribe({
       next: (res) => {
+        console.log('Patient data:', res.patient);
         this.patientInfo = res.patient;
         this.message = 'Patient trouvé.';
+        setTimeout(() => {
+          this.message = '';
+        }, 2000);
       },
       error: (err) => {
         this.patientInfo = null;
@@ -44,5 +48,12 @@ export class LierPatientsComponent {
         this.message = err.error.message || 'Erreur lors du lien.';
       }
     });
+  }
+
+  getPhotoUrl(): string {
+    if (this.patientInfo && this.patientInfo.user.photo) {
+      return 'http://localhost:3000/' + this.patientInfo.user.photo; 
+    }
+    return 'assets/default-photo.png';
   }
 }
