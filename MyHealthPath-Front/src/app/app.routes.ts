@@ -21,6 +21,7 @@ import { ListUsersComponent } from './list-users/list-users.component';
 import { LierPatientsComponent } from './Medecin/lier-patients/lier-patients.component';
 import { NotificationsComponent } from './Patient/notifications/notifications.component';
 import { CreateJournalComponent } from './Patient/create-journal/create-journal.component';
+import { DashboardPatientComponent } from './Patient/dashboard-patient/dashboard-patient.component';
 
 
 export const routes: Routes = [
@@ -47,5 +48,6 @@ export const routes: Routes = [
   { path: 'admin/utilisateurs', component: ListUsersComponent },
   { path: 'lier-patients', component: LierPatientsComponent },
   { path: 'notifications', component: NotificationsComponent },
-  { path: 'create-journal/:id', component: CreateJournalComponent }
+  { path: 'create-journal/:id', component: CreateJournalComponent },
+  { path: 'dashboard-patient', component: DashboardPatientComponent }
 ];
