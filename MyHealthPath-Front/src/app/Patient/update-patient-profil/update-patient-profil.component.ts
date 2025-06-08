@@ -65,8 +65,6 @@ export class UpdatePatientProfilComponent implements OnInit {
         this.photoPreview = reader.result as string;
       };
       reader.readAsDataURL(this.selectedFile);
-      
-      this.profileForm.patchValue({ photo: this.selectedFile });
       this.profileForm.get('photo')?.updateValueAndValidity();
     }
   }

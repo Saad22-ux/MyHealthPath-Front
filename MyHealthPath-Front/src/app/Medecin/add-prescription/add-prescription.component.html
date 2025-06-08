@@ -8,7 +8,7 @@
     </div>
 
     <div formArrayName="medicaments">
-      <h3>Medicaments</h3>
+      <h3>Medications</h3>
       <div *ngFor="let med of medicaments.controls; let i = index" [formGroupName]="i">
         <input type="text" placeholder="Name" formControlName="name" />
         <input type="text" placeholder="Dose" formControlName="dose" />
@@ -16,7 +16,7 @@
         <input type="text" placeholder="Period" formControlName="duree" />
         <button type="button" class="btn-delete" (click)="removeMedicament(i)">Delete</button>
       </div>
-      <button type="button" (click)="addMedicament()">Add medicament</button>
+      <button type="button" (click)="addMedicament()">Add medication</button>
     </div>
 
 <div>
