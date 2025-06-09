@@ -11,7 +11,7 @@
   <ul class="navbar-links">
     <ng-container *ngIf="isAuthenticated && isAdmin()">
       <li>
-        <a routerLink="/dashboard" class="nav-link dashboard-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <a routerLink="/dashboard-admin" class="nav-link dashboard-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
           <i class="fas fa-chart-pie"></i>
           <span>Dashboard</span>
         </a>
@@ -67,6 +67,12 @@
     <!-- Medecin-specific links -->
     <ng-container *ngIf="isAuthenticated && isMedecin()">
       <li>
+        <a routerLink="/dashboard-medecin" class="nav-link dashboard-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          <i class="fas fa-chart-pie"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li>
         <a routerLink="/profileMedecin" class="nav-link" routerLinkActive="active">
           <i class="fas fa-user-md"></i>
           <span>My Profile</span>
@@ -76,6 +82,12 @@
         <a routerLink="/patient-list" class="nav-link" routerLinkActive="active">
           <i class="fas fa-procedures"></i>
           <span>My Patients</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/alert" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          <i class="fas fa-bell"></i>
+          <span>My Alert</span>
         </a>
       </li>
       <li>

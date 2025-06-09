@@ -22,6 +22,9 @@ import { LierPatientsComponent } from './Medecin/lier-patients/lier-patients.com
 import { NotificationsComponent } from './Patient/notifications/notifications.component';
 import { CreateJournalComponent } from './Patient/create-journal/create-journal.component';
 import { DashboardPatientComponent } from './Patient/dashboard-patient/dashboard-patient.component';
+import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
+import { DashboardMedecinComponent } from './Medecin/dashboard-medecin/dashboard-medecin.component';
+import { AlertComponent } from './Medecin/alert/alert.component';
 
 
 export const routes: Routes = [
@@ -49,5 +52,8 @@ export const routes: Routes = [
   { path: 'lier-patients', component: LierPatientsComponent },
   { path: 'notifications', component: NotificationsComponent },
   { path: 'create-journal/:id', component: CreateJournalComponent },
-  { path: 'dashboard-patient', component: DashboardPatientComponent }
+  { path: 'dashboard-patient', component: DashboardPatientComponent },
+  { path: 'dashboard-admin', component: DashboardAdminComponent },
+  { path: 'dashboard-medecin', component: DashboardMedecinComponent},
+  { path: 'alert', component: AlertComponent}
 ];

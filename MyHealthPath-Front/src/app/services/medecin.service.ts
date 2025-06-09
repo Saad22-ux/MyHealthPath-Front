@@ -54,4 +54,8 @@ export class MedecinService {
 
     return this.http.put(`http://localhost:3000/profileMedecin/update`, formData, {withCredentials: true,});
   }
+
+  getMoyennesIndicateurs() {
+    return this.http.get<{ success: boolean, data: { nom: string, moyenne: number }[] }>('http://localhost:3000/statistiques/indicateurs/moyennes');
+  }
 }

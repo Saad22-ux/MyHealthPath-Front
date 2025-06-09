@@ -1,0 +1,17 @@
+<h2>Statistiques globales</h2>
+<div style="display: block;">
+  <canvas baseChart
+          [data]="globalChartData"
+          [options]="globalChartOptions"
+          [type]="globalChartType">
+  </canvas>
+</div>
+
+<h2>Inscriptions par mois</h2>
+<div style="display: block; margin-top: 2em;">
+  <canvas baseChart
+          [data]="monthlyChartData"
+          [options]="monthlyChartOptions"
+          [type]="monthlyChartType">
+  </canvas>
+</div>
