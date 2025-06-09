@@ -46,14 +46,14 @@ export class AddPatientComponent {
         this.messageType = 'success';
 
         setTimeout(() => {
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/dashboard-medecin']);
         }, 2000);
       },
       (error) => {
         this.message = error.error.message || 'Error creating patient';
         setTimeout(() => {
           this.message = '';
-        }, 4000);
+        }, 2000);
       }
     );
   }

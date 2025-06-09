@@ -24,7 +24,6 @@ import { CreateJournalComponent } from './Patient/create-journal/create-journal.
 import { DashboardPatientComponent } from './Patient/dashboard-patient/dashboard-patient.component';
 import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
 import { DashboardMedecinComponent } from './Medecin/dashboard-medecin/dashboard-medecin.component';
-import { AlertComponent } from './Medecin/alert/alert.component';
 
 
 export const routes: Routes = [
@@ -54,6 +53,5 @@ export const routes: Routes = [
   { path: 'create-journal/:id', component: CreateJournalComponent },
   { path: 'dashboard-patient', component: DashboardPatientComponent },
   { path: 'dashboard-admin', component: DashboardAdminComponent },
-  { path: 'dashboard-medecin', component: DashboardMedecinComponent},
-  { path: 'alert', component: AlertComponent}
+  { path: 'dashboard-medecin', component: DashboardMedecinComponent}
 ];

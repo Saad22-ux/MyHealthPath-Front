@@ -22,8 +22,8 @@ export class PrescriptionService {
     return this.http.get<{ indicateurs: string[] }>(`http://localhost:3000/indicateurs-par-specialite/`,{ withCredentials: true });
   }
 
-  consultPatient(id: number): Observable<any>{
-    return this.http.get(`http://localhost:3000/get-patients/${id}`, {});
+  getPrescriptions(id: number): Observable<any>{
+    return this.http.get(`http://localhost:3000/patients/${id}/`, {});
   }
 
   updatePrescription(prescriptionId: number, data: any): Observable<any> {

@@ -4,6 +4,7 @@ import { PatientService} from '../../services/patient.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgIf } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -16,13 +17,14 @@ export class UpdatePatientComponent implements OnInit {
   patientId!: number;
   updateForm!: FormGroup;
   loading = false;
-  errorMessage = '';
-  successMessage = '';
+  public successMessage: string = '';
+  public errorMessage: string = '';
 
   constructor(
     private route: ActivatedRoute,
     private patientService: PatientService,
     private fb: FormBuilder,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -94,9 +96,13 @@ export class UpdatePatientComponent implements OnInit {
 
     this.patientService.updatePatient(this.patientId, updatedFields).subscribe({
       next: (res: any) => {
+        console.log('Success response:', res);
         this.successMessage = res.message || 'Profile updated successfully';
         this.loading = false;
         this.updateForm.enable();
+        setTimeout(() => {
+          this.router.navigate(['/patient-list']);
+        }, 1500);
       },
       error: (err) => {
         this.errorMessage = err.error?.message || "Failed to update profile";

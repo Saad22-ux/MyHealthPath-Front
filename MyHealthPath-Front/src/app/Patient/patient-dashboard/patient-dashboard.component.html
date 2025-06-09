@@ -22,13 +22,12 @@
       <ul class="details-list">
         <li *ngFor="let med of statistics.suiviMedicamentStats" class="detail-item">
           <div class="detail-header">
-            <span class="med-name">{{ med.Medicament.nom }}</span>
+            <span class="med-name">{{ med.Medicament.name }}</span>
             <span class="med-status" [ngClass]="{'taken': med.pris, 'not-taken': !med.pris}">
               {{ med.pris ? 'Taken' : 'Not taken' }}
             </span>
           </div>
           <div class="med-info">
-            <div><strong>Name:</strong> {{ med.Medicament.name }}</div>
             <div><strong>Dose:</strong> {{ med.Medicament.dose }}</div>
             <div><strong>Frequency:</strong> {{ med.Medicament.frequency }}</div>
             <div><strong>Date:</strong> {{ med.JournalSante.date | date:'mediumDate' }}</div>
@@ -43,14 +42,14 @@
       <ul class="details-list">
         <li *ngFor="let ind of statistics.suiviIndicateurStats" class="detail-item">
           <div class="detail-header">
-            <span class="ind-name">{{ ind.Indicateur.name }}</span>
+            <span class="ind-name">{{ ind.Indicateur.nom }}</span>
             <span class="ind-status" [ngClass]="{'measured': ind.mesure, 'not-measured': !ind.mesure}">
               {{ ind.mesure ? 'Measured' : 'Not Measured' }}
             </span>
           </div>
           <div class="ind-info">
-            <div><strong>Name:</strong> {{ ind.Indicateur.nom }}</div>
             <div><strong>Value:</strong> {{ ind.mesure ? ind.valeur : 'N/A' }}</div>
+            <div><strong>Date:</strong> {{ ind.JournalSante.date | date:'mediumDate' }}</div>
           </div>
         </li>
       </ul>

@@ -56,6 +56,9 @@ export class MedecinService {
   }
 
   getMoyennesIndicateurs() {
-    return this.http.get<{ success: boolean, data: { nom: string, moyenne: number }[] }>('http://localhost:3000/statistiques/indicateurs/moyennes');
+    return this.http.get<{ success: boolean, data: { nom: string, moyenne: number }[] }>(
+      'http://localhost:3000/statistiques/indicateurs/moyennes',
+      { withCredentials: true }
+    );
   }
 }

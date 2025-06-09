@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PatientService } from '../../services/patient.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-update-patient-profil',
@@ -18,7 +19,7 @@ export class UpdatePatientProfilComponent implements OnInit {
   selectedFile: File | null = null;
   photoPreview: string | ArrayBuffer = 'assets/default-avatar.png';
 
-  constructor(private patientService: PatientService, private fb: FormBuilder) {
+  constructor(private patientService: PatientService, private fb: FormBuilder, private router: Router) {
     this.profileForm = this.fb.group({
       fullName: [''],
       email: [''],
@@ -102,7 +103,9 @@ export class UpdatePatientProfilComponent implements OnInit {
         if (res.user?.photo) {
           this.photoPreview = `http://localhost:3000/${res.user.photo}`;
         }
-
+        setTimeout(() => {
+          this.router.navigate(['/profilePatient']);
+        }, 2000);
       },
       error: (err) => {
         this.errorMsg = err.error?.message || 'Failed to update profile';

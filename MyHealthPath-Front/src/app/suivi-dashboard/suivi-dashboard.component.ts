@@ -3,6 +3,7 @@ import { PatientService } from '../services/patient.service';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../auth.service'; 
+import { PrescriptionService } from '../services/prescription.service';
 
 @Component({
   selector: 'app-patient-list',
@@ -20,7 +21,7 @@ export class SuiviDashboard implements OnInit {
 
   userRole: string = '';
 
-  constructor(private patientService: PatientService, private router: Router, private authService: AuthService) {}
+  constructor(private patientService: PatientService, private prescriptionService: PrescriptionService, private router: Router, private authService: AuthService) {}
 
   ngOnInit(): void {  
     this.userRole = this.authService.getUserRole();
@@ -28,10 +29,12 @@ export class SuiviDashboard implements OnInit {
     if (this.userRole === 'patient'){
       const patientId = Number(localStorage.getItem('patientId'));
       if (patientId) {
-        this.patientService.consultPatient(patientId).subscribe({
+        this.prescriptionService.getPrescriptions(patientId).subscribe({
           next: (res) => {
+            console.log("res",res);
             this.patients = [res.data];
             this.prescriptionsMap[patientId] = res.data?.Prescriptions || [];
+            console.log('Prescriptions with medecins:', this.prescriptionsMap[patientId]);
             this.loading = false;
           },
           error: (err) => {

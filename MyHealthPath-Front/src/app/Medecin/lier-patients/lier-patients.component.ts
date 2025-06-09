@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { PatientService } from '../../services/patient.service';
 import { NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-lier-patients',
@@ -15,7 +16,7 @@ export class LierPatientsComponent {
   patientInfo: any = null;
   message: string = '';
 
-  constructor(private patientService: PatientService) {}
+  constructor(private patientService: PatientService, private router: Router) {}
 
   rechercherPatient() {
     if (!this.cin) {
@@ -42,9 +43,15 @@ export class LierPatientsComponent {
     this.patientService.lierPatientAuMedecin(this.cin).subscribe({
       next: (res) => {
         this.message = res.message;
+        setTimeout(() => {
+          this.router.navigate(['/patient-list']);
+        }, 2000);
       },
       error: (err) => {
         this.message = err.error.message || 'Erreur lors du lien.';
+        setTimeout(() => {
+          this.router.navigate(['/patient-list']);
+        }, 2000)
       }
     });
   }

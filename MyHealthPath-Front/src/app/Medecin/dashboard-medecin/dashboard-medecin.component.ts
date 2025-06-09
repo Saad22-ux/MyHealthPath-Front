@@ -28,6 +28,7 @@ export class DashboardMedecinComponent implements OnInit {
 
   ngOnInit(): void {
     this.medecinService.getMoyennesIndicateurs().subscribe(res => {
+      console.log('Résultat backend:', res);
       if (res.success) {
         const noms = res.data.map(d => d.nom);
         const moyennes = res.data.map(d => +d.moyenne);

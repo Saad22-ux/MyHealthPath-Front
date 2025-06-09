@@ -22,7 +22,7 @@ export class MyPrescriptionsComponent implements OnInit {
 
   ngOnInit(): void {
     const patientId = this.authService.getPatientId();
-    this.prescriptionService.consultPatient(patientId).subscribe({
+    this.prescriptionService.getPrescriptions(patientId).subscribe({
       next: (data) => {
         this.prescriptions = data.data?.Prescriptions || [];
       },

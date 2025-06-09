@@ -4,6 +4,7 @@ import { PrescriptionService } from '../../services/prescription.service';
 import { ActivatedRoute } from '@angular/router';
 import { NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -27,7 +28,8 @@ export class AddPrescriptionComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private prescriptionService: PrescriptionService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.prescriptionForm = this.fb.group({
       description: ['', Validators.required],
@@ -181,7 +183,10 @@ export class AddPrescriptionComponent implements OnInit {
       this.prescriptionService.addPrescription(this.patientId, payload).subscribe({
         next: (res: any) => {
           this.responseMessage = res.message || 'Prescription created';
-          setTimeout(() => this.responseMessage = '',2000);
+          setTimeout(() => {
+            this.responseMessage = '';
+            this.router.navigate(['/patient/',this.patientId]);
+          },1000);
           this.prescriptionForm.reset();
           this.medicaments.clear();
           this.indicateurs.clear();

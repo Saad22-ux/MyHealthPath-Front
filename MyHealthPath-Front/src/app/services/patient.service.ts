@@ -58,10 +58,10 @@ export class PatientService {
     return this.http.post(url, {}, { withCredentials: true });
   }
 
-  consultPatient(id: number): Observable<any>{
-    return this.http.get(`http://localhost:3000/get-patients/${id}`, {});
+  consultPatient(id: number): Observable<any> {
+    return this.http.get(`http://localhost:3000/get-patients/${id}`, { withCredentials: true });
   }
-
+  
   deleteMedicament(id: number): Observable<any> {
     return this.http.delete(`http://localhost:3000/medicaments/${id}`, { withCredentials: true });
   }

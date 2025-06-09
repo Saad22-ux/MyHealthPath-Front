@@ -92,7 +92,15 @@ export class LoginComponent implements OnInit, AfterViewInit{
         this.displayMessage(response.message || 'Login successful!', true);
         setTimeout(() => {
           this.statusMessage = '';
-          this.router.navigateByUrl('dashboard');
+          if(this.auth.getUserRole() === 'admin'){
+            this.router.navigateByUrl('dashboard-admin');
+          }
+          if(this.auth.getUserRole() === 'medecin'){
+            this.router.navigateByUrl('dashboard-medecin');
+          }
+          if(this.auth.getUserRole() === 'patient'){
+            this.router.navigateByUrl('dashboard-patient');
+          }
         },1000);
       },
       error: err =>{

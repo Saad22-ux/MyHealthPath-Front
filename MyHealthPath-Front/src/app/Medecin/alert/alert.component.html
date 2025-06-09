@@ -1,7 +1,0 @@
-<!-- alertes.component.html -->
-<div *ngIf="alertes.length === 0">Pas d'alertes pour le moment.</div>
-<ul *ngIf="alertes.length > 0">
-  <li *ngFor="let alerte of alertes">
-    {{ alerte.message }} - <small>{{ alerte.createdAt | date:'short' }}</small>
-  </li>
-</ul>

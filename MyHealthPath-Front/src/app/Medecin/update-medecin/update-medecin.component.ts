@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MedecinService } from '../../services/medecin.service';
 import { FormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -30,7 +31,7 @@ export class UpdateMedecinComponent {
 
   photoPreview: string | ArrayBuffer | null = null;
 
-  constructor(private medecinService: MedecinService) {}
+  constructor(private medecinService: MedecinService, private router: Router) {}
 
 ngOnInit() {
   this.loading = true;
@@ -49,7 +50,7 @@ ngOnInit() {
       
       if (data.photoUrl) {
         const baseUrl = 'http://localhost:3000';
-        this.photoPreview = `${baseUrl}/${data.photoUrl}`; // <-- corrige ici
+        this.photoPreview = `${baseUrl}/${data.photoUrl}`;
       }
 
 
@@ -100,6 +101,9 @@ onPhotoSelected(event: Event) {
     this.medecinService.updateProfile(this.updatedData, photo).subscribe({
       next: (response) => {
         this.statusMessage = response.message || 'Profil updated successfully';
+        setTimeout(() => {
+          this.router.navigate(['/profileMedecin']);
+        }, 2000);
         this.loading = false;
       },
       error: (error) => {

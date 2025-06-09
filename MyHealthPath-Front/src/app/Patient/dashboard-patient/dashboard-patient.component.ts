@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-
+import { AuthService } from '../../auth.service';
 import { BaseChartDirective, provideCharts } from 'ng2-charts';
 import { ChartConfiguration, ChartType, Chart, BarController, BarElement, CategoryScale, LinearScale, Tooltip, Legend } from 'chart.js';
 
@@ -107,33 +107,40 @@ export class DashboardPatientComponent implements OnInit {
     }
   };
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   ngOnInit(): void {
-    const patientId = 1;
-    this.http.get<any>(`http://localhost:3000/statistiques/patient/${patientId}/indicateurs/moyennes`)
-      .subscribe({
-        next: (response) => {
-          if (response.success && response.data.length > 0) {
-            this.barChartData = {
-              labels: response.data.map((item: any) => item.nom),
-              datasets: [
-                { 
-                  data: response.data.map((item: any) => parseFloat(item.moyenne)),
-                  label: 'Moyenne des indicateurs',
-                  backgroundColor: '#2b9ed6',
-                  borderColor: '#1e88c7',
-                  borderWidth: 1,
-                  borderRadius: 4,
-                  hoverBackgroundColor: '#2388c0'
-                }
-              ]
-            };
-          }
-        },
-        error: (err) => {
-          console.error('Erreur lors du chargement des données:', err);
+    const patientId = this.authService.getPatientId();
+    if (patientId) {
+      this.loadGraph(patientId);
+    }
+}
+
+
+  loadGraph(patientId: number) {
+  this.http.get<any>(`http://localhost:3000/statistiques/patient/${patientId}/indicateurs/moyennes`)
+    .subscribe({
+      next: (response) => {
+        if (response.success && response.data.length > 0) {
+          this.barChartData = {
+            labels: response.data.map((item: any) => item.nom),
+            datasets: [
+              { 
+                data: response.data.map((item: any) => parseFloat(item.moyenne)),
+                label: 'Moyenne des indicateurs',
+                backgroundColor: '#2b9ed6',
+                borderColor: '#1e88c7',
+                borderWidth: 1,
+                borderRadius: 4,
+                hoverBackgroundColor: '#2388c0'
+              }
+            ]
+          };
         }
-      });
-  }
+      },
+      error: (err) => {
+        console.error('Erreur lors du chargement des données:', err);
+      }
+    });
+}
 }

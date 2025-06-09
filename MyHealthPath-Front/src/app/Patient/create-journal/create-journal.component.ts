@@ -5,6 +5,7 @@ import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../auth.service';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-journal',
@@ -26,7 +27,8 @@ export class CreateJournalComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private prescriptionService: PrescriptionService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
 ngOnInit(): void {
@@ -199,6 +201,9 @@ submitJournal() {
           } else {
             this.statusMessage = 'Erreur lors du rafraîchissement des journaux après soumission.';
           }
+          setTimeout(() => {
+          this.router.navigate(['/my-prescriptions']);
+        }, 1500);
         },
         error: () => {
           this.statusMessage = 'Erreur lors du rafraîchissement des journaux après soumission.';
