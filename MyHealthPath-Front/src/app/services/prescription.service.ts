@@ -42,4 +42,8 @@ export class PrescriptionService {
   updateJournal(patientId: number, data: any) {
     return this.http.put(`http://localhost:3000/journal/update/${patientId}`, data);
   }
+
+  getJournalByPrescription(prescriptionId: number): Observable<any> {
+    return this.http.get(`http://localhost:3000/prescriptions/${prescriptionId}/journaux`);
+  }
 }

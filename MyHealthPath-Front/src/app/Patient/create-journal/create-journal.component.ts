@@ -29,95 +29,186 @@ export class CreateJournalComponent implements OnInit {
     private authService: AuthService
   ) {}
 
-  ngOnInit(): void {
-    this.prescriptionId = Number(this.route.snapshot.paramMap.get('id'));
+ngOnInit(): void {
+  this.prescriptionId = Number(this.route.snapshot.paramMap.get('id'));
 
-    this.prescriptionService.getPrescriptionDetails(this.prescriptionId).subscribe({
-      next: (res: any) => {
-        this.prescription = res.prescription;
+  this.prescriptionService.getPrescriptionDetails(this.prescriptionId).subscribe({
+    next: (res: any) => {
+      this.prescription = res.prescription;
+      console.log("ID de prescription transmis :", this.prescriptionId);
+
+
+      this.prescriptionService.getJournalByPrescription(this.prescriptionId).subscribe({
+    next: (res: any) => {
+      if (res.success) {
+        const journaux = res.data.journaux;
+        const medicamentsPrisIds = new Set<number>();
+        const indicateursMesuresIds = new Set<number>();
+
+        journaux.forEach((journal: any) => {
+          journal.SuiviMedicaments?.forEach((med: any) => {
+            if (med.pris === true) medicamentsPrisIds.add(med.MedicamentId ?? med.medicamentId);
+          });
+          journal.SuiviIndicateurs?.forEach((ind: any) => {
+            if (ind.mesure === 1 || ind.mesure === true) indicateursMesuresIds.add(ind.IndicateurId ?? ind.indicateurId);
+          });
+        });
+
+        // Marque isChecked et valeur dans la liste complète
+        this.prescription.medicaments.forEach((med: any) => {
+          med.isChecked = medicamentsPrisIds.has(med.id);
+        });
+
+        this.prescription.indicateurs.forEach((ind: any) => {
+          if (indicateursMesuresIds.has(ind.id)) {
+            ind.valeur = ind.valeur || 'mesuré'; // tu peux choisir une valeur par défaut ou garder la valeur du journal
+          } else {
+            ind.valeur = ind.valeur || '';
+          }
+        });
+
+        // filtre uniquement pour l'affichage
+        this.filteredMedicaments = this.prescription.medicaments.filter(
+          (med: any) => !med.isChecked
+        );
+        this.filteredIndicateurs = this.prescription.indicateurs.filter(
+          (ind: any) => !(ind.valeur && ind.valeur.trim() !== '')
+        );
+
+      } else {
+        this.error = res.message;
+        // afficher tout si erreur
         this.filteredMedicaments = [...this.prescription.medicaments];
-        this.filteredIndicateurs = this.prescription.indicateurs ? [...this.prescription.indicateurs] : [];
-      },
-      error: (err) => {
-        this.error = err.error?.message || 'Erreur chargement prescription';
+        this.filteredIndicateurs = [...this.prescription.indicateurs];
       }
-    });
-  }
+    },
+    error: () => {
+      // afficher tout si erreur
+      this.filteredMedicaments = [...this.prescription.medicaments];
+      this.filteredIndicateurs = [...this.prescription.indicateurs];
+    }
+  });
+    },
+    error: () => {
+      this.error = 'Erreur lors du chargement de la prescription';
+    }
+  });
+}
+
 
   applyFilter(journalState: { medicamentsPris: number[]; indicateursMesures: number[] }) {
-    const medicamentsPrisIds = journalState.medicamentsPris.map((id: any) => Number(id));
-    const indicateursMesuresIds = journalState.indicateursMesures.map((id: any) => Number(id));
+    const medicamentsPrisIds = new Set(journalState.medicamentsPris);
+    const indicateursMesuresIds = new Set(journalState.indicateursMesures);
 
+    // Garde uniquement les médicaments **non pris**
     this.filteredMedicaments = this.prescription.medicaments.filter(
-      (med: any) => !medicamentsPrisIds.includes(Number(med.id))
+      (med: any) => !medicamentsPrisIds.has(med.id)
     );
-    this.filteredIndicateurs = this.prescription.indicateurs
-      ? this.prescription.indicateurs.filter((ind: any) => !indicateursMesuresIds.includes(Number(ind.id)))
-      : [];
+
+    // Garde uniquement les indicateurs **non mesurés**
+    this.filteredIndicateurs = this.prescription.indicateurs?.filter(
+      (ind: any) => !indicateursMesuresIds.has(ind.id)
+    ) || [];
   }
 
-  submitJournal() {
-    const medicaments = this.filteredMedicaments.map((med: any) => ({
-      medicamentId: med.id,
-      pris: !!med.isChecked,
-    }));
 
-    const indicateurs = (this.filteredIndicateurs || []).map((ind: any) => ({
-      indicateurId: ind.id,
-      valeur: ind.valeur || '',
-      mesure: ind.valeur?.trim() ? 1 : null,
-    }));
+submitJournal() {
+  const medicaments = this.prescription.medicaments.map((med: any) => ({
+    medicamentId: med.id,
+    pris: !!med.isChecked,
+  }));
 
-    const hasCheckedMedicament = medicaments.some((med: any) => med.pris === true);
-    const hasValidIndicateur = indicateurs.some((ind: any) => ind.valeur && ind.valeur.trim() !== '');
-    if (!hasCheckedMedicament && !hasValidIndicateur) {
-      this.statusMessage = 'Aucune valeur saisie ou médicament coché.';
-      return;
-    }
+  const indicateurs = (this.prescription.indicateurs || []).map((ind: any) => ({
+    indicateurId: ind.id,
+    valeur: ind.valeur || '',
+    mesure: ind.valeur?.trim() ? 1 : null,
+  }));
 
-    this.statusMessage = '';
+  const hasCheckedMedicament = medicaments.some((med: any) => med.pris === true);
+  const hasValidIndicateur = indicateurs.some((ind: any) => ind.valeur && ind.valeur.trim() !== '');
 
-    const patientId = this.authService.getPatientId();
-    if (!patientId) {
-      this.error = 'Patient ID non trouvé';
-      return;
-    }
-
-    const data = {
-      date: new Date(),
-      medicaments,
-      indicateurs,
-      prescriptionId: this.prescriptionId,
-    };
-
-    this.prescriptionService.createJournal(patientId, data).subscribe({
-      next: (res: any) => {
-        this.statusMessage = res.message || 'Journal créé avec succès';
-
-        const localKey = `journalState_${this.prescriptionId}`;
-        let savedState = localStorage.getItem(localKey);
-        let journalState = savedState
-          ? JSON.parse(savedState)
-          : { medicamentsPris: [], indicateursMesures: [] };
-
-        medicaments.forEach((med: any) => {
-          if (med.pris && !journalState.medicamentsPris.includes(med.medicamentId)) {
-            journalState.medicamentsPris.push(med.medicamentId);
-          }
-        });
-
-        indicateurs.forEach((ind: any) => {
-          if (ind.mesure === 1 && !journalState.indicateursMesures.includes(ind.indicateurId)) {
-            journalState.indicateursMesures.push(ind.indicateurId);
-          }
-        });
-
-        localStorage.setItem(localKey, JSON.stringify(journalState));
-        this.applyFilter(journalState);
-      },
-      error: (err) => {
-        this.error = err.error?.message || 'Erreur lors de la création du journal';
-      },
-    });
+  if (!hasCheckedMedicament && !hasValidIndicateur) {
+    this.statusMessage = 'Aucune valeur saisie ou médicament coché.';
+    return;
   }
+
+  this.statusMessage = '';
+
+  const patientId = this.authService.getPatientId();
+  if (!patientId) {
+    this.error = 'Patient ID non trouvé';
+    return;
+  }
+
+  const data = {
+    date: new Date(),
+    medicaments,
+    indicateurs,
+    prescriptionId: this.prescriptionId,
+  };
+
+  this.prescriptionService.createJournal(patientId, data).subscribe({
+    next: (res: any) => {
+      this.statusMessage = res.message || 'Journal créé avec succès';
+
+      // Recharge les journaux et applique filtre
+      this.prescriptionService.getJournalByPrescription(this.prescriptionId).subscribe({
+        next: (res: any) => {
+          if (res.success) {
+            const journaux = res.data.journaux;
+
+            const medicamentsPrisIds = new Set<number>();
+            const indicateursMesuresIds = new Set<number>();
+
+            journaux.forEach((journal: any) => {
+              journal.SuiviMedicaments?.forEach((med: any) => {
+                if (med.pris === true) medicamentsPrisIds.add(med.MedicamentId ?? med.medicamentId);
+              });
+              journal.SuiviIndicateurs?.forEach((ind: any) => {
+                if (ind.mesure === 1 || ind.mesure === true) indicateursMesuresIds.add(ind.IndicateurId ?? ind.indicateurId);
+              });
+            });
+
+            // Met à jour l'état complet
+            this.prescription.medicaments.forEach((med: any) => {
+              med.isChecked = medicamentsPrisIds.has(med.id);
+            });
+            this.prescription.indicateurs.forEach((ind: any) => {
+              if (indicateursMesuresIds.has(ind.id)) {
+                ind.valeur = ind.valeur || 'mesuré';
+              } else {
+                ind.valeur = '';
+              }
+            });
+
+            // Applique filtre uniquement pour affichage
+            this.filteredMedicaments = this.prescription.medicaments.filter(
+              (med: any) => !med.isChecked
+            );
+            this.filteredIndicateurs = this.prescription.indicateurs.filter(
+              (ind: any) => !(ind.valeur && ind.valeur.trim() !== '')
+            );
+
+            // Mets à jour localStorage si besoin...
+            const journalState = {
+              medicamentsPris: Array.from(medicamentsPrisIds),
+              indicateursMesures: Array.from(indicateursMesuresIds),
+            };
+            localStorage.setItem(`journalState_${this.prescriptionId}`, JSON.stringify(journalState));
+
+          } else {
+            this.statusMessage = 'Erreur lors du rafraîchissement des journaux après soumission.';
+          }
+        },
+        error: () => {
+          this.statusMessage = 'Erreur lors du rafraîchissement des journaux après soumission.';
+        }
+      });
+    },
+    error: (err) => {
+      this.error = err.error?.message || 'Erreur lors de la création du journal';
+    }
+  });
+}
+
 }
