@@ -1,56 +1,110 @@
-:host {
-  display: block;
-  background-color: #f8fbfe;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(10, 80, 120, 0.08);
-  padding: 24px;
-  margin: 20px 0;
-  border-left: 4px solid #2b9ed6;
+/* Thème médical moderne */
+:root {
+  --medical-primary: #2b9ed6;
+  --medical-primary-light: #e1f0f8;
+  --medical-secondary: #1e88c7;
+  --medical-accent: #2a6276;
+  --medical-light: #f8fafb;
+  --medical-card-shadow: 0 4px 20px rgba(43, 158, 214, 0.15);
+}
+
+/* Conteneur principal */
+.dashboard-medical-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: var(--medical-card-shadow);
+  padding: 2rem;
+  margin: 1rem 0;
+  border: 1px solid rgba(43, 158, 214, 0.1);
   transition: all 0.3s ease;
-  font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  overflow: hidden;
 }
 
-:host:hover {
-  box-shadow: 0 6px 24px rgba(10, 80, 120, 0.12);
-  transform: translateY(-2px);
+.dashboard-medical-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(43, 158, 214, 0.2);
 }
 
-.chart-container {
+/* Titre */
+.medical-chart-title {
+  color: var(--medical-accent);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
   position: relative;
-  width: 100%;
-  min-height: 300px;
+  padding-left: 1rem;
+}
+
+.medical-chart-title::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 4px;
+  background: linear-gradient(to bottom, var(--medical-primary), var(--medical-secondary));
+  border-radius: 4px;
+}
+
+/* Conteneur du graphique */
+.medical-chart-container {
+  position: relative;
+  height: 400px;
+  padding: 1rem;
+  background-color: var(--medical-light);
+  border-radius: 12px;
+}
+
+/* Animation */
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animated-medical-chart {
+  animation: fadeInScale 0.8s ease-out forwards;
+}
+
+/* Légende personnalisée */
+.medical-legend {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin: 0 1rem;
+  font-size: 0.875rem;
+  color: var(--medical-accent);
+}
+
+.legend-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 8px;
+  background-color: var(--medical-primary);
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  :host {
-    padding: 16px;
-    margin: 16px 0;
-    border-left-width: 3px;
+  .dashboard-medical-card {
+    padding: 1.5rem;
   }
   
-  .chart-container {
-    min-height: 250px;
+  .medical-chart-container {
+    height: 300px;
   }
 }
 
-/* Animation de chargement */
-@keyframes chartFadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-canvas {
-  animation: chartFadeIn 0.8s ease-out;
-  width: 100% !important;
-  height: auto !important;
-}
-
-/* Message quand pas de données */
-.no-data-message {
+.medical-chart-title {
   text-align: center;
-  color: #2a6276;
-  padding: 40px;
-  font-size: 16px;
-  font-weight: 500;
 }

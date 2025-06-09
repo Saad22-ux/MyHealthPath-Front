@@ -11,22 +11,113 @@ import { Chart, BarController, BarElement, CategoryScale, LinearScale, LineContr
   standalone: true,
   imports: [CommonModule, HttpClientModule, BaseChartDirective],
   providers: [provideCharts()],
-  templateUrl: './dashboard-admin.component.html'
+  templateUrl: './dashboard-admin.component.html',
+  styleUrls: ['./dashboard-admin.component.css'],
 })
 export class DashboardAdminComponent implements OnInit {
 
   // Graphique global users (bar)
   public globalChartType: 'bar' = 'bar';
   public globalChartData: ChartConfiguration<'bar'>['data'] = {
-    labels: ['Utilisateurs totaux', 'Patients', 'Médecins'],
+    labels: ['Users', 'Patients', 'Doctors'],
     datasets: [
       { data: [], label: 'Comptes' }
     ]
   };
   public globalChartOptions: ChartConfiguration<'bar'>['options'] = {
-    responsive: true,
-    plugins: { legend: { display: true } }
-  };
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: { display: false },
+    tooltip: {
+      backgroundColor: 'rgba(33, 37, 41, 0.98)',
+      bodyColor: '#f8f9fa',
+      borderColor: 'rgba(0, 0, 0, 0.1)',
+      borderWidth: 1,
+      padding: 12,
+      cornerRadius: 8,
+      displayColors: false,
+      callbacks: {
+        title: () => '', // Supprime le titre
+        label: (context) => `${context.dataset.label}: ${context.raw}`
+      }
+    }
+  },
+  scales: {
+    x: {
+      grid: { display: false },
+      ticks: { color: '#6c757d' }
+    },
+    y: {
+      grid: { color: 'rgba(0, 0, 0, 0.05)' },
+      ticks: { color: '#6c757d' }
+    }
+  },
+  elements: {
+    bar: {
+      borderRadius: 6,
+      backgroundColor: [
+        'rgba(13, 110, 253, 0.7)',
+        'rgba(32, 201, 151, 0.7)',
+        'rgba(111, 66, 193, 0.7)'
+      ],
+      hoverBackgroundColor: [
+        'rgba(13, 110, 253, 1)',
+        'rgba(32, 201, 151, 1)',
+        'rgba(111, 66, 193, 1)'
+      ],
+      borderWidth: 0
+    }
+  }
+};
+
+public monthlyChartOptions: ChartConfiguration<'line'>['options'] = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: {
+      display: true,
+      position: 'top',
+      labels: {
+        color: '#212529',
+        font: {
+          size: 13
+        },
+        padding: 20,
+        usePointStyle: true,
+        pointStyle: 'circle'
+      }
+    },
+    tooltip: {
+      enabled: true, // S'assurer que les tooltips sont activés
+      mode: 'index',
+      intersect: false
+    }
+  },
+  scales: {
+    x: {
+      display: true, // S'assurer que l'axe X est visible
+      title: {
+        display: true,
+        text: 'Months',
+        color: '#6c757d'
+      }
+    },
+    y: {
+      display: true, // S'assurer que l'axe Y est visible
+      title: {
+        display: true,
+        text: 'Number of registrations',
+        color: '#6c757d'
+      },
+      beginAtZero: true // Commencer à zéro pour une meilleure lisibilité
+    }
+  },
+  interaction: {
+    intersect: false,
+    mode: 'nearest'
+  }
+};
 
   // Graphique mensuel (ligne)
   public monthlyChartType: 'line' = 'line';
@@ -34,13 +125,10 @@ export class DashboardAdminComponent implements OnInit {
     labels: [],
     datasets: [
       { data: [], label: 'Patients', fill: false, borderColor: 'blue' },
-      { data: [], label: 'Médecins', fill: false, borderColor: 'green' }
+      { data: [], label: 'Doctors', fill: false, borderColor: 'green' }
     ]
   };
-  public monthlyChartOptions: ChartConfiguration<'line'>['options'] = {
-    responsive: true,
-    plugins: { legend: { display: true } }
-  };
+  
 
   constructor(private statsService: StatsService) {
     Chart.register(
@@ -63,29 +151,40 @@ export class DashboardAdminComponent implements OnInit {
   }
 
   private loadGlobalStats() {
-    this.statsService.getGlobalStats().subscribe(res => {
-      if (res.success) {
-        this.globalChartData.datasets[0].data = [
-          res.data.totalUsers,
-          res.data.totalPatients,
-          res.data.totalMedecins
-        ];
-      }
-    });
-  }
+  this.statsService.getGlobalStats().subscribe(res => {
+    if (res.success) {
+      this.globalChartData = {
+        ...this.globalChartData,
+        datasets: [{
+          ...this.globalChartData.datasets[0],
+          data: [
+            res.data.totalUsers,
+            res.data.totalPatients,
+            res.data.totalMedecins
+          ]
+        }]
+      };
+    }
+  });
+}
 
-  private loadMonthlyStats() {
-    this.statsService.getMonthlyStats().subscribe(res => {
-      if (res.success) {
-        console.log("Resultat:", res);
-        const months = res.data.map(m => m.month);
-        const patients = res.data.map(m => m.patients);
-        const medecins = res.data.map(m => m.medecins);
-
-        this.monthlyChartData.labels = months;
-        this.monthlyChartData.datasets[0].data = patients;
-        this.monthlyChartData.datasets[1].data = medecins;
-      }
-    });
-  }
+private loadMonthlyStats() {
+  this.statsService.getMonthlyStats().subscribe(res => {
+    if (res.success) {
+      this.monthlyChartData = {
+        labels: res.data.map(m => m.month),
+        datasets: [
+          {
+            ...this.monthlyChartData.datasets[0],
+            data: res.data.map(m => m.patients)
+          },
+          {
+            ...this.monthlyChartData.datasets[1],
+            data: res.data.map(m => m.medecins)
+          }
+        ]
+      };
+    }
+  });
+}
 }

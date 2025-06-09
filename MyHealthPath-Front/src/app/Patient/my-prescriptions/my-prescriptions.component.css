@@ -1,12 +1,3 @@
-:host {
-  font-family: 'Poppins', 'Segoe UI', Roboto, sans-serif;
-  color: #2d3748;
-  line-height: 1.6;
-  background-color: #f0fff4;
-  min-height: 100vh;
-  padding: 2rem 1rem;
-}
-
 /* Header Styling */
 h2 {
   color: #1a4731;

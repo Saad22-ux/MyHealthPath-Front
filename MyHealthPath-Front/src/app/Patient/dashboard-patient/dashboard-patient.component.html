@@ -1,7 +1,16 @@
-<div style="display: block;">
-  <canvas baseChart
-          [data]="barChartData"
-          [options]="barChartOptions"
-          [type]="barChartType">
-  </canvas>
+<div class="dashboard-medical-card animated-medical-chart">
+  <h2 class="medical-chart-title">My indicators</h2>
+  <div class="medical-chart-container">
+    <canvas baseChart
+            [data]="barChartData"
+            [options]="barChartOptions"
+            [type]="barChartType">
+    </canvas>
+  </div>
+  <div class="medical-legend">
+    <div class="legend-item">
+      <span class="legend-color"></span>
+      <span>Average indicators</span>
+    </div>
+  </div>
 </div>

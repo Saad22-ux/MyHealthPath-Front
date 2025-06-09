@@ -1,0 +1,144 @@
+:host {
+  display: block;
+  background: linear-gradient(135deg, #f5f9fc 0%, #e6f0f9 100%);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 8px 32px rgba(31, 102, 155, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+:host::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(0, 180, 216, 0.05) 0%, rgba(0, 0, 0, 0) 70%);
+  animation: pulse 15s infinite linear;
+  z-index: 0;
+}
+
+:host:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(31, 102, 155, 0.15);
+}
+
+canvas {
+  position: relative;
+  z-index: 1;
+  width: 100% !important;
+  height: auto !important;
+  max-height: 400px;
+  animation: fadeIn 0.6s ease-out;
+}
+
+/* Titre du graphique (si vous en ajoutez un) */
+.chart-title {
+  font-family: 'Montserrat', sans-serif;
+  color: #013a63;
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  text-align: center;
+  position: relative;
+  display: inline-block;
+}
+
+.chart-title::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #00b4d8, #90e0ef);
+  border-radius: 3px;
+}
+
+/* Légende */
+.legend {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 0.9rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  padding: 6px 12px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.legend-item:hover {
+  transform: scale(1.05);
+  background-color: white;
+}
+
+.legend-color {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  margin-right: 8px;
+  border: 2px solid white;
+}
+
+/* Animations */
+@keyframes pulse {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  :host {
+    padding: 16px;
+    border-radius: 12px;
+  }
+  
+  .chart-title {
+    font-size: 1.2rem;
+  }
+}
+.chart-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 400px; /* Hauteur minimale */
+  padding: 1rem;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 116, 217, 0.1);
+  transition: all 0.3s ease;
+}
+
+.chart-container:hover {
+  box-shadow: 0 8px 32px rgba(0, 116, 217, 0.15);
+}
+
+canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+.title {
+  text-align: center;
+}

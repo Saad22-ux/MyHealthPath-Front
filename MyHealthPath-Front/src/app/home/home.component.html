@@ -1,1 +1,25 @@
-<p>home works!</p>
+<section class="hero">
+  <div class="hero-content">
+    <h1>Votre santé, notre priorité</h1>
+    <p>Surveillez vos indicateurs. Communiquez avec votre médecin. Restez en forme.</p>
+    <div class="hero-buttons">
+      <a routerLink="/login" class="btn primary">Connexion</a>
+      <a routerLink="/register" class="btn secondary">Créer un compte</a>
+    </div>
+  </div>
+</section>
+
+<section class="features">
+  <h2>Fonctionnalités principales</h2>
+  <div class="feature-grid">
+    <div class="feature-card" *ngFor="let feature of features">
+      <div class="icon">{{ feature.icon }}</div>
+      <h3>{{ feature.title }}</h3>
+      <p>{{ feature.description }}</p>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>&copy; 2025 SuiviSanté — Un projet de santé connectée pour tous</p>
+</footer>

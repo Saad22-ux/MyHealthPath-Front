@@ -42,67 +42,80 @@ export class DashboardPatientComponent implements OnInit {
       x: {
         grid: {
           display: false,
+          drawTicks: true
         },
         ticks: {
           color: '#2a6276',
           font: {
-            family: "'Segoe UI', Roboto, 'Helvetica Neue', sans-serif",
-            size: 12
+            family: "'Poppins', 'Segoe UI', sans-serif",
+            size: 12,
+            weight: '500'
           }
+        },
+        border: {
+          display: true,
+          color: 'rgba(42, 98, 118, 0.2)'
         }
       },
       y: {
         grid: {
-          color: 'rgba(42, 98, 118, 0.1)'
+          color: 'rgba(42, 98, 118, 0.08)',
+          drawTicks: false
         },
         ticks: {
           color: '#2a6276',
           font: {
-            family: "'Segoe UI', Roboto, 'Helvetica Neue', sans-serif",
+            family: "'Poppins', 'Segoe UI', sans-serif",
             size: 12
           },
           precision: 0
         },
-        min: 0
+        min: 0,
+        border: {
+          display: false
+        }
       }
     },
     plugins: {
       legend: {
-        display: true,
-        position: 'top',
-        labels: {
-          color: '#2a6276',
-          font: {
-            family: "'Segoe UI', Roboto, 'Helvetica Neue', sans-serif",
-            size: 14,
-            weight: '500'
-          },
-          padding: 20
-        }
+        display: false
       },
       tooltip: {
-        backgroundColor: '#2b9ed6',
+        backgroundColor: 'rgba(43, 158, 214, 0.95)',
+        titleColor: '#ffffff',
+        bodyColor: '#ffffff',
         titleFont: {
-          size: 16,
+          size: 14,
           weight: 'bold',
-          family: "'Segoe UI', Roboto, 'Helvetica Neue', sans-serif"
+          family: "'Poppins', 'Segoe UI', sans-serif"
         },
         bodyFont: {
-          size: 14,
-          family: "'Segoe UI', Roboto, 'Helvetica Neue', sans-serif"
+          size: 13,
+          family: "'Poppins', 'Segoe UI', sans-serif"
         },
         padding: 12,
         cornerRadius: 8,
         displayColors: false,
         callbacks: {
-          label: function(context) {
-            return ` ${context.parsed.y} (moyenne)`;
+          label: (context) => {
+            return ` ${context.parsed.y?.toFixed(1)} (moyenne)`;
+          },
+          title: (items) => {
+            return items[0].label;
           }
         }
       }
     },
+    elements: {
+      bar: {
+        borderRadius: 6,
+        borderSkipped: 'bottom',
+        backgroundColor: 'rgba(43, 158, 214, 0.7)',
+        hoverBackgroundColor: 'rgba(30, 136, 199, 0.9)'
+      }
+    },
     animation: {
-      duration: 1000,
+      duration: 800,
       easing: 'easeOutQuart'
     }
   };

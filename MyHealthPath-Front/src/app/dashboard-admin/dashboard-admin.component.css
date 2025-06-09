@@ -1,0 +1,103 @@
+/* Thème médical premium - Couleurs */
+:root {
+  --med-primary: #0d6efd;
+  --med-secondary: #20c997;
+  --med-accent: #6f42c1;
+  --med-light: #f8f9fa;
+  --med-dark: #212529;
+  --med-card-bg: #ffffff;
+  --med-border: rgba(0, 0, 0, 0.08);
+}
+
+/* Structure principale */
+.dashboard-card {
+  background: var(--med-card-bg);
+  border-radius: 16px;
+  box-shadow: 0 1px 24px rgba(0, 0, 0, 0.04);
+  padding: 2rem;
+  margin-bottom: 2.5rem;
+  border: 1px solid var(--med-border);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.08);
+}
+
+
+
+.chart-title::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 24px;
+  background: linear-gradient(to bottom, var(--med-primary), var(--med-secondary));
+  margin-right: 12px;
+  border-radius: 4px;
+}
+
+/* Conteneurs de graphiques */
+.chart-container {
+  position: relative;
+  height: 350px;
+  padding: 1rem;
+}
+
+/* Légendes */
+.chart-legend {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  font-size: 0.875rem;
+}
+
+.legend-badge {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+/* Animation d'entrée */
+@keyframes chartEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animated-chart {
+  animation: chartEntrance 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Personnalisation des graphiques */
+:host ::ng-deep .chartjs-render-monitor {
+  animation: none !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dashboard-card {
+    padding: 1.5rem;
+  }
+  
+  .chart-container {
+    height: 280px;
+  }
+}
+
+.chart-title {
+  text-align: center;
+}
