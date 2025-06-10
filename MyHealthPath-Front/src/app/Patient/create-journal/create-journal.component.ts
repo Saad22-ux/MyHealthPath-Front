@@ -37,65 +37,67 @@ ngOnInit(): void {
   this.prescriptionService.getPrescriptionDetails(this.prescriptionId).subscribe({
     next: (res: any) => {
       this.prescription = res.prescription;
-      console.log("ID de prescription transmis :", this.prescriptionId);
-
 
       this.prescriptionService.getJournalByPrescription(this.prescriptionId).subscribe({
-    next: (res: any) => {
-      if (res.success) {
-        const journaux = res.data.journaux;
-        const medicamentsPrisIds = new Set<number>();
-        const indicateursMesuresIds = new Set<number>();
+        next: (res: any) => {
+          if (res.success) {
+            const journaux = res.data.journaux;
 
-        journaux.forEach((journal: any) => {
-          journal.SuiviMedicaments?.forEach((med: any) => {
-            if (med.pris === true) medicamentsPrisIds.add(med.MedicamentId ?? med.medicamentId);
-          });
-          journal.SuiviIndicateurs?.forEach((ind: any) => {
-            if (ind.mesure === 1 || ind.mesure === true) indicateursMesuresIds.add(ind.IndicateurId ?? ind.indicateurId);
-          });
-        });
+            const today = new Date().toDateString();
 
-        // Marque isChecked et valeur dans la liste complète
-        this.prescription.medicaments.forEach((med: any) => {
-          med.isChecked = medicamentsPrisIds.has(med.id);
-        });
+            const journauxAujourdHui = journaux.filter((j: any) =>
+              this.isSameDate(j.date, today)
+            );
 
-        this.prescription.indicateurs.forEach((ind: any) => {
-          if (indicateursMesuresIds.has(ind.id)) {
-            ind.valeur = ind.valeur || 'mesuré'; // tu peux choisir une valeur par défaut ou garder la valeur du journal
+            const medicamentsPrisIds = new Set<number>();
+            const indicateursMesuresIds = new Set<number>();
+
+            journauxAujourdHui.forEach((journal: any) => {
+              journal.SuiviMedicaments?.forEach((med: any) => {
+                if (med.pris === true) medicamentsPrisIds.add(med.MedicamentId ?? med.medicamentId);
+              });
+              journal.SuiviIndicateurs?.forEach((ind: any) => {
+                if (ind.mesure === 1 || ind.mesure === true) indicateursMesuresIds.add(ind.IndicateurId ?? ind.indicateurId);
+              });
+            });
+
+            this.prescription.medicaments.forEach((med: any) => {
+              med.isChecked = medicamentsPrisIds.has(med.id);
+            });
+
+            this.prescription.indicateurs.forEach((ind: any) => {
+              if (indicateursMesuresIds.has(ind.id)) {
+                ind.valeur = 'mesuré';
+              } else {
+                ind.valeur = '';
+              }
+            });
+
+            this.filteredMedicaments = this.prescription.medicaments.filter(
+              (med: any) => !med.isChecked
+            );
+            this.filteredIndicateurs = this.prescription.indicateurs.filter(
+              (ind: any) => !(ind.valeur && ind.valeur.trim() !== '')
+            );
+
           } else {
-            ind.valeur = ind.valeur || '';
+            this.error = res.message;
+            this.filteredMedicaments = [...this.prescription.medicaments];
+            this.filteredIndicateurs = [...this.prescription.indicateurs];
           }
-        });
-
-        // filtre uniquement pour l'affichage
-        this.filteredMedicaments = this.prescription.medicaments.filter(
-          (med: any) => !med.isChecked
-        );
-        this.filteredIndicateurs = this.prescription.indicateurs.filter(
-          (ind: any) => !(ind.valeur && ind.valeur.trim() !== '')
-        );
-
-      } else {
-        this.error = res.message;
-        // afficher tout si erreur
-        this.filteredMedicaments = [...this.prescription.medicaments];
-        this.filteredIndicateurs = [...this.prescription.indicateurs];
-      }
-    },
-    error: () => {
-      // afficher tout si erreur
-      this.filteredMedicaments = [...this.prescription.medicaments];
-      this.filteredIndicateurs = [...this.prescription.indicateurs];
-    }
-  });
+        },
+        error: () => {
+          this.filteredMedicaments = [...this.prescription.medicaments];
+          this.filteredIndicateurs = [...this.prescription.indicateurs];
+        }
+      });
     },
     error: () => {
       this.error = 'Erreur lors du chargement de la prescription';
     }
   });
 }
+
 
 
   applyFilter(journalState: { medicamentsPris: number[]; indicateursMesures: number[] }) {
@@ -158,11 +160,16 @@ submitJournal() {
         next: (res: any) => {
           if (res.success) {
             const journaux = res.data.journaux;
+            const today = new Date().toDateString();
+
+            const journauxAujourdHui = journaux.filter((j: any) =>
+              this.isSameDate(j.date, today)
+            );
 
             const medicamentsPrisIds = new Set<number>();
             const indicateursMesuresIds = new Set<number>();
 
-            journaux.forEach((journal: any) => {
+            journauxAujourdHui.forEach((journal: any) => {
               journal.SuiviMedicaments?.forEach((med: any) => {
                 if (med.pris === true) medicamentsPrisIds.add(med.MedicamentId ?? med.medicamentId);
               });
@@ -192,12 +199,13 @@ submitJournal() {
             );
 
             // Mets à jour localStorage si besoin...
+            // Lors de la soumission réussie
             const journalState = {
+              date: new Date().toISOString().split('T')[0], // ex. "2025-06-10"
               medicamentsPris: Array.from(medicamentsPrisIds),
               indicateursMesures: Array.from(indicateursMesuresIds),
             };
             localStorage.setItem(`journalState_${this.prescriptionId}`, JSON.stringify(journalState));
-
           } else {
             this.statusMessage = 'Erreur lors du rafraîchissement des journaux après soumission.';
           }
@@ -216,4 +224,7 @@ submitJournal() {
   });
 }
 
+  isSameDate(date1: string, date2: string): boolean {
+    return new Date(date1).toDateString() === new Date(date2).toDateString();
+  }
 }

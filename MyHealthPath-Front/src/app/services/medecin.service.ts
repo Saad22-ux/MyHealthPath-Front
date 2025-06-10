@@ -33,6 +33,10 @@ export class MedecinService {
     return this.http.post(`http://localhost:3000/approve-medecin/${id}`, {});
   }
 
+  rejectMedecin(userId: number) {
+    return this.http.delete<any>(`http://localhost:3000/admin/medecins/${userId}`);
+  }
+
   getMedecinProfile(): Observable<MedecinProfile> {
     return this.http.get<MedecinProfile>('http://localhost:3000/profileMedecin', {
       withCredentials: true

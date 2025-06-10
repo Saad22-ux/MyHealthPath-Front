@@ -106,10 +106,26 @@ export class UnapprovedMedecinsComponent implements OnInit {
   }
 
   hasMoreMedecins(): boolean {
-  return this.medecins.length > 0 && this.visibleMedecins.length < this.medecins.length;
-}
+    return this.medecins.length > 0 && this.visibleMedecins.length < this.medecins.length;
+  }
 
   remainingMedecinsCount(): number {
     return this.medecins.length - this.visibleMedecins.length;
+  }
+
+  reject(userId: number) {
+    if (confirm("Are you sure you want to reject this doctor?")) {
+      this.medecinService.rejectMedecin(userId).subscribe({
+        next: (response) => {
+          this.statusMessage = response.message;
+          this.isSuccess = true;
+          this.ngOnInit(); // recharge la liste
+        },
+        error: (err) => {
+          this.statusMessage = err.error?.message || 'Failed to reject médecin.';
+          this.isSuccess = false;
+        }
+      });
+    }
   }
 }
