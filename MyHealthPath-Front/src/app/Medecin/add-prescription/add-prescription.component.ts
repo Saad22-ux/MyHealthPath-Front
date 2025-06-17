@@ -174,6 +174,7 @@ export class AddPrescriptionComponent implements OnInit {
         next: (res: any) => {
           this.responseMessage = res.message || 'Prescription updated';
           setTimeout(() => this.responseMessage = '',2000);
+          this.router.navigate(['/patient/',this.patientId]);
         },
         error: (err) => {
           this.error = err.error?.message || 'Failed to update prescription';

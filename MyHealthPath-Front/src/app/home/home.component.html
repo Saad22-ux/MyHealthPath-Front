@@ -1,25 +1,206 @@
-<section class="hero">
-  <div class="hero-content">
-    <h1>Votre santé, notre priorité</h1>
-    <p>Surveillez vos indicateurs. Communiquez avec votre médecin. Restez en forme.</p>
-    <div class="hero-buttons">
-      <a routerLink="/login" class="btn primary">Connexion</a>
-      <a routerLink="/register" class="btn secondary">Créer un compte</a>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MyHealthPath - Suivi Médical Professionnel</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="medical-badge">
+        <i class="fas fa-heartbeat"></i>
+        <span>Solution certifiée</span>
+      </div>
+      <h1>Suivi Médical Professionnel pour Patients Chroniques</h1>
+      <p class="hero-subtitle">Une plateforme sécurisée pour un suivi médical optimal et une collaboration efficace entre patients et praticiens.</p>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="features">
-  <h2>Fonctionnalités principales</h2>
-  <div class="feature-grid">
-    <div class="feature-card" *ngFor="let feature of features">
-      <div class="icon">{{ feature.icon }}</div>
-      <h3>{{ feature.title }}</h3>
-      <p>{{ feature.description }}</p>
+  <!-- Fonctionnalités Clés -->
+  <section class="features-section" id="features">
+    <div class="section-header">
+      <span class="section-subtitle">NOTRE SOLUTION</span>
+      <h2>Fonctionnalités Professionnelles</h2>
+      <p class="section-description">Conçue par des professionnels de santé pour des professionnels de santé</p>
     </div>
-  </div>
-</section>
+    
+    <div class="features">
+      <!-- Médecins -->
+      <div class="card medical-card">
+        <div class="card-icon">
+          <i class="fas fa-user-md"></i>
+        </div>
+        <h3>Pour les Médecins</h3>
+        <ul>
+          <li><i class="fas fa-check-circle"></i> Dossier patient complet</li>
+          <li><i class="fas fa-check-circle"></i> Visualisation temps réel des données</li>
+          <li><i class="fas fa-check-circle"></i> Prescriptions électroniques sécurisées</li>
+        </ul>
+      </div>
+      
+      <!-- Patients -->
+      <div class="card medical-card">
+        <div class="card-icon">
+          <i class="fas fa-procedures"></i>
+        </div>
+        <h3>Pour les Patients</h3>
+        <ul>
+          <li><i class="fas fa-check-circle"></i> Carnet de santé numérique</li>
+          <li><i class="fas fa-check-circle"></i> Rappels intelligents de médicaments</li>
+          <li><i class="fas fa-check-circle"></i> Suivi des indicateurs vitaux</li>
+        </ul>
+      </div>
+      
+      <!-- Analyse -->
+      <div class="card medical-card">
+        <div class="card-icon">
+          <i class="fas fa-chart-line"></i>
+        </div>
+        <h3>Analyse Médicale</h3>
+        <ul>
+          <li><i class="fas fa-check-circle"></i> Courbes d'évolution paramétriques</li>
+          <li><i class="fas fa-check-circle"></i> Détection d'anomalies</li>
+        </ul>
+      </div>
+    </div>
+  </section>
 
-<footer class="footer">
-  <p>&copy; 2025 SuiviSanté — Un projet de santé connectée pour tous</p>
-</footer>
+  <!-- À propos -->
+  <section class="about medical-about">
+    <div class="about-content">
+      <div class="about-text">
+        <span class="section-subtitle">NOTRE ENGAGEMENT</span>
+        <h2>Une solution conçue avec des professionnels de santé</h2>
+        <p>MyHealthPath a été développé en collaboration avec des médecins, infirmiers et spécialistes des maladies chroniques pour offrir une plateforme réellement adaptée aux besoins cliniques.</p>
+        
+        <div class="medical-points">
+          <div class="medical-point">
+            <i class="fas fa-stethoscope"></i>
+            <div>
+              <h4>Validation clinique</h4>
+              <p>Testé en conditions réelles dans 3 centres hospitaliers</p>
+            </div>
+          </div>
+          <div class="medical-point">
+            <i class="fas fa-clipboard-check"></i>
+            <div>
+              <h4>Conforme RGPD</h4>
+              <p>Respect strict des règles de protection des données</p>
+            </div>
+          </div>
+          <div class="medical-point">
+            <i class="fas fa-users"></i>
+            <div>
+              <h4>Équipe pluridisciplinaire</h4>
+              <p>Médecins, ingénieurs et designers travaillant ensemble</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="contact medical-contact" id="contact">
+    <div class="section-header">
+      <span class="section-subtitle">NOUS CONTACTER</span>
+      <h2>Parlez à notre équipe</h2>
+      <p class="section-description">Découvrez comment MyHealthPath peut s'intégrer à votre pratique médicale</p>
+    </div>
+    
+    <div class="contact-container">
+      <form class="medical-form">
+        <div class="form-group">
+          <label for="name"><i class="fas fa-user"></i> Nom complet</label>
+          <input type="text" id="name" placeholder="Nom complet" required>
+        </div>
+        <div class="form-group">
+          <label for="email"><i class="fas fa-envelope"></i> Email professionnel</label>
+          <input type="email" id="email" placeholder="email" required>
+        </div>
+        <div class="form-group">
+          <label for="phone"><i class="fas fa-phone"></i> Téléphone</label>
+          <input type="tel" id="phone" placeholder="telephone">
+        </div>
+        <div class="form-group">
+          <label for="message"><i class="fas fa-comment-medical"></i> Votre message</label>
+          <textarea id="message" rows="5" placeholder="Décrivez vos besoins..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-paper-plane"></i> Envoyer la demande
+        </button>
+      </form>
+      
+      <div class="contact-info">
+        <div class="contact-card">
+          <i class="fas fa-map-marker-alt"></i>
+          <h4>Adresse</h4>
+          <p>Faculté des sciences de Rabat<br>BP 6203, Avenue Mohammed Belarbi El Alaoui</p>
+        </div>
+        <div class="contact-card">
+          <i class="fas fa-phone-volume"></i>
+          <h4>Téléphone</h4>
+          <p>+212 5 37 77 18 34<br>Support: +212 6 78 95 42 13</p>
+        </div>
+        <div class="contact-card">
+          <i class="fas fa-envelope-open-text"></i>
+          <h4>Email</h4>
+          <p>myhealthpathsendemail&#64;gmail.com</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="medical-footer">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <i class="fas fa-heartbeat"></i>
+        <span>MyHealthPath</span>
+      </div>
+      <div class="footer-links">
+        <div class="footer-column">
+          <h5>Solution</h5>
+          <ul>
+            <li><a href="#">Fonctionnalités</a></li>
+            <li><a href="#">Sécurité</a></li>
+            <li><a href="#">Tarifs</a></li>
+            <li><a href="#">Témoignages</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h5>Ressources</h5>
+          <ul>
+            <li><a href="#">Documentation</a></li>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Blog médical</a></li>
+            <li><a href="#">Webinaires</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h5>Entreprise</h5>
+          <ul>
+            <li><a href="#">À propos</a></li>
+            <li><a href="#">Équipe</a></li>
+            <li><a href="#">Carrières</a></li>
+            <li><a href="#">Partenaires</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-legal">
+        <p>© 2025 MyHealthPath. Tous droits réservés.</p>
+        <div class="legal-links">
+          <a href="#">Confidentialité</a>
+          <a href="#">Conditions</a>
+          <a href="#">Cookies</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
