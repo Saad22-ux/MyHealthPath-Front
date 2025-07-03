@@ -37,6 +37,7 @@ export class PatientDetailComponent implements OnInit {
   loadPatientDetails() {
     this.patientService.consultPatient(this.patientId).subscribe({
       next: (res: any) => {
+        console.log(res);
         this.patientDetails = res.data;
         this.statusMessage = res.message || 'Details loaded successfully';
         this.error = '';

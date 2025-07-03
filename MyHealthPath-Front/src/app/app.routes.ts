@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
-import { AboutComponent } from './about/about.component';
 import { UnapprovedMedecinsComponent } from './unapproved-medecins/unapproved-medecins.component';
 import { AddPatientComponent } from './Medecin/add-patient/add-patient.component';
 import { PatientListComponent } from './Medecin/patient-list/patient-list.component';
@@ -30,7 +29,6 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent},
   { path: 'home', component: HomeComponent },
-  { path: 'about', component: AboutComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'unapproved-medecins', component: UnapprovedMedecinsComponent },
   { path: 'add-patient', component: AddPatientComponent },

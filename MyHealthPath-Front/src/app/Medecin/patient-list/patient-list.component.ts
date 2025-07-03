@@ -26,7 +26,13 @@ export class PatientListComponent implements OnInit {
   loadPatients(){
     this.patientService.getListPatients().subscribe({
       next: (res: any) => {
-        this.patients = res.data;
+        this.patients = res.data.sort((a: any, b: any) => {
+          const stateOrder = { 'Danger': 0, 'Normal': 1, 'Good': 2, null: 3, undefined: 3 };
+          const aState = a.Medecins[0]?.Patient_Medecin_Link?.state || null;
+          const bState = b.Medecins[0]?.Patient_Medecin_Link?.state || null;
+          return (stateOrder[aState as keyof typeof stateOrder] ?? 3) - (stateOrder[bState as keyof typeof stateOrder] ?? 3);
+        });
+
         this.statusMessage = res.message || 'Fetched successeful';
         this.error = '';
         this.loading = false;

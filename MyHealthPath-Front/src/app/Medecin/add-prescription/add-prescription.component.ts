@@ -170,6 +170,8 @@ export class AddPrescriptionComponent implements OnInit {
     };
 
     if (this.editingPrescriptionId) {
+      console.log('Payload envoyé:', payload);
+
       this.prescriptionService.updatePrescription(this.editingPrescriptionId, payload).subscribe({
         next: (res: any) => {
           this.responseMessage = res.message || 'Prescription updated';
